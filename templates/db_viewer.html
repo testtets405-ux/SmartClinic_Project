@@ -1,0 +1,333 @@
+{% extends "layout.html" %}
+{% block title %}العيادة الذكية — عارض قاعدة البيانات{% endblock %}
+
+{% block content %}
+<!-- 
+================================================================================
+عارض قاعدة البيانات المباشر (db_viewer.html)
+================================================================================
+الهدف المنهجي (للطالب):
+هذه أداة تطويرية (Developer Tool) لا توجد عادة في الأنظمة النهائية (Production)، ولكن 
+تمت إضافتها هنا لتفهم كيفية ترابط البيانات.
+بدل استخدام برامج خارجية مثل (DB Browser for SQLite)، بنينا لك صفحة تجلب محتوى 
+قاعدة البيانات بالكامل وتعرضه أمامك. 
+
+تقنياً: لاحظ كيف استخدمنا لغة جافاسكريبت لجعل خلايا الجدول قابلة للتعديل مباشرة 
+بـ (AJAX). عند تغيير قيمة خلية، يتم إرسال طلب (POST) لمسار (admin/db/update) 
+يحفظ التعديل سراً في الخلفية، دون حتى تحديث الصفحة!
+================================================================================
+-->
+<div class="flex items-center justify-between mb-8">
+  <h3 class="flex items-center section-header !mb-0">
+    <div class="p-3 bg-slate-600/10 rounded-xl me-4 text-slate-600 dark:text-slate-400">
+      <i class="bi bi-database-fill text-2xl"></i>
+    </div>
+    عارض قاعدة البيانات
+    <span class="ms-3 text-xs font-mono text-slate-400">clinic.db</span>
+  </h3>
+  <a href="{{ url_for('admin') }}"
+    class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium transition-colors flex items-center gap-2">
+    <i class="bi bi-arrow-right-short text-lg"></i>العودة للإدارة
+  </a>
+</div>
+
+<!-- ─── تحذير استخدام ─── -->
+<div
+  class="mb-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/50 rounded-xl p-4 flex items-start gap-3">
+  <i class="bi bi-exclamation-triangle-fill text-yellow-500 text-xl mt-0.5 shrink-0"></i>
+  <div>
+    <p class="font-bold text-yellow-700 dark:text-yellow-400 text-sm">تحذير: بيئة تطوير فقط</p>
+    <p class="text-yellow-600 dark:text-yellow-500 text-xs mt-1">هذه الصفحة تتيح تعديل قاعدة البيانات مباشرة. استخدمها
+      فقط للتجربة والتطوير. النقر على أي خلية يسمح بتعديلها. الحقول المضللة بالأخضر قابلة للتعديل.</p>
+  </div>
+</div>
+
+<!-- ─── تبويبات ─── -->
+<div class="flex gap-1 mb-6 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-fit">
+  <button onclick="showTab('patients')" id="tab-patients"
+    class="db-tab active px-4 py-2 rounded-lg text-sm font-bold transition-all">
+    <i class="bi bi-person-lines-fill me-1"></i>المرضى ({{ patients | length }})
+  </button>
+  <button onclick="showTab('users')" id="tab-users"
+    class="db-tab px-4 py-2 rounded-lg text-sm font-bold transition-all">
+    <i class="bi bi-people-fill me-1"></i>المستخدمون ({{ users | length }})
+  </button>
+  <button onclick="showTab('appointments')" id="tab-appointments"
+    class="db-tab px-4 py-2 rounded-lg text-sm font-bold transition-all">
+    <i class="bi bi-clipboard2-pulse me-1"></i>التشخيصات ({{ appointments | length }})
+  </button>
+</div>
+
+<!-- حالة الحفظ -->
+<div id="saveStatus" class="hidden mb-4 px-4 py-2 rounded-lg text-sm font-medium w-fit"></div>
+
+<!-- ─── جدول المرضى ─── -->
+<div id="pane-patients" class="db-pane">
+  <div class="glass-card overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-right">
+        <thead
+          class="bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 text-xs uppercase font-bold border-b border-slate-200 dark:border-slate-700">
+          <tr>
+            <th class="px-3 py-3">ID</th>
+            <th class="px-3 py-3 text-green-600">الاسم ✏</th>
+            <th class="px-3 py-3 text-green-600">العمر ✏</th>
+            <th class="px-3 py-3 text-green-600">الجنس ✏</th>
+            <th class="px-3 py-3 text-green-600">نوع الزيارة ✏</th>
+            <th class="px-3 py-3 text-green-600">الحالة ✏</th>
+            <th class="px-3 py-3 text-green-600">النقاط ✏</th>
+            <th class="px-3 py-3">وقت الحضور</th>
+            <th class="px-3 py-3">حذف</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+          {% for p in patients %}
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors" id="patient-row-{{ p.id }}">
+            <td class="px-3 py-2.5 text-slate-400 font-mono text-xs">{{ p.id }}</td>
+            <td class="px-3 py-2.5"><span class="editable" data-table="patients" data-id="{{ p.id }}"
+                data-field="name">{{ p.name }}</span></td>
+            <td class="px-3 py-2.5"><span class="editable" data-table="patients" data-id="{{ p.id }}"
+                data-field="age">{{ p.age }}</span></td>
+            <td class="px-3 py-2.5">
+              <span class="editable editable-select" data-table="patients" data-id="{{ p.id }}" data-field="gender"
+                data-options="male:ذكر,female:أنثى">{{ 'ذكر' if p.gender == 'male' else 'أنثى' }}</span>
+            </td>
+            <td class="px-3 py-2.5">
+              <span class="editable editable-select" data-table="patients" data-id="{{ p.id }}"
+                data-field="appointment_type" data-options="checkup:كشف,follow_up:متابعة,emergency:طوارئ">
+                {% if p.appointment_type == 'emergency' %}طوارئ{% elif p.appointment_type == 'follow_up' %}متابعة{% else
+                %}كشف{% endif %}
+              </span>
+            </td>
+            <td class="px-3 py-2.5">
+              <span class="editable editable-select" data-table="patients" data-id="{{ p.id }}" data-field="status"
+                data-options="waiting:انتظار,in_progress:بالعيادة,done:تم">
+                {% if p.status == 'waiting' %}انتظار{% elif p.status == 'in_progress' %}بالعيادة{% else %}تم{% endif %}
+              </span>
+            </td>
+            <td class="px-3 py-2.5"><span class="editable" data-table="patients" data-id="{{ p.id }}"
+                data-field="priority_score">{{ p.priority_score }}</span></td>
+            <td class="px-3 py-2.5 text-slate-500 font-mono text-xs">{{ p.check_in_time | iraqtime }}</td>
+            <td class="px-3 py-2.5">
+              <form action="{{ url_for('db_delete', table='patients', row_id=p.id) }}" method="POST"
+                onsubmit="return confirm('حذف المريض #{{ p.id }} {{ p.name }}؟')">
+                <button type="submit" class="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ─── جدول المستخدمين ─── -->
+<div id="pane-users" class="db-pane hidden">
+  <div class="glass-card overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-right">
+        <thead
+          class="bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 text-xs uppercase font-bold border-b border-slate-200 dark:border-slate-700">
+          <tr>
+            <th class="px-3 py-3">ID</th>
+            <th class="px-3 py-3 text-green-600">اسم المستخدم ✏</th>
+            <th class="px-3 py-3">كلمة المرور</th>
+            <th class="px-3 py-3 text-green-600">الدور ✏</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+          {% for u in users %}
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+            <td class="px-3 py-2.5 text-slate-400 font-mono text-xs">{{ u.id }}</td>
+            <td class="px-3 py-2.5 font-bold"><span class="editable" data-table="users" data-id="{{ u.id }}"
+                data-field="username">{{ u.username }}</span></td>
+            <td class="px-3 py-2.5 text-slate-400 italic text-xs font-mono">[ مشفرة — غير قابلة للعرض ]</td>
+            <td class="px-3 py-2.5">
+              <span class="editable editable-select" data-table="users" data-id="{{ u.id }}" data-field="role"
+                data-options="admin:مسؤول,doctor:طبيب,receptionist:استقبال">
+                {% if u.role == 'admin' %}مسؤول{% elif u.role == 'doctor' %}طبيب{% else %}استقبال{% endif %}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="text-xs text-slate-400 mt-3 flex items-center gap-1">
+    <i class="bi bi-info-circle"></i>
+    لتغيير كلمة المرور استخدم زر "تغيير كلمة المرور" في <a href="{{ url_for('admin') }}"
+      class="text-blue-500 underline">لوحة الإدارة</a>.
+  </p>
+</div>
+
+<!-- ─── جدول التشخيصات ─── -->
+<div id="pane-appointments" class="db-pane hidden">
+  <div class="glass-card overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-right">
+        <thead
+          class="bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 text-xs uppercase font-bold border-b border-slate-200 dark:border-slate-700">
+          <tr>
+            <th class="px-3 py-3">ID</th>
+            <th class="px-3 py-3">المريض</th>
+            <th class="px-3 py-3">الطبيب</th>
+            <th class="px-3 py-3">وقت الكشف</th>
+            <th class="px-3 py-3 text-green-600">التشخيص ✏</th>
+            <th class="px-3 py-3">حذف</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+          {% for a in appointments %}
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+            <td class="px-3 py-2.5 text-slate-400 font-mono text-xs">{{ a.id }}</td>
+            <td class="px-3 py-2.5 font-bold text-slate-800 dark:text-white">{{ a.patient.name if a.patient else '—' }}
+            </td>
+            <td class="px-3 py-2.5 text-slate-600 dark:text-slate-300">{{ a.doctor.username if a.doctor else '—' }}</td>
+            <td class="px-3 py-2.5 text-slate-500 font-mono text-xs">{{ a.scheduled_time | iraqtime if a.scheduled_time
+              else '—' }}</td>
+            <td class="px-3 py-2.5 max-w-xs">
+              <span class="editable" data-table="appointments" data-id="{{ a.id }}" data-field="notes">{{ a.notes or '—'
+                }}</span>
+            </td>
+            <td class="px-3 py-2.5">
+              <form action="{{ url_for('db_delete', table='appointments', row_id=a.id) }}" method="POST"
+                onsubmit="return confirm('حذف سجل التشخيص #{{ a.id }}؟')">
+                <button type="submit" class="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  .db-tab {
+    color: #64748b;
+  }
+
+  .db-tab:hover {
+    background: rgba(99, 102, 241, 0.08);
+    color: #4f46e5;
+  }
+
+  .db-tab.active {
+    background: var(--color-card, white);
+    color: #4f46e5;
+    font-weight: 800;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .db-tab.active {
+    background: #1e293b;
+    color: #818cf8;
+  }
+
+  .editable {
+    display: inline-block;
+    min-width: 60px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    cursor: text;
+    border: 1px dashed transparent;
+    transition: all 0.15s;
+    color: inherit;
+  }
+
+  .editable:hover {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, 0.06);
+  }
+
+  .editable:focus {
+    outline: 2px solid #22c55e;
+    outline-offset: 1px;
+    background: rgba(34, 197, 94, 0.1);
+  }
+</style>
+
+<script>
+  // ── التنقل بين التبويبات ──
+  function showTab(name) {
+    document.querySelectorAll('.db-pane').forEach(p => p.classList.add('hidden'));
+    document.querySelectorAll('.db-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('pane-' + name).classList.remove('hidden');
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+
+  // ── التعديل المباشر عبر AJAX ──
+  function showSaveStatus(msg, ok) {
+    const el = document.getElementById('saveStatus');
+    el.textContent = msg;
+    el.className = `mb-4 px-4 py-2 rounded-lg text-sm font-medium w-fit ${ok ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`;
+    el.classList.remove('hidden');
+    setTimeout(() => el.classList.add('hidden'), 3000);
+  }
+
+  document.querySelectorAll('.editable').forEach(cell => {
+    // إذا كان select
+    if (cell.classList.contains('editable-select')) {
+      cell.addEventListener('click', function () {
+        if (this.querySelector('select')) return; // منع التكرار
+        const opts = this.dataset.options.split(',');
+        const currentVal = this.dataset.currentVal || this.textContent.trim();
+        const sel = document.createElement('select');
+        sel.className = 'input-field text-xs py-1 px-2 w-auto';
+        opts.forEach(opt => {
+          const [val, label] = opt.split(':');
+          const o = new Option(label, val);
+          sel.appendChild(o);
+        });
+        // تحديد القيمة الحالية
+        const fieldValMap = { 'ذكر': 'male', 'أنثى': 'female', 'انتظار': 'waiting', 'بالعيادة': 'in_progress', 'تم': 'done', 'كشف': 'checkup', 'متابعة': 'follow_up', 'طوارئ': 'emergency', 'مسؤول': 'admin', 'طبيب': 'doctor', 'استقبال': 'receptionist' };
+        sel.value = fieldValMap[currentVal] || currentVal;
+        const origText = this.textContent.trim();
+        this.textContent = '';
+        this.appendChild(sel);
+        sel.focus();
+        sel.addEventListener('change', async () => {
+          const newVal = sel.value;
+          const res = await fetch('/admin/db/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ table: this.dataset.table, id: parseInt(this.dataset.id), field: this.dataset.field, value: newVal })
+          });
+          const data = await res.json();
+          this.textContent = sel.options[sel.selectedIndex].text;
+          showSaveStatus(data.msg, data.ok);
+        });
+        sel.addEventListener('blur', () => { if (!sel.value) { this.textContent = origText; } });
+      });
+    } else {
+      // حقل نصي / رقمي عادي
+      cell.contentEditable = 'true';
+      cell.spellcheck = false;
+      cell.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          cell.blur();
+        }
+      });
+      cell.addEventListener('blur', async function () {
+        const newVal = this.textContent.trim();
+        const res = await fetch('/admin/db/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ table: this.dataset.table, id: parseInt(this.dataset.id), field: this.dataset.field, value: newVal })
+        });
+        const data = await res.json();
+        showSaveStatus(data.msg, data.ok);
+      });
+    }
+  });
+</script>
+
+{% endblock %}

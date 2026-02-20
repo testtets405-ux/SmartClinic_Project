@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+{% block title %}العيادة الذكية — لوحة الاستقبال{% endblock %}
+
+{% block content %}
+<!-- 
+================================================================================
+لوحة موظف الاستقبال (reception.html)
+================================================================================
+الهدف المنهجي (للطالب):
+موظف الاستقبال هو (المايسترو) الخاص بالعيادة، ولذلك يحتاج واجهة تجمع بين:
+1. إدخال مريض جديد (في حال لم يستخدم المريض شاشة Kiosk).
+2. مراقبة الطابور الحالي والتحكم بنوع الحجز (تغيير نوع الحجز لطوارئ إذا ساءت حالة المريض).
+
+تعتمد هذه الصفحة على محرك قوالب Jinja2 في كود `{ % for p in patients % }`
+ليقوم الفلاسك بالمرور على جميع المرضى، وطباعة بياناتهم كـ (Rows) في جدول HTML، 
+بدلاً من كتابة الكود يدوياً مئات المرات!
+================================================================================
+-->
+<h3 class="mb-4 animate-fade-in fw-bold">
+  <i class="bi bi-people-fill text-primary me-2"></i>لوحة الاستقبال الذكية
+</h3>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card p-4 h-100">
+      <h5 class="mb-3 fw-bold">
+        <i class="bi bi-person-plus-fill text-primary me-2"></i>تسجيل مريض جديد
+      </h5>
+      <form method="POST" action="{{ url_for('reception') }}">
+        <div class="mb-3">
+          <label for="name" class="form-label fw-bold">الاسم الثلاثي</label>
+          <input type="text" class="form-control" id="name" name="name" required placeholder="أدخل اسم المريض">
+        </div>
+        <div class="mb-3">
+          <label for="age" class="form-label fw-bold">العمر</label>
+          <input type="number" class="form-control" id="age" name="age" min="0" max="150" required
+            placeholder="مثال: 35">
+        </div>
+        <div class="mb-3">
+          <label for="gender" class="form-label fw-bold">النوع</label>
+          <select class="form-select" id="gender" name="gender" required>
+            <option value="male">ذكر</option>
+            <option value="female">أنثى</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="appointment_type" class="form-label fw-bold">نوع الزيارة</label>
+          <select class="form-select" id="appointment_type" name="appointment_type" required>
+            <option value="checkup">🟢 كشف عادي (Checkup)</option>
+            <option value="follow_up">🟡 متابعة (Follow-Up)</option>
+            <option value="emergency">🔴 طوارئ / حالة حرجة (Emergency)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mt-2 fw-bold">
+          <i class="bi bi-check-circle me-1"></i>تسجيل وحساب الأولوية
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card p-3 h-100">
+      <h5 class="mb-3 fw-bold">
+        <i class="bi bi-list-ol text-success me-2"></i>قائمة الانتظار الحالية
+      </h5>
+      <div class="table-responsive">
+        <table class="table table-queue table-hover mb-0 text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>الاسم</th>
+              <th>العمر</th>
+              <th>نوع الزيارة</th>
+              <th>نقاط الأولوية</th>
+              <th>زمن الانتظار المتوقع</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if patients %}
+            {% for p in patients %}
+            <tr>
+              <td class="fw-bold">{{ loop.index }}</td>
+              <td>{{ p.name }}</td>
+              <td>{{ p.age }}</td>
+              <td>
+                <span class="badge
+                  {% if p.appointment_type == 'emergency' %}badge-emergency
+                  {% elif p.appointment_type == 'follow_up' %}badge-follow-up
+                  {% else %}badge-checkup{% endif %}">
+                  {% if p.appointment_type == 'emergency' %}طوارئ
+                  {% elif p.appointment_type == 'follow_up' %}متابعة
+                  {% else %}كشف عادي{% endif %}
+                </span>
+              </td>
+              <td><strong>{{ p.priority_score }}</strong></td>
+              <td>
+                {% set w = wait_times.get(p.id, 0) %}
+                {% if w <= 0 %} الآن {% else %} حوالي {{ w }} دقيقة {% endif %} </td>
+              <td>
+                {% if p.status == 'in_progress' %}
+                <i class="bi bi-arrow-left-circle-fill status-in-progress me-1"></i>بالعيادة
+                {% elif p.status == 'done' %}
+                <i class="bi bi-check-circle-fill status-done me-1"></i>تم
+                {% else %}
+                <i class="bi bi-clock-fill status-waiting me-1"></i>انتظار
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="7" class="text-center text-muted py-4">
+                <i class="bi bi-emoji-smile me-1"></i>لا يوجد مرضى حالياً في قائمة الانتظار
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upcoming Appointments Row -->
+<div class="row mt-4 mb-5">
+  <div class="col-12">
+    <div class="card p-3 shadow-sm border-0">
+      <h5 class="mb-3 fw-bold text-secondary">
+        <i class="bi bi-calendar-event me-2"></i>المواعيد المستقبلية (للحجز المسبق)
+      </h5>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle text-center mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>الاسم</th>
+              <th>تاريخ الموعد</th>
+              <th>نوع الزيارة</th>
+              <th>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if scheduled %}
+            {% for s in scheduled %}
+            <tr>
+              <td class="fw-bold">{{ loop.index }}</td>
+              <td>{{ s.name }}</td>
+              <td dir="ltr" class="text-primary fw-bold">{{ s.check_in_time | iraqtime('%Y-%m-%d') }}</td>
+              <td>
+                <span class="badge
+                  {% if s.appointment_type == 'emergency' %}bg-danger
+                  {% elif s.appointment_type == 'follow_up' %}bg-warning text-dark
+                  {% else %}bg-success{% endif %}">
+                  {% if s.appointment_type == 'emergency' %}طوارئ
+                  {% elif s.appointment_type == 'follow_up' %}متابعة
+                  {% else %}كشف عادي{% endif %}
+                </span>
+              </td>
+              <td>
+                <form method="POST" action="{{ url_for('reception_checkin', patient_id=s.id) }}" class="d-inline">
+                  <button type="submit" class="btn btn-sm btn-outline-primary fw-bold"
+                    title="تسجيل الحضور وإدخال لقائمة الانتظار">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>تسجيل حضور (Check-in)
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5" class="text-center text-muted py-4">
+                <i class="bi bi-calendar-x me-1"></i>لا يوجد مواعيد مستقبلية مسجلة.
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block title %}العيادة الذكية — دخول{% endblock %}
+
+{% block content %}
+<!-- 
+================================================================================
+صفحة تسجيل الدخول (login.html)
+================================================================================
+الهدف المنهجي (للطالب):
+هذه الواجهة هي البوابة الأمنية للموظفين (الأطباء، الاستقبال، الإدارة).
+ترسل البيانات بطريقة (POST) المُشفرة لحمايتها من المتلصصين، عكس طريقة (GET)
+التي تظهر فيها كلمات المرور فـي رابط المتصفح المستهدف.
+تتصل هذه الصفحة برابط الفلاسك (url_for('login')) حيث تتم مطابقة اسم المستخدم وكود 
+التشفير الخاص بكلمة المرور المسجلة في قاعدة البيانات باستخدام دالة (check_password_hash).
+================================================================================
+-->
+<div class="flex items-center justify-center min-h-[calc(100vh-12rem)] animate-fade-in">
+  <div class="w-full max-w-md">
+    <!-- Card -->
+    <div class="glass-card p-8">
+      <div class="text-center mb-8">
+        <div
+          class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600/20 text-blue-500 mb-4 animate-pulse">
+          <i class="bi bi-box-arrow-in-right text-3xl"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">تسجيل الدخول</h2>
+        <p class="text-slate-600 dark:text-slate-400">مرحباً بك مجدداً في نظام العيادة الذكية</p>
+      </div>
+
+      <form method="POST" action="{{ url_for('login') }}" class="space-y-6">
+        <!-- Username -->
+        <div>
+          <label for="username" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">اسم
+            المستخدم</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
+              <i class="bi bi-person text-lg"></i>
+            </div>
+            <input type="text" id="username" name="username" required
+              class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-3 placeholder-slate-400 dark:placeholder-slate-500 transition-colors"
+              placeholder="أدخل اسم المستخدم">
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">كلمة
+            المرور</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
+              <i class="bi bi-lock text-lg"></i>
+            </div>
+            <input type="password" id="password" name="password" required
+              class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-3 placeholder-slate-400 dark:placeholder-slate-500 transition-colors"
+              placeholder="••••••••">
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="w-full btn-primary py-3 text-lg">
+          تسجيل الدخول
+        </button>
+      </form>
+
+      <!-- Register Link -->
+      <div class="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
+        ليس لديك حساب؟
+        <a href="{{ url_for('register') }}"
+          class="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors">
+          أنشئ حساباً جديداً
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

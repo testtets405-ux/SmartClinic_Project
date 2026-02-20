@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دليل الرفع التفصيلي على خوادم الاستضافة - التوثيق الشامل للعيادة الذكية</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Fira+Code:wght@400;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Highlight.js for Code Snippets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Tajawal', 'sans-serif'],
+            mono: ['"Fira Code"', 'monospace'],
+          },
+          colors: {
+            brand: { 50: '#eff6ff', 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' },
+            dark: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer utilities {
+            .glass-header { @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800; }
+            .content-card { @apply bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm rounded-2xl p-6 mb-8; }
+            .prose-custom h2 { @apply text-2xl font-black text-slate-800 dark:text-white mb-4 mt-8 pb-2 border-b border-slate-200 dark:border-slate-700; }
+            .prose-custom h3 { @apply text-xl font-bold text-slate-700 dark:text-slate-200 mb-3 mt-6; }
+            .prose-custom p { @apply text-slate-600 dark:text-slate-300 mb-4 leading-relaxed; }
+            .prose-custom ul { @apply list-disc list-inside text-slate-600 dark:text-slate-300 mb-4 space-y-1; }
+            .prose-custom ol { @apply list-decimal list-inside text-slate-600 dark:text-slate-300 mb-4 space-y-1; }
+            .prose-custom code:not(pre code) { @apply bg-slate-100 dark:bg-slate-900 text-rose-500 dark:text-rose-400 px-1 py-0.5 rounded text-sm font-mono border border-slate-200 dark:border-slate-700; }
+            .prose-custom strong { @apply text-slate-800 dark:text-white font-bold; }
+            .prose-custom table { @apply w-full border-collapse border border-slate-200 dark:border-slate-700 mb-6 text-sm; }
+            .prose-custom th { @apply p-3 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white font-bold text-right; }
+            .prose-custom td { @apply p-3 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300; }
+        }
+        body { @apply bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { @apply bg-slate-100 dark:bg-slate-900; }
+        ::-webkit-scrollbar-thumb { @apply bg-slate-300 dark:bg-slate-700 rounded; }
+        ::-webkit-scrollbar-thumb:hover { @apply bg-slate-400 dark:bg-slate-600; }
+
+        .nav-btn {
+            @apply flex items-center gap-3 w-full text-right px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 font-medium transition-all duration-200;
+        }
+        .nav-btn:hover { @apply bg-slate-100 dark:bg-slate-800 text-blue-600 dark:text-blue-400; }
+        .nav-btn.active { @apply bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-bold border-r-4 border-blue-600 dark:border-blue-500; }
+        
+        .code-block-wrapper { @apply relative mt-4 mb-6 rounded-xl overflow-hidden border border-slate-800; }
+        .code-header { @apply bg-slate-900 text-slate-400 px-4 py-2 text-xs font-mono flex justify-between items-center border-b border-slate-700; }
+        .copy-btn { @apply text-slate-400 hover:text-white hover:bg-slate-700 px-2 py-1 rounded transition-colors duration-200; }
+        pre { margin: 0 !important; border-radius: 0 !important; }
+    </style>
+
+  <script>
+    // Theme initialization
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+
+<body class="antialiased font-sans">
+
+  <!-- Header -->
+  <header class="glass-header sticky top-0 z-50 h-16 flex items-center px-6">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+          <i class="bi bi-journal-code text-xl"></i>
+        </div>
+        <h1 class="text-xl font-black tracking-tight">التوثيق الأكاديمي الشامل</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <p class="text-sm text-slate-500 dark:text-slate-400 hidden md:block border-l dark:border-slate-700 pl-4">
+          العيادة الذكية</p>
+        <button id="theme-toggle"
+          class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+          <i class="bi bi-moon-stars-fill hidden dark:block"></i>
+          <i class="bi bi-sun-fill dark:hidden"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-full lg:w-1/4 shrink-0">
+      <div
+        class="sticky top-24 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm">
+        <h3 class="text-xs font-black uppercase text-slate-400 dark:text-slate-500 mb-4 px-4 tracking-wider">محتويات
+          الدليل</h3>
+        <nav class="flex flex-col gap-1 space-y-1">
+          
+        <a href="index.html" class="nav-btn ">
+            <i class="bi bi-bookmark-star-fill text-blue-500"></i> 1. النظرة العامة
+        </a>
+        <a href="structure.html" class="nav-btn ">
+            <i class="bi bi-folder-fill text-amber-500"></i> 2. هيكلية المشروع الشاملة
+        </a>
+        <a href="app_py.html" class="nav-btn ">
+            <i class="bi bi-router-fill text-emerald-500"></i> 3. المُوجه و الـ Routes (app.py)
+        </a>
+        <a href="models.html" class="nav-btn ">
+            <i class="bi bi-diagram-3-fill text-fuchsia-500"></i> 4. الجداول والعلاقات (models.py)
+        </a>
+        <a href="utils.html" class="nav-btn ">
+            <i class="bi bi-calculator-fill text-red-500"></i> 5. خوارزميات الطابور (utils.py)
+        </a>
+        <a href="ai_engine.html" class="nav-btn ">
+            <i class="bi bi-robot text-indigo-500"></i> 6. الذكاء الاصطناعي (ai_service.py)
+        </a>
+        <a href="clock_config.html" class="nav-btn ">
+            <i class="bi bi-shield-check text-teal-500"></i> 7. الزمن والأمان (clock / config)
+        </a>
+        <a href="templates.html" class="nav-btn ">
+            <i class="bi bi-window-sidebar text-sky-500"></i> 8. واجهات المستخدم (Templates)
+        </a>
+        <a href="deployment.html" class="nav-btn active">
+            <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع (Render.com)
+        </a>
+        </nav>
+        <div
+          class="mt-8 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-center">
+          <i class="bi bi-shield-check text-slate-400 dark:text-slate-500 text-2xl mb-2 block"></i>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">هذا التوثيق مبني تلقائياً ومفصول تماماً
+            عن خادم فلاسك الأساسي.</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="w-full lg:w-3/4 pb-32">
+      <div class="mb-8">
+        <h2 class="text-4xl font-black text-slate-800 dark:text-white mb-3 tracking-tight">دليل الرفع التفصيلي على خوادم الاستضافة</h2>
+        <p class="text-lg text-slate-500 dark:text-slate-400">نظراً لكثرة مشاكل المواقع القديمة، تم الاعتماد على منصة Render.com الحديثة والموثوقة للرفع المجاني.</p>
+      </div>
+
+      <div class="content-card prose-custom">
+        
+            <div class="space-y-6">
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
+                        <i class="bi bi-cloud-arrow-up-fill text-sky-500"></i> دليل الرفع باستخدام منصة Render.com
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        يعتبر موقع <b>Render</b> البديل الأقوى لـ Heroku حالياً وأفضل بكثير من المنصات القديمة مثل PythonAnywhere في التعامل مع مشاريع بايثون وتثبيت المكتبات الحديثة. لتجنب أخطاء WSGI المعقدة، اتبع هذه الخطوات البسيطة.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-slate-800 dark:border-slate-500">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-300 mb-2">الخطوة 1: الرفع على GitHub أولاً</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                1. قم بإنشاء مستودع (Repository) جديد على حسابك في GitHub.<br>
+                                2. قم برفع مجلد المشروع بالكامل إلى هذا المستودع. تأكد من وجود ملف <code>requirements.txt</code> وملف <code>wsgi.py</code> في المجلد الرئيسي.<br>
+                                3. يجب أن يحتوي المستودع على جميع ملفات العيادة الذكية لكي يقرأها خادم Render بشكل صحيح.
+                            </p>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-indigo-500">
+                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-2">الخطوة 2: الربط مع منصة Render</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                1. اذهب لموقع <b>Render.com</b> وسجل دخولك باستخدام حساب GitHub الخاص بك.<br>
+                                2. في لوحة التحكم، اضغط على <b>New +</b> واختر <b>Web Service</b>.<br>
+                                3. ستظهر لك قائمة بمستودعاتك على GitHub، اختر المستودع الخاص بالعيادة الذكية واضغط <b>Connect</b>.
+                            </p>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-emerald-500">
+                            <h4 class="font-bold text-emerald-600 dark:text-emerald-400 mb-2">الخطوة 3: إعدادات التشغيل (Build & Start Commands)</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                في صفحة الإعدادات الخاصة بالتطبيق، تأكد من صحة الحقول التالية لتفعيل التشغيل التلقائي عبر Gunicorn:<br>
+                                - <b>Name:</b> سمّه <code>smartclinic-project</code> أو ما تحب.<br>
+                                - <b>Language:</b> اختر <b>Python</b> إذا لم يقم باكتشافه تلقائياً.<br>
+                                - <b>Build Command:</b> الصق الأمر التالي:
+                            </p>
+                            <div class="mt-2 ml-4 mb-3 p-2 bg-slate-100 dark:bg-slate-900 rounded font-mono text-sm text-slate-800 dark:text-slate-200">
+                                pip install -r requirements.txt
+                            </div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                - <b>Start Command:</b> الصق الأمر التالي وهو الأهم:
+                            </p>
+                            <div class="mt-2 ml-4 p-2 bg-slate-100 dark:bg-slate-900 rounded font-mono text-sm text-slate-800 dark:text-slate-200">
+                                gunicorn wsgi:app
+                            </div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-3">ثم اختر الباقة المجانية (Free) واضغط أسفل الشاشة على <b>Create Web Service</b>.</p>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-amber-500">
+                            <h4 class="font-bold text-amber-600 dark:text-amber-400 mb-2">ملاحظة هامة (طبيعة الاستضافة المجانية)</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                - <b>عملية الرفع الأولى:</b> ستأخذ بعض الوقت (حوالي دقيقتين إلى 5 دقائق) لتثبيت مكتبات مثل Scikit-learn.<br>
+                                - <b>وضعية السبات (Sleep):</b> كما تفضلت بالملاحظة، الاستضافة المجانية في Render "تنام" إذا لم يزر الموقع أحد لمدة 15 دقيقة تقريباً للحفاظ على موارد الخادم.<br>
+                                - نتيجة لذلك، عند دخول أول مستخدم بعد فترة، سيستغرق الموقع مسافة (50 ثانية تقريباً) للرد. هذا طبيعي جداً ويعمل بشكل سليم كمنصة عرض مشاريع التخرج المجانية.
+                            </p>
+                        </div>
+                        
+                    </div>
+                    
+                    <p class="text-emerald-600 dark:text-emerald-400 font-bold mt-4 border-t border-slate-200 dark:border-slate-700 pt-4 text-center text-lg">
+                        🎉 مبروك! مشروعك المتكامل الآن على منصة حديثة وسيعمل بشكل مثالي ومستقر دون أخطاء بيئة عمل.
+                    </p>
+                </section>
+            </div>
+        
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize Code Highlighting
+    hljs.highlightAll();
+
+    // Theme Toggle Logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', function () {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+    });
+
+    // Copy Code Logic
+    function copyCode(btn) {
+      const pre = btn.parentElement.nextElementSibling;
+      const code = pre.innerText;
+
+      navigator.clipboard.writeText(code).then(() => {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check2"></i> تم النسخ';
+        btn.classList.add('text-green-400');
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('text-green-400');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+
+</html>

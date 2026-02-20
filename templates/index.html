@@ -1,0 +1,237 @@
+{% extends "layout.html" %}
+{% block title %}العيادة الذكية — الرئيسية{% endblock %}
+
+{% block content %}
+<!-- 
+================================================================================
+الصفحة الرئيسية التعريقية (index.html)
+================================================================================
+الهدف المنهجي (للطالب):
+هذه هي واجهة الترحيب العامة للمشروع، وهي صفحة غير محمية (Public). 
+تلاحظ في الأعلى السطر `{ % extends "layout.html" % }`، وهو الأمر البرمجي المسؤول 
+عن إحضار كل القوائم العلوية وأشرطة التنقل من الملف الوراثي دون الحاجة لإعادة كتابتها.
+كل الكود الموجود أسفل هذا السطر يتم حشوه مكان كتلة `content` في الإطار الرئيسي.
+================================================================================
+-->
+<!-- Hero Section -->
+<div class="relative overflow-hidden rounded-3xl bg-blue-600 border border-blue-500 p-12 text-center mb-12 shadow-lg">
+  <div class="relative z-10">
+    <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
+      نظام العيادة الذكية
+    </h1>
+    <p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+      نظام متطور لإدارة قوائم الانتظار يعتمد على الذكاء الاصطناعي لترتيب المرضى
+      بناءً على الأولوية الطبية، العمر، ونوع الزيارة لضمان رعاية عادلة وسريعة.
+    </p>
+  </div>
+</div>
+
+<!-- Quick Actions Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+  <!-- Kiosk -->
+  <div
+    class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 hover:-translate-y-1 transition-transform duration-300">
+    <div class="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
+      <i class="bi bi-person-plus-fill text-3xl"></i>
+    </div>
+    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">بوابة المرضى</h3>
+    <p class="text-slate-500 text-sm mb-4">تسجيل بيانات المريض لقائمة الانتظار.</p>
+    <a href="{{ url_for('kiosk') }}" class="text-blue-600 font-bold hover:underline flex items-center">
+      تسجيل الدخول <i class="bi bi-arrow-left ms-2"></i>
+    </a>
+  </div>
+
+  <!-- Queue -->
+  <div
+    class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 hover:-translate-y-1 transition-transform duration-300">
+    <div class="w-16 h-16 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center mb-4">
+      <i class="bi bi-list-ol text-3xl"></i>
+    </div>
+    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">شاشة الانتظار</h3>
+    <p class="text-slate-500 text-sm mb-4">عرض القائمة الحالية بشكل مباشر.</p>
+    <a href="{{ url_for('queue') }}" class="text-green-600 font-bold hover:underline flex items-center">
+      عرض القائمة <i class="bi bi-arrow-left ms-2"></i>
+    </a>
+  </div>
+
+  <!-- Doctor -->
+  <div
+    class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 hover:-translate-y-1 transition-transform duration-300">
+    <div class="w-16 h-16 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center mb-4">
+      <i class="bi bi-clipboard2-pulse-fill text-3xl"></i>
+    </div>
+    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">لوحة الطبيب</h3>
+    <p class="text-slate-500 text-sm mb-4">استدعاء المرضى وإدارة الكشوفات.</p>
+    <a href="{{ url_for('doctor') }}" class="text-cyan-600 font-bold hover:underline flex items-center">
+      دخول <i class="bi bi-arrow-left ms-2"></i>
+    </a>
+  </div>
+
+  <!-- Admin -->
+  <div
+    class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 hover:-translate-y-1 transition-transform duration-300">
+    <div class="w-16 h-16 rounded-2xl bg-yellow-100 text-yellow-600 flex items-center justify-center mb-4">
+      <i class="bi bi-speedometer2 text-3xl"></i>
+    </div>
+    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">لوحة الإدارة</h3>
+    <p class="text-slate-500 text-sm mb-4">الإحصائيات والتحكم في النظام.</p>
+    <a href="{{ url_for('admin') }}" class="text-yellow-600 font-bold hover:underline flex items-center">
+      لوحة التحكم <i class="bi bi-arrow-left ms-2"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Algorithm Section — Premium Showcase -->
+<div class="space-y-6">
+
+  <!-- Section Header -->
+  <div class="flex items-center gap-3 mb-2">
+    <div
+      class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center shadow-lg">
+      <i class="bi bi-cpu-fill text-white text-lg"></i>
+    </div>
+    <div>
+      <h4 class="text-2xl font-extrabold text-slate-800 dark:text-white">محرك الأولوية الذكي</h4>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Intelligent Medical Triage Engine — Python + Scikit-Learn
+      </p>
+    </div>
+  </div>
+
+  <!-- Level 1: Urgency Tier (Always first) -->
+  <div
+    class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+    <div
+      class="px-6 py-4 bg-gradient-to-l from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/10 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+      <span class="bg-red-600 text-white text-xs font-black px-2 py-0.5 rounded-full">المستوى 1</span>
+      <h5 class="font-extrabold text-slate-800 dark:text-white">الفرز حسب درجة الإلحاح (Urgency Tier)</h5>
+      <span class="ms-auto text-xs text-red-600 dark:text-red-400 font-bold">الأولوية المطلقة غير القابلة للتجاوز</span>
+    </div>
+    <div class="grid grid-cols-3 divide-x divide-x-reverse divide-slate-100 dark:divide-slate-700">
+      <div class="p-5 text-center">
+        <div class="w-14 h-14 bg-red-100 dark:bg-red-500/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+          <i class="bi bi-heart-pulse-fill text-red-600 dark:text-red-400 text-2xl"></i>
+        </div>
+        <div class="font-black text-3xl text-red-600 dark:text-red-400 mb-1">طوارئ</div>
+        <div class="text-xs text-slate-500 mb-2">Emergency</div>
+        <div class="inline-block bg-red-600 text-white text-sm font-black px-4 py-1 rounded-full">Tier 1 — دائماً أول
+        </div>
+      </div>
+      <div class="p-5 text-center">
+        <div
+          class="w-14 h-14 bg-yellow-100 dark:bg-yellow-500/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+          <i class="bi bi-clipboard2-pulse text-yellow-600 dark:text-yellow-400 text-2xl"></i>
+        </div>
+        <div class="font-black text-3xl text-yellow-600 dark:text-yellow-400 mb-1">متابعة</div>
+        <div class="text-xs text-slate-500 mb-2">Follow-Up</div>
+        <div class="inline-block bg-yellow-500 text-white text-sm font-black px-4 py-1 rounded-full">Tier 2</div>
+      </div>
+      <div class="p-5 text-center">
+        <div
+          class="w-14 h-14 bg-green-100 dark:bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+          <i class="bi bi-stethoscope text-green-600 dark:text-green-400 text-2xl"></i>
+        </div>
+        <div class="font-black text-3xl text-green-600 dark:text-green-400 mb-1">كشف</div>
+        <div class="text-xs text-slate-500 mb-2">Checkup</div>
+        <div class="inline-block bg-green-600 text-white text-sm font-black px-4 py-1 rounded-full">Tier 3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Level 2: Score within same tier -->
+  <div
+    class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+    <div
+      class="px-6 py-4 bg-gradient-to-l from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/10 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+      <span class="bg-blue-600 text-white text-xs font-black px-2 py-0.5 rounded-full">المستوى 2</span>
+      <h5 class="font-extrabold text-slate-800 dark:text-white">درجة الأولوية الذكية (Priority Score)</h5>
+      <span class="ms-auto text-xs text-blue-600 dark:text-blue-400 font-bold">يُطبَّق داخل نفس الطبقة فقط</span>
+    </div>
+    <div class="p-6">
+      <!-- Formula Box -->
+      <div class="bg-slate-900 dark:bg-slate-950 rounded-xl p-5 mb-6 text-center border border-slate-700" dir="ltr">
+        <code class="text-green-400 font-mono text-lg font-bold">
+          Priority Score = <span class="text-yellow-300">AgeBonusScore</span>
+          + <span class="text-orange-300">WaitFactor</span>
+        </code>
+        <br />
+        <code class="text-slate-400 text-sm font-mono">
+          WaitFactor = waiting_minutes × 1.0
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          AgeBonusScore = f(age)
+        </code>
+      </div>
+
+      <!-- Age Bonus Table -->
+      <h6 class="font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center">
+        <i class="bi bi-bar-chart-steps me-2 text-blue-500"></i>
+        مقياس بونوص العمر (AgeBonusScore)
+      </h6>
+      <div class="space-y-3">
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-slate-600 dark:text-slate-300 w-36 shrink-0">رضيع &lt; 2 سنة</span>
+          <div class="flex-1 bg-slate-100 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-purple-500 to-purple-700 rounded-full" style="width:100%"></div>
+          </div>
+          <span class="font-black text-purple-600 dark:text-purple-400 w-10 text-left" dir="ltr">+60</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-slate-600 dark:text-slate-300 w-36 shrink-0">شيخ ≥ 70 سنة</span>
+          <div class="flex-1 bg-slate-100 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-red-400 to-red-600 rounded-full" style="width:83%"></div>
+          </div>
+          <span class="font-black text-red-600 dark:text-red-400 w-10 text-left" dir="ltr">+50</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-slate-600 dark:text-slate-300 w-36 shrink-0">كبير سن ≥ 60</span>
+          <div class="flex-1 bg-slate-100 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-orange-400 to-orange-600 rounded-full" style="width:50%"></div>
+          </div>
+          <span class="font-black text-orange-600 dark:text-orange-400 w-10 text-left" dir="ltr">+30</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-slate-600 dark:text-slate-300 w-36 shrink-0">طفل ≤ 12 سنة</span>
+          <div class="flex-1 bg-slate-100 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full" style="width:25%"></div>
+          </div>
+          <span class="font-black text-yellow-600 dark:text-yellow-400 w-10 text-left" dir="ltr">+15</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-slate-600 dark:text-slate-300 w-36 shrink-0">باقي الفئات</span>
+          <div class="flex-1 bg-slate-100 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
+            <div class="h-full bg-slate-300 dark:bg-slate-600 rounded-full" style="width:2%"></div>
+          </div>
+          <span class="font-black text-slate-500 w-10 text-left" dir="ltr">+0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Level 3: Tie Breaker + AI Model -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-5 shadow-sm">
+      <div class="flex items-center gap-2 mb-3">
+        <i class="bi bi-arrow-left-right text-green-500 text-xl"></i>
+        <h5 class="font-bold text-slate-800 dark:text-white">المستوى 3: كاسر التعادل</h5>
+      </div>
+      <p class="text-sm text-slate-600 dark:text-slate-400">
+        عند تساوي النقاط تماماً، يُقدَّم
+        <strong class="text-green-600">الأسبق وصولاً</strong>
+        (check_in_time ASC). يضمن عدم حرمان أي مريض مهما طال انتظاره.
+      </p>
+    </div>
+    <div
+      class="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl border border-purple-200 dark:border-purple-800/30 p-5 shadow-sm">
+      <div class="flex items-center gap-2 mb-3">
+        <i class="bi bi-robot text-purple-500 text-xl"></i>
+        <h5 class="font-bold text-slate-800 dark:text-white">الذكاء الاصطناعي — ML</h5>
+      </div>
+      <p class="text-sm text-slate-600 dark:text-slate-400">
+        نموذج <strong class="text-purple-600">RandomForestRegressor</strong> من
+        <code class="bg-slate-100 dark:bg-slate-700 px-1 rounded text-xs">scikit-learn</code>
+        يتوقع وقت الانتظار لكل مريض بناءً على حجم الطابور الحالي، ويستخدم بيانات تدريب واقعية لإعطاء تقديرات دقيقة.
+      </p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,303 @@
+/* ========================================
+   Smart Clinic — Custom Styles (Arabic/RTL)
+   نظام ألوان موحد مع دعم ثيم فاتح/داكن عبر متغيرات CSS
+   ======================================== */
+
+:root {
+    --sc-color-bg: #f3f5fa;
+    --sc-color-surface: #ffffff;
+    --sc-color-surface-soft: #f8fafc;
+    --sc-color-border: #d0d5dd;
+    --sc-color-text: #111827;
+    --sc-color-text-muted: #6b7280;
+
+    --sc-color-primary: #0d6efd;
+    --sc-color-primary-dark: #0a58ca;
+    --sc-color-success: #10b981;
+    --sc-color-danger: #ef4444;
+    --sc-color-warning: #fbbf24;
+    --sc-color-info: #0ea5e9;
+    --sc-color-refresh: #0369a1;
+
+    --sc-color-nav-bg: #0b3b86;
+    --sc-color-nav-text: #ffffff;
+    --sc-hero-gradient-start: #0d6efd;
+    --sc-hero-gradient-end: #1d4ed8;
+
+    --sc-color-table-head-bg: #111827;
+    --sc-color-table-head-text: #ffffff;
+
+    --sc-shadow-soft: 0 4px 15px rgba(15, 23, 42, 0.08);
+    --sc-shadow-strong: 0 10px 30px rgba(15, 23, 42, 0.18);
+}
+
+[data-theme="dark"] {
+    --sc-color-bg: #020617;
+    --sc-color-surface: #020617;
+    --sc-color-surface-soft: #020617;
+    --sc-color-border: #1f2937;
+    --sc-color-text: #f9fafb;
+    --sc-color-text-muted: #9ca3af;
+
+    --sc-color-primary: #60a5fa;
+    --sc-color-primary-dark: #2563eb;
+    --sc-color-success: #34d399;
+    --sc-color-danger: #fb7185;
+    --sc-color-warning: #facc15;
+    --sc-color-info: #38bdf8;
+    --sc-color-refresh: #22d3ee;
+
+    --sc-color-nav-bg: #020617;
+    --sc-color-nav-text: #e5e7eb;
+    --sc-hero-gradient-start: #1d4ed8;
+    --sc-hero-gradient-end: #1e293b;
+
+    --sc-color-table-head-bg: #020617;
+    --sc-color-table-head-text: #e5e7eb;
+
+    --sc-shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.5);
+    --sc-shadow-strong: 0 10px 35px rgba(0, 0, 0, 0.75);
+}
+
+body {
+    background-color: var(--sc-color-bg);
+    font-family: 'Tajawal', sans-serif;
+    color: var(--sc-color-text);
+}
+
+/* ---- Navbar ---- */
+.navbar {
+    background-color: var(--sc-color-nav-bg) !important;
+    color: var(--sc-color-nav-text);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.25);
+}
+
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: normal;
+    /* Better for Arabic */
+}
+
+/* ---- Cards ---- */
+.card {
+    border: none;
+    border-radius: 12px;
+    background-color: var(--sc-color-surface);
+    color: var(--sc-color-text);
+    box-shadow: var(--sc-shadow-soft);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* ---- Forms & Inputs ---- */
+.form-control,
+.form-select {
+    background-color: var(--sc-color-surface);
+    color: var(--sc-color-text);
+    border-color: var(--sc-color-border);
+}
+
+.form-control::placeholder,
+.form-select::placeholder {
+    color: var(--sc-color-text-muted);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--sc-color-primary);
+    box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.35);
+}
+
+.btn-primary {
+    background-color: var(--sc-color-primary);
+    border-color: var(--sc-color-primary-dark);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--sc-color-primary-dark);
+}
+
+/* Modals */
+.modal-content {
+    background-color: var(--sc-color-surface);
+    color: var(--sc-color-text);
+    border-radius: 12px;
+    box-shadow: var(--sc-shadow-strong);
+}
+
+/* ---- Component Specifics ---- */
+.hero-section {
+    background: linear-gradient(135deg,
+            var(--sc-hero-gradient-start) 0%,
+            var(--sc-hero-gradient-end) 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.patient-current {
+    background: linear-gradient(45deg,
+            var(--sc-color-primary) 0%,
+            var(--sc-color-primary-dark) 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: var(--sc-shadow-strong);
+}
+
+.patient-next {
+    background-color: var(--sc-color-surface-soft);
+    border: 1px solid var(--sc-color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.table-queue th {
+    background-color: var(--sc-color-table-head-bg) !important;
+    color: var(--sc-color-table-head-text);
+    font-weight: 700;
+}
+
+.table-queue {
+    color: var(--sc-color-text);
+    border-color: var(--sc-color-border);
+}
+
+.table-queue tbody tr {
+    background-color: var(--sc-color-surface);
+    transition: background-color 0.18s ease, transform 0.12s ease;
+}
+
+.table-queue tbody tr:nth-child(even) {
+    background-color: var(--sc-color-surface-soft);
+}
+
+.table-queue tbody tr:hover {
+    background-color: rgba(15, 23, 42, 0.04);
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .table-queue tbody tr:hover {
+    background-color: rgba(248, 250, 252, 0.04);
+}
+
+.table-queue td,
+.table-queue th {
+    border-color: var(--sc-color-border) !important;
+}
+
+/* ---- Status Badges ---- */
+.badge-emergency {
+    background-color: var(--sc-color-danger);
+}
+
+.badge-follow-up {
+    background-color: var(--sc-color-warning);
+    color: #111827;
+}
+
+.badge-checkup {
+    background-color: var(--sc-color-success);
+}
+
+/* ---- Utilities ---- */
+.status-waiting {
+    color: var(--sc-color-warning);
+}
+
+.status-in-progress {
+    color: var(--sc-color-primary);
+}
+
+.status-done {
+    color: var(--sc-color-success);
+}
+
+.auto-refresh-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--sc-color-refresh);
+}
+
+.auto-refresh-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background-color: var(--sc-color-refresh);
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.5);
+    opacity: 0.9;
+}
+
+.auto-refresh-text.is-updating .auto-refresh-dot {
+    animation: auto-refresh-pulse 1s ease-out infinite;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes auto-refresh-pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.6);
+    }
+
+    70% {
+        transform: scale(1.4);
+        box-shadow: 0 0 0 8px rgba(34, 211, 238, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(34, 211, 238, 0);
+    }
+}
+
+/* RTL Specific fixes if any (Bootstrap handles most) */
+.me-2 {
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
+}
+
+.ms-2 {
+    margin-right: 0.5rem !important;
+    margin-left: 0 !important;
+}

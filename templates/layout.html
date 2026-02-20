@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!-- 
+================================================================================
+الإطار الجذري للمشروع (layout.html)
+================================================================================
+الهدف المنهجي (للطالب):
+في تطوير الويب الحديث حسب مبدأ (لا تكرر نفسك - DRY)، من الخطأ كتابة ترويسة الصفحة (Head)
+وأشرطة التنقل (Navbar) في كل ملف HTML. بدلاً من ذلك، نكتبها مرة واحدة هنا في الإطار.
+هذا الملف يمثل "عظام المشروع".
+الأسطر التي تراها بصيغة `{ % block content % }` هي نوافذ (ثغرات) فارغة، يقوم محرك 
+(Jinja2) بحقن محتوى باقي الصفحات داخلها تلقائياً عند طلب الصفحة من الفلاسك.
+================================================================================
+-->
+<html lang="ar" dir="rtl" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}نظام العيادة الذكية{% endblock %}</title>
+    {% block head %}{% endblock %}
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons (Keep for icons, compatible with Tailwind) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a',
+                        },
+                        dark: {
+                            800: '#1e293b', 900: '#0f172a', 950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        // Check for saved theme preference or use preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer components {
+            .page-header {
+                @apply text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-slate-800 dark:from-blue-400 dark:to-white mb-6;
+            }
+            .section-header {
+                @apply text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center;
+            }
+            .card-title {
+                @apply text-xl font-bold text-slate-800 dark:text-white mb-2;
+            }
+            .text-muted {
+                @apply text-slate-600 dark:text-slate-400;
+            }
+            .input-field {
+                @apply w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-blue-500 focus:border-blue-500 p-3 transition-colors placeholder-slate-400 dark:placeholder-slate-500;
+            }
+            .input-label {
+                @apply block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2;
+            }
+            .stat-card {
+                 @apply glass-card p-6 flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-300;
+            }
+             .table-container {
+                @apply glass-card overflow-hidden;
+            }
+            .table-header {
+                @apply bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 uppercase text-sm font-bold border-b border-slate-200 dark:border-slate-700;
+            }
+            .table-row {
+                @apply hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors border-b border-slate-100 dark:border-slate-700/50 last:border-0;
+            }
+            .table-cell {
+                @apply px-6 py-4 text-slate-700 dark:text-slate-300;
+            }
+        }
+
+        @layer utilities {
+            .glass {
+                @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800;
+            }
+            .glass-card {
+                @apply bg-white dark:bg-slate-800/50 backdrop-blur-md border border-slate-200 dark:border-slate-700/50 shadow-xl rounded-2xl;
+            }
+            .btn-primary {
+                @apply bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-2 px-6 rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/30;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.5s ease-out forwards;
+            }
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            @apply antialiased transition-colors duration-300;
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen flex flex-col bg-gray-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-slate-900 dark:via-slate-950 dark:to-slate-950">
+
+    <!-- Navbar -->
+    <nav class="glass sticky top-0 z-50 border-b border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand -->
+                <a href="{{ url_for('home') }}" class="flex items-center space-x-3 space-x-reverse group">
+                    <div
+                        class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
+                        <i class="bi bi-heart-pulse-fill text-xl"></i>
+                    </div>
+                    <span
+                        class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-400">
+                        العيادة الذكية
+                    </span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-1 space-x-reverse">
+                    <a href="{{ url_for('home') }}"
+                        class="nav-link {{ 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-slate-800/50' if request.endpoint == 'home' else 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/50' }} px-4 py-2 rounded-lg transition-colors font-medium">
+                        الرئيسية
+                    </a>
+                    <a href="{{ url_for('kiosk') }}"
+                        class="nav-link {{ 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-slate-800/50' if request.endpoint == 'kiosk' else 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/50' }} px-4 py-2 rounded-lg transition-colors font-medium">
+                        بوابة المرضى
+                    </a>
+                    <a href="{{ url_for('queue') }}"
+                        class="nav-link {{ 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-slate-800/50' if request.endpoint == 'queue' else 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/50' }} px-4 py-2 rounded-lg transition-colors font-medium">
+                        شاشة الانتظار
+                    </a>
+
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('doctor') }}"
+                        class="nav-link {{ 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-slate-800/50' if request.endpoint == 'doctor' else 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/50' }} px-4 py-2 rounded-lg transition-colors font-medium">
+                        لوحة الطبيب
+                    </a>
+                    {% if current_user.role == 'admin' %}
+                    <a href="{{ url_for('admin') }}"
+                        class="nav-link {{ 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-slate-800/50' if request.endpoint == 'admin' else 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/50' }} px-4 py-2 rounded-lg transition-colors font-medium">
+                        الإدارة
+                    </a>
+                    {% endif %}
+                    {% endif %}
+                    <div class="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-2"></div>
+
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleTheme()"
+                        class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+                        <i class="bi bi-moon-stars-fill hidden dark:block"></i>
+                        <i class="bi bi-sun-fill dark:hidden"></i>
+                    </button>
+
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('logout') }}"
+                        class="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 px-4 py-2 rounded-lg transition-colors font-medium flex items-center">
+                        <i class="bi bi-box-arrow-left me-2"></i>خروج
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('login') }}"
+                        class="bg-white dark:bg-slate-800 text-slate-700 dark:text-white px-5 py-2 rounded-xl transition-all border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md">
+                        تسجيل دخول
+                    </a>
+                    <a href="{{ url_for('register') }}" class="btn-primary">
+                        إنشاء حساب
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="container mx-auto px-4 mt-6">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        {% set bg_color = 'bg-red-500/10 border-red-500/20 text-red-400' if category == 'danger' else ('bg-green-500/10
+        border-green-500/20 text-green-400' if category == 'success' else ('bg-yellow-500/10 border-yellow-500/20
+        text-yellow-400' if category == 'warning' else 'bg-blue-500/10 border-blue-500/20 text-blue-400')) %}
+        <div
+            class="{{ bg_color }} backdrop-blur-sm border px-6 py-4 rounded-xl mb-4 flex items-center justify-between shadow-lg animate-fade-in-down">
+            <div class="flex items-center">
+                {% if category == 'success' %}
+                <i class="bi bi-check-circle-fill text-xl me-3"></i>
+                {% elif category == 'danger' %}
+                <i class="bi bi-exclamation-circle-fill text-xl me-3"></i>
+                {% else %}
+                <i class="bi bi-info-circle-fill text-xl me-3"></i>
+                {% endif %}
+                <span class="font-medium">{{ message }}</span>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer
+        class="border-t border-slate-200 dark:border-slate-800 mt-auto bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm transition-colors">
+        <div class="container mx-auto px-4 py-8">
+            <div
+                class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 text-sm text-center">
+                <p>&copy; 2026 نظام العيادة الذكية. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

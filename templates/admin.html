@@ -1,0 +1,563 @@
+{% extends "layout.html" %}
+{% block title %}العيادة الذكية — الإدارة{% endblock %}
+
+{% block head %}
+<!-- 
+================================================================================
+لوحة تحكم المسؤول (admin.html)
+================================================================================
+الهدف المنهجي (للطالب):
+هذه هي الصفحة الأخطر والأهم في النظام، ولا يدخلها سوى من يمتلك صلاحية (role="admin"). 
+في هذه الصفحة ستجد دمجاً لعدة تقنيات متقدمة: 
+1. تم دمج مكتبة (Chart.js) لرسم مخططات بيانية تفاعلية بناءً على بيانات JSON من الفلاسك.
+2. تم بناء جدار ناري مصغر عبر اشتراط (admin_secret) لإنشاء حساب مدير جديد.
+3. تم تصميم نظام "رؤى ذكية" (AI Insights) يستخدم الـ (fetch API) لتحليل بيانات 
+   العيادة وعكسها كنصائح إدارية بالعربية، وهو ما يمثل ذروة الذكاء الاصطناعي التطبيقي.
+================================================================================
+-->
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 animate-fade-in">
+  <h3 class="flex items-center mb-4 md:mb-0 section-header !mb-0">
+    <div class="p-3 bg-yellow-600/10 dark:bg-yellow-600/20 rounded-xl me-4 text-yellow-600 dark:text-yellow-500">
+      <i class="bi bi-speedometer2 text-2xl"></i>
+    </div>
+    لوحة الإدارة
+  </h3>
+
+  <!-- Action Buttons -->
+  <div class="flex space-x-2 space-x-reverse">
+    <a href="{{ url_for('export_appointments') }}"
+      class="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium transition-colors flex items-center shadow-sm">
+      <i class="bi bi-download me-2"></i>تصدير CSV
+    </a>
+  </div>
+</div>
+
+<!-- ─── User Management Section ─── -->
+<div class="glass-card p-6 mb-8 animate-fade-in-down border-l-4 border-l-blue-500">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5">
+    <h5
+      class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-300 dark:to-blue-500 mb-3 md:mb-0">
+      <i class="bi bi-people-fill me-2 text-blue-500"></i>إدارة المستخدمين
+      <span class="text-slate-400 dark:text-slate-500 font-mono text-sm ms-2">({{ users | length }} مستخدم)</span>
+    </h5>
+    <div class="flex gap-2">
+      <a href="{{ url_for('db_viewer') }}"
+        class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-600 flex items-center gap-1.5 transition-colors">
+        <i class="bi bi-database-fill"></i>عارض DB
+      </a>
+      <button onclick="document.getElementById('createUserForm').classList.toggle('hidden')"
+        class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-lg text-xs font-medium border border-blue-200 dark:border-blue-500/30 flex items-center gap-1.5 transition-colors">
+        <i class="bi bi-person-plus-fill"></i>إضافة مستخدم
+      </button>
+    </div>
+  </div>
+
+  <!-- ── نموذج إضافة مستخدم جديد ── -->
+  <form id="createUserForm" action="{{ url_for('admin_create_user') }}" method="POST"
+    class="hidden mb-5 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+      <div>
+        <label class="input-label">اسم المستخدم</label>
+        <input type="text" name="username" required class="input-field" placeholder="مثال: dr_ahmed">
+      </div>
+      <div>
+        <label class="input-label">كلمة المرور</label>
+        <input type="password" name="password" required class="input-field" placeholder="••••••">
+      </div>
+      <div>
+        <label class="input-label">الدور</label>
+        <select name="role" id="newUserRole" class="input-field" onchange="toggleAdminSecret(this.value)">
+          <option value="doctor">👨‍⚕️ طبيب (Doctor)</option>
+          <option value="receptionist">🗂️ استقبال (Receptionist)</option>
+          <option value="admin">🔐 مسؤول (Admin)</option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="btn-primary flex items-center justify-center py-2.5 w-full">
+          <i class="bi bi-plus-lg me-2"></i>إضافة
+        </button>
+      </div>
+    </div>
+    <!-- حقل رمز التفويض — يظهر فقط عند اختيار مسؤول -->
+    <div id="adminSecretField"
+      class="hidden mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-xl">
+      <label class="input-label text-red-600 dark:text-red-400 font-bold">
+        <i class="bi bi-shield-lock-fill me-1"></i>رمز التفويض السري (مطلوب لإنشاء مسؤول)
+      </label>
+      <input type="password" name="admin_secret" id="adminSecretInput"
+        class="input-field border-red-200 focus:border-red-500" placeholder="أدخل رمز التفويض...">
+      <p class="text-xs text-red-500 dark:text-red-400 mt-1">⚠ لا يمكن إنشاء حساب مسؤول بدون الرمز الصحيح.</p>
+    </div>
+  </form>
+
+  <!-- ── جدول المستخدمين الحاليين ── -->
+  <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+    <table class="w-full text-right text-sm">
+      <thead
+        class="bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 text-xs uppercase font-bold border-b border-slate-200 dark:border-slate-700">
+        <tr>
+          <th class="px-4 py-3">#</th>
+          <th class="px-4 py-3">اسم المستخدم</th>
+          <th class="px-4 py-3">الدور</th>
+          <th class="px-4 py-3">الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+        {% for u in users %}
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+          <td class="px-4 py-3 text-slate-400 font-mono text-xs">{{ u.id }}</td>
+          <td class="px-4 py-3 font-bold text-slate-800 dark:text-white">
+            <i class="bi bi-person-circle me-1 text-slate-400"></i>{{ u.username }}
+          </td>
+          <td class="px-4 py-3">
+            {% if u.role == 'admin' %}
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-700 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20">
+              <i class="bi bi-shield-fill me-1"></i>مسؤول
+            </span>
+            {% elif u.role == 'doctor' %}
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20">
+              <i class="bi bi-heart-pulse me-1"></i>طبيب
+            </span>
+            {% else %}
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400 border border-green-200 dark:border-green-500/20">
+              <i class="bi bi-person-badge me-1"></i>استقبال
+            </span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-3">
+            {% if u.role != 'admin' %}
+            <div class="flex items-center gap-2">
+              <!-- زر تغيير كلمة المرور -->
+              <button data-id="{{ u.id }}" data-username="{{ u.username }}"
+                onclick="showPassModal(this.dataset.id, this.dataset.username)"
+                class="px-2.5 py-1 bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-500/10 dark:hover:bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 rounded-lg text-xs font-medium border border-yellow-200 dark:border-yellow-500/30 transition-colors">
+                <i class="bi bi-key-fill me-1"></i>تغيير كلمة المرور
+              </button>
+              <!-- زر الحذف -->
+              <form action="{{ url_for('admin_delete_user', user_id=u.id) }}" method="POST"
+                onsubmit="return confirm('هل أنت متأكد من حذف المستخدم {{ u.username }}؟')">
+                <button type="submit"
+                  class="px-2.5 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 text-red-700 dark:text-red-400 rounded-lg text-xs font-medium border border-red-200 dark:border-red-500/30 transition-colors">
+                  <i class="bi bi-trash3 me-1"></i>حذف
+                </button>
+              </form>
+            </div>
+            {% else %}
+            <span class="text-xs text-slate-400 dark:text-slate-600 italic">محمي من التعديل</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── مودال تغيير كلمة المرور ── -->
+<div id="passModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+  <div
+    class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4 border border-slate-200 dark:border-slate-700">
+    <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">
+      <i class="bi bi-key-fill me-2 text-yellow-500"></i>تغيير كلمة المرور
+    </h4>
+    <p class="text-sm text-slate-500 mb-5">المستخدم: <strong id="passModalUsername"
+        class="text-slate-700 dark:text-white"></strong></p>
+    <form id="passModalForm" method="POST">
+      <div class="mb-4">
+        <label class="input-label">كلمة المرور الجديدة</label>
+        <input type="password" name="new_password" required class="input-field" placeholder="3 أحرف على الأقل">
+      </div>
+      <div class="flex gap-3">
+        <button type="submit" class="btn-primary flex-1 py-2.5">
+          <i class="bi bi-check-lg me-2"></i>حفظ
+        </button>
+        <button type="button" onclick="closePassModal()"
+          class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-xl font-medium transition-colors">
+          إلغاء
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ── إظهار/إخفاء حقل رمز التفويض حسب الدور المختار ──
+  function toggleAdminSecret(role) {
+    const field = document.getElementById('adminSecretField');
+    const input = document.getElementById('adminSecretInput');
+    if (role === 'admin') {
+      field.classList.remove('hidden');
+      input.required = true;
+    } else {
+      field.classList.add('hidden');
+      input.required = false;
+      input.value = '';
+    }
+  }
+  // ── مودال تغيير كلمة المرور ──
+  function showPassModal(userId, username) {
+    document.getElementById('passModalUsername').textContent = username;
+    document.getElementById('passModalForm').action = `/admin/users/${userId}/password`;
+    document.getElementById('passModal').classList.remove('hidden');
+  }
+  function closePassModal() {
+    document.getElementById('passModal').classList.add('hidden');
+  }
+  // إغلاق المودال بالنقر خارجه
+  document.getElementById('passModal').addEventListener('click', function (e) {
+    if (e.target === this) closePassModal();
+  });
+</script>
+
+
+
+<!-- ─── Patient List ─── -->
+<div class="col-span-1 space-y-8">
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="glass-card p-4 border-b-4 border-b-blue-500 relative overflow-hidden group">
+      <div class="relative z-10">
+        <div class="text-3xl font-bold text-slate-800 dark:text-white font-mono mb-1">{{ patients | length }}</div>
+        <div class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">إجمالي المرضى</div>
+      </div>
+      <i
+        class="bi bi-people absolute -bottom-4 -left-4 text-6xl text-blue-500/10 group-hover:text-blue-500/20 transition-colors"></i>
+    </div>
+
+    <div class="glass-card p-4 border-b-4 border-b-yellow-500 relative overflow-hidden group">
+      <div class="relative z-10">
+        <div class="text-3xl font-bold text-slate-800 dark:text-white font-mono mb-1">{{ patients | selectattr('status',
+          'equalto', 'waiting') | list | length }}</div>
+        <div class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">في الانتظار</div>
+      </div>
+      <i
+        class="bi bi-hourglass-split absolute -bottom-4 -left-4 text-6xl text-yellow-500/10 group-hover:text-yellow-500/20 transition-colors"></i>
+    </div>
+
+    <div class="glass-card p-4 border-b-4 border-b-green-500 relative overflow-hidden group">
+      <div class="relative z-10">
+        <div class="text-3xl font-bold text-slate-800 dark:text-white font-mono mb-1">{{ patients | selectattr('status',
+          'equalto', 'done') | list | length }}</div>
+        <div class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">تم الكشف</div>
+      </div>
+      <i
+        class="bi bi-check-circle absolute -bottom-4 -left-4 text-6xl text-green-500/10 group-hover:text-green-500/20 transition-colors"></i>
+    </div>
+
+    <!-- Smart Metric -->
+    <div class="glass-card p-4 border-b-4 border-b-purple-500 relative overflow-hidden group">
+      <div class="relative z-10">
+        <div class="text-2xl font-bold text-slate-800 dark:text-white mb-1">
+          {{ avg_wait_str }}
+        </div>
+        <div class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">
+          متوسط وقت الانتظار الحالي
+        </div>
+      </div>
+      <i
+        class="bi bi-stopwatch absolute -bottom-4 -left-4 text-6xl text-purple-500/10 group-hover:text-purple-500/20 transition-colors"></i>
+    </div>
+  </div>
+  <!-- AI Smart Insights Panel -->
+  <div id="aiInsightsPanel"
+    class="glass-card p-5 mt-4 border border-purple-400/20 bg-gradient-to-l from-purple-500/5 to-blue-500/5 mb-6">
+    <div class="flex items-center justify-between mb-3">
+      <h5 class="text-base font-bold text-slate-800 dark:text-white flex items-center">
+        <i class="bi bi-cpu-fill text-purple-500 me-2 animate-pulse"></i>
+        رؤى الذكاء الاصطناعي — تحليل مباشر للطابور
+      </h5>
+      <span id="insightsTime" class="text-xs text-slate-400 font-mono"></span>
+    </div>
+    <div id="insightsList" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+      <div class="col-span-2 text-center text-slate-400 py-2">جارٍ التحليل...</div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Doughnut Chart -->
+    <div class="glass-card p-6 flex flex-col h-96">
+      <h5
+        class="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center border-b border-slate-200 dark:border-slate-700 pb-2">
+        <i class="bi bi-pie-chart-fill text-blue-500 me-2"></i>توزيع الحالات
+      </h5>
+      <div class="flex-grow relative overflow-hidden">
+        <canvas id="typeChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="glass-card p-6 flex flex-col h-96">
+      <h5
+        class="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center border-b border-slate-200 dark:border-slate-700 pb-2">
+        <i class="bi bi-bar-chart-fill text-green-500 me-2"></i>ضغط العمل (اليوم)
+      </h5>
+      <div class="flex-grow relative">
+        <canvas id="busyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── New: Currently Waiting Table ─── -->
+  <div class="glass-card mb-8 border-t-4 border-t-yellow-500">
+    <div
+      class="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-yellow-50 dark:bg-yellow-900/10">
+      <h5 class="text-lg font-bold text-slate-800 dark:text-white flex items-center">
+        <i class="bi bi-clock-history text-yellow-600 me-2 animate-pulse"></i>قائمة الانتظار الحالية (Waiting)
+      </h5>
+      <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">
+        {{ patients | selectattr('status', 'equalto', 'waiting') | list | length }} مريض
+      </span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-right">
+        <thead class="table-header">
+          <tr>
+            <th class="px-6 py-3">#</th>
+            <th class="px-6 py-3">الاسم</th>
+            <th class="px-6 py-3">العمر</th>
+            <th class="px-6 py-3">نوع الزيارة</th>
+            <th class="px-6 py-3">النقاط</th>
+            <th class="px-6 py-3">الحالة</th>
+            <th class="px-6 py-3">وقت الحضور</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+          {% for p in patients if p.status == 'waiting' %}
+          <tr class="table-row hover:bg-yellow-50/60 dark:hover:bg-yellow-900/20 transition-colors">
+            <td class="table-cell font-mono">{{ p.id }}</td>
+            <td class="table-cell font-bold text-slate-800 dark:text-white">{{ p.name }}</td>
+            <td class="table-cell">{{ p.age }}</td>
+            <td class="table-cell">
+              <span
+                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold
+                {% if p.appointment_type == 'emergency' %}bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-500 border border-red-200 dark:border-red-500/20
+                {% elif p.appointment_type == 'follow_up' %}bg-yellow-100 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-500 border border-yellow-200 dark:border-yellow-500/20
+                {% else %}bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-500 border border-green-200 dark:border-green-500/20{% endif %}">
+                {% if p.appointment_type == 'emergency' %}طوارئ
+                {% elif p.appointment_type == 'follow_up' %}متابعة
+                {% else %}كشف عادي{% endif %}
+              </span>
+            </td>
+            <td class="table-cell font-mono text-blue-600 dark:text-blue-400 font-bold">{{ p.priority_score }}</td>
+            <td class="table-cell">
+              <span class="text-yellow-600 dark:text-yellow-500 flex items-center font-bold">
+                <i class="bi bi-clock-fill me-1"></i>انتظار
+              </span>
+            </td>
+            <td class="table-cell font-mono text-xs text-slate-500">{{ p.check_in_time | iraqtime }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6" class="py-10 text-center text-muted">لا يوجد مرضى في الانتظار حالياً</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Patient List (Main History) -->
+  <div class="table-container">
+    <div
+      class="p-6 border-b border-slate-200 dark:border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4">
+      <h5 class="text-lg font-bold text-slate-800 dark:text-white flex items-center">
+        <i class="bi bi-people-fill text-purple-500 me-2"></i>سجل المرضى (All History)
+      </h5>
+
+      <!-- Filter Controls -->
+      <div class="flex items-center space-x-2 space-x-reverse">
+        <label class="text-sm text-slate-500 font-bold">تصفية حسب الحالة:</label>
+        <select id="statusFilter" onchange="filterTable()" class="input-field !py-1 !px-3 !text-sm !w-auto">
+          <option value="all">الكل (All)</option>
+          <option value="waiting">انتظار (Waiting)</option>
+          <option value="done">تم الكشف (Done)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto max-h-[500px] overflow-y-auto custom-scrollbar">
+      <table class="w-full text-right" id="mainTable">
+        <thead class="table-header sticky top-0 z-10 shadow-sm">
+          <tr>
+            <th class="px-6 py-3">#</th>
+            <th class="px-6 py-3">الاسم</th>
+            <th class="px-6 py-3">العمر</th>
+            <th class="px-6 py-3">النوع</th>
+            <th class="px-6 py-3">نقاط</th>
+            <th class="px-6 py-3">مدة الانتظار</th>
+            <th class="px-6 py-3">الحالة</th>
+            <th class="px-6 py-3">وقت الحضور</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+          {% for p in patients %}
+          <tr class="table-row group" data-status="{{ p.status }}">
+            <td class="table-cell font-mono text-slate-500">{{ p.id }}</td>
+            <td class="table-cell font-bold text-slate-800 dark:text-white">{{ p.name }}</td>
+            <td class="table-cell">{{ p.age }}</td>
+            <td class="table-cell">
+              <span
+                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold
+                                    {% if p.appointment_type == 'emergency' %}bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-500 border border-red-200 dark:border-red-500/20
+                                    {% elif p.appointment_type == 'follow_up' %}bg-yellow-100 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-500 border border-yellow-200 dark:border-yellow-500/20
+                                    {% else %}bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-500 border border-green-200 dark:border-green-500/20{% endif %}">
+                {% if p.appointment_type == 'emergency' %}طوارئ
+                {% elif p.appointment_type == 'follow_up' %}متابعة
+                {% else %}كشف عادي{% endif %}
+              </span>
+            </td>
+            <td class="table-cell font-mono text-blue-600 dark:text-blue-400 font-bold">{{ p.priority_score }}</td>
+            <td class="table-cell text-xs text-slate-500 dark:text-slate-400">
+              {% if p.status == 'waiting' or p.status == 'in_progress' %}
+              <span class="inline-flex items-center gap-1 text-orange-600 dark:text-orange-400">
+                <i class="bi bi-hourglass-split"></i>
+                {{ wait_durations.get(p.id, '—') }}
+              </span>
+              {% else %}
+              <span class="text-slate-400">—</span>
+              {% endif %}
+            </td>
+            <td class="table-cell">
+              {% if p.status == 'in_progress' %}
+              <span class="text-blue-600 dark:text-blue-400 flex items-center font-bold"><i
+                  class="bi bi-arrow-left-circle-fill me-1"></i>بالعيادة</span>
+              {% elif p.status == 'done' %}
+              <span class="text-green-600 dark:text-green-400 flex items-center font-bold"><i
+                  class="bi bi-check-circle-fill me-1"></i>تم</span>
+              {% else %}
+              <span class="text-yellow-600 dark:text-yellow-500 flex items-center font-bold"><i
+                  class="bi bi-clock-fill me-1"></i>انتظار</span>
+              {% endif %}
+            </td>
+            <td class="table-cell font-mono text-xs text-slate-500">{{ p.check_in_time | iraqtime }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function filterTable() {
+    const filter = document.getElementById('statusFilter').value;
+    const rows = document.querySelectorAll('#mainTable tbody tr');
+
+    rows.forEach(row => {
+      const status = row.getAttribute('data-status');
+      if (filter === 'all' || status === filter) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none'; // Basic hide
+        // Note: 'waiting' filter might want to include 'in_progress' or strict match. 
+        // For now, straight match. 
+        if (filter === 'waiting' && status === 'in_progress') {
+          row.style.display = ''; // Show in-progress in waiting list too
+        }
+      }
+    });
+  }
+
+  async function loadCharts() {
+    const res = await fetch('/api/stats');
+    const data = await res.json();
+
+    // Type Chart
+    new Chart(document.getElementById('typeChart'), {
+      type: 'doughnut',
+      data: {
+        labels: data.labels,
+        datasets: [{
+          data: data.counts,
+          backgroundColor: ['#ef4444', '#eab308', '#22c55e'],
+          borderWidth: 0,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { bottom: 10 } },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { font: { family: 'Tajawal', size: 13 }, padding: 16, boxWidth: 14 }
+          }
+        },
+        cutout: '60%'
+      }
+    });
+
+    // Busy Chart (Real Data)
+    new Chart(document.getElementById('busyChart'), {
+      type: 'bar',
+      data: {
+        labels: data.busy_labels, // ["8:00", "9:00", ...]
+        datasets: [{
+          label: 'عدد المرضى',
+          data: data.busy_counts, // Real counts
+          backgroundColor: '#3b82f6',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            rtl: true,
+            titleFont: { family: 'Tajawal' },
+            bodyFont: { family: 'Tajawal' }
+          }
+        },
+        scales: {
+          y: { beginAtZero: true, grid: { color: '#e2e8f0' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+  async function loadInsights() {
+    try {
+      const res = await fetch('/api/ai_insights');
+      const data = await res.json();
+      const list = document.getElementById('insightsList');
+      const timeEl = document.getElementById('insightsTime');
+      if (timeEl) timeEl.textContent = 'آخر تحليل: ' + data.generated_at;
+      const colorMap = {
+        'red': 'border-red-400/40 bg-red-500/5 text-red-700 dark:text-red-400',
+        'green': 'border-green-400/40 bg-green-500/5 text-green-700 dark:text-green-400',
+        'blue': 'border-blue-400/40 bg-blue-500/5 text-blue-700 dark:text-blue-400',
+        'yellow': 'border-yellow-400/40 bg-yellow-500/5 text-yellow-700 dark:text-yellow-400',
+        'orange': 'border-orange-400/40 bg-orange-500/5 text-orange-700 dark:text-orange-400',
+        'purple': 'border-purple-400/40 bg-purple-500/5 text-purple-700 dark:text-purple-400',
+      };
+      list.innerHTML = data.insights.map(item => `
+        <div class="flex items-start gap-2 p-2 rounded-lg border ${colorMap[item.color] || ''}">
+          <i class="bi ${item.icon} mt-0.5 shrink-0"></i>
+          <span>${item.text}</span>
+        </div>
+      `).join('');
+    } catch (e) {
+      console.warn('AI Insights unavailable:', e);
+    }
+  }
+  loadCharts();
+  loadInsights();
+
+</script>
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+{% block title %}العيادة الذكية — بوابة المرضى{% endblock %}
+
+{% block content %}
+<!-- 
+================================================================================
+بوابة الحضور السريعة للمريض (kiosk.html)
+================================================================================
+الهدف المنهجي (للطالب):
+هذه الشاشة تمثل الـ(Tablet) أو الشاشة المعلقة بمدخل العيادة والتي يقوم المريض من خلالها 
+بإدخال اسمه وعمره بنفسه لتخفيف الضغط عن موظفي الاستقبال.
+
+ماذا يحدث برمجياً؟
+بمجرد الضغط على التسجيل، يتم إرسال طلب (POST) إلى مسار (kiosk). يقوم الفلاسك 
+بحساب نقاط المريض (Priority Score) بناءً على عمره وإدراجه بنهاية الطابور 
+مع تسجيل توقيت وصوله بالثانية. 
+والجميل أنها تسأل محرك الذكاء الاصطناعي بناءً على طول الطابور لتعرض للمريض 
+"مدة الانتظار التقريبية" قبل حتى أن يسجل!
+================================================================================
+-->
+<div class="max-w-2xl mx-auto animate-fade-in">
+  <div class="glass-card p-8 md:p-12">
+    <div class="text-center mb-10">
+      <div
+        class="w-20 h-20 bg-blue-600/10 dark:bg-blue-500/10 rounded-3xl flex items-center justify-center mx-auto mb-6 text-blue-600 dark:text-blue-400">
+        <i class="bi bi-person-bounding-box text-4xl"></i>
+      </div>
+      <h2 class="page-header !text-3xl !mb-2">تسجيل مريض جديد</h2>
+      <p class="text-muted">مرحباً بك في العيادة الذكية، يرجى ملء البيانات أدناه للانضمام لقائمة الانتظار.</p>
+    </div>
+
+    <form action="{{ url_for('kiosk') }}" method="POST" class="space-y-8">
+      <!-- Patient Name -->
+      <div>
+        <label for="name" class="input-label">اسم المريض</label>
+        <div class="relative group">
+          <div
+            class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+            <i class="bi bi-person text-lg"></i>
+          </div>
+          <input type="text" id="name" name="name" required class="input-field pr-12" placeholder="أدخل الاسم الثلاثي">
+        </div>
+      </div>
+
+      <!-- Age -->
+      <div>
+        <label for="age" class="input-label">العمر</label>
+        <div class="relative group">
+          <div
+            class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+            <i class="bi bi-calendar-event text-lg"></i>
+          </div>
+          <input type="number" id="age" name="age" required min="1" max="120" class="input-field pr-12"
+            placeholder="أدخل العمر بالسنوات">
+        </div>
+      </div>
+
+      <!-- Visit Type Selection -->
+      <div>
+        <label class="input-label mb-4">نوع الزيارة</label>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Emergency -->
+          <label class="cursor-pointer relative">
+            <input type="radio" name="appointment_type" value="emergency" class="peer sr-only" required>
+            <div
+              class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:bg-red-50 dark:hover:bg-red-900/10 peer-checked:border-red-500 peer-checked:bg-red-50 dark:peer-checked:bg-red-900/20 peer-checked:text-red-600 dark:peer-checked:text-red-400 transition-all text-center h-full flex flex-col items-center justify-center">
+              <i class="bi bi-exclamation-triangle-fill text-2xl mb-2 text-red-500"></i>
+              <span class="font-bold block">طوارئ</span>
+              <span class="text-xs text-muted mt-1">أولوية قصوى</span>
+            </div>
+          </label>
+
+          <!-- Follow-up -->
+          <label class="cursor-pointer relative">
+            <input type="radio" name="appointment_type" value="follow_up" class="peer sr-only">
+            <div
+              class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:bg-yellow-50 dark:hover:bg-yellow-900/10 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 dark:peer-checked:bg-yellow-900/20 peer-checked:text-yellow-600 dark:peer-checked:text-yellow-400 transition-all text-center h-full flex flex-col items-center justify-center">
+              <i class="bi bi-arrow-repeat text-2xl mb-2 text-yellow-500"></i>
+              <span class="font-bold block">متابعة</span>
+              <span class="text-xs text-muted mt-1">أولوية متوسطة</span>
+            </div>
+          </label>
+
+          <!-- Checkup -->
+          <label class="cursor-pointer relative">
+            <input type="radio" name="appointment_type" value="checkup" class="peer sr-only">
+            <div
+              class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:bg-green-50 dark:hover:bg-green-900/10 peer-checked:border-green-500 peer-checked:bg-green-50 dark:peer-checked:bg-green-900/20 peer-checked:text-green-600 dark:peer-checked:text-green-400 transition-all text-center h-full flex flex-col items-center justify-center">
+              <i class="bi bi-clipboard2-pulse text-2xl mb-2 text-green-500"></i>
+              <span class="font-bold block">كشف عادي</span>
+              <span class="text-xs text-muted mt-1">أولوية عادية</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+
+
+      <!-- Submit Button -->
+      <button type="submit"
+        class="w-full btn-primary py-4 text-lg shadow-blue-500/20 hover:shadow-blue-500/40 transform hover:-translate-y-1">
+        <i class="bi bi-check-circle-fill me-2"></i>تسجيل وحجز دور
+      </button>
+    </form>
+  </div>
+
+  <!-- Wait Time Estimation -->
+  <div class="mt-8 text-center animate-fade-in" style="animation-delay: 0.2s;">
+    <div
+      class="inline-flex items-center px-6 py-3 rounded-full bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 backdrop-blur-sm shadow-sm">
+      <i class="bi bi-clock-history text-blue-500 text-xl me-3"></i>
+      <div class="text-right">
+        <p class="text-xs text-muted font-medium">متوسط وقت الانتظار الحالي</p>
+        <p class="text-lg font-bold text-slate-800 dark:text-white">
+          {{ avg_wait_str }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

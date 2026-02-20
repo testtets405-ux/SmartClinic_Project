@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+{% block title %}العيادة الذكية — إنشاء حساب{% endblock %}
+
+{% block content %}
+<!-- 
+================================================================================
+شاشة التسجيل وإنشاء الحسابات (register.html)
+================================================================================
+الهدف المنهجي (للطالب):
+هذه الواجهة تحتوي على خدعة برمجية أمنية ظريفة للطلاب: 
+حقل (admin_secret) لا يظهر إطلاقاً على الشاشة في الحالة لافتراضية! 
+فقط عندما يختار الموظف دور (Admin - مسؤول) من القائمة المنسدلة، تتدخل 
+الجافاسكريبت الموجودة بمنتصف الملف لكشف هذا الحقل وإجباره على إدخال الرمز السري الفائق 
+للسيرفر، لمنع التسجيل العشوائي بحسابات إدارية خطيرة (Privilege Escalation Prevention).
+================================================================================
+-->
+<div class="flex items-center justify-center min-h-[calc(100vh-12rem)] animate-fade-in">
+  <div class="w-full max-w-md">
+    <!-- Card -->
+    <div class="glass-card p-8">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-600/20 text-green-500 mb-4">
+          <i class="bi bi-person-plus text-3xl"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">إنشاء حساب جديد</h2>
+        <p class="text-slate-600 dark:text-slate-400">انضم لطاقم العيادة الذكية</p>
+      </div>
+
+      <form method="POST" action="{{ url_for('register') }}" class="space-y-5">
+        <!-- Username -->
+        <div>
+          <label for="username" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">اسم
+            المستخدم</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
+              <i class="bi bi-person text-lg"></i>
+            </div>
+            <input type="text" id="username" name="username" required
+              class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-green-500 focus:border-green-500 block w-full pr-10 p-3 placeholder-slate-400 dark:placeholder-slate-500 transition-colors"
+              placeholder="اختر اسم مستخدم">
+          </div>
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="role" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">نوع الحساب</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
+              <i class="bi bi-briefcase text-lg"></i>
+            </div>
+            <select id="role" name="role"
+              class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-green-500 focus:border-green-500 block w-full pr-10 p-3 transition-colors appearance-none">
+              <option value="doctor">طبيب (Doctor)</option>
+              <option value="receptionist">استقبال (Receptionist)</option>
+              <option value="admin">مسؤول النظام (Admin)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Admin Secret Key (Hidden by default) -->
+        <div id="admin-secret-field" class="hidden transition-all duration-300">
+          <label for="secret_key" class="block text-sm font-medium text-red-500 dark:text-red-400 mb-2">كود المسؤول
+            السري <span class="text-xs text-slate-500">(للمسؤولين فقط)</span></label>
+          <div class="relative">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
+              <i class="bi bi-key-fill text-lg text-red-500"></i>
+            </div>
+            <input type="password" id="secret_key" name="secret_key"
+              class="w-full bg-slate-50 dark:bg-slate-900 border border-red-300 dark:border-red-900/50 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block w-full pr-10 p-3 placeholder-slate-600 transition-colors"
+              placeholder="أدخل الكود السري لإنشاء حساب أدمن">
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const roleSelect = document.getElementById('role');
+            const secretField = document.getElementById('admin-secret-field');
+
+            function toggleSecretField() {
+              if (roleSelect.value === 'admin') {
+                secretField.classList.remove('hidden');
+                secretField.classList.add('block', 'animate-fade-in');
+              } else {
+                secretField.classList.add('hidden');
+                secretField.classList.remove('block', 'animate-fade-in');
+              }
+            }
+
+            roleSelect.addEventListener('change', toggleSecretField);
+            toggleSecretField(); // Run on load
+          });
+        </script>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">كلمة
+            المرور</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
+              <i class="bi bi-lock text-lg"></i>
+            </div>
+            <input type="password" id="password" name="password" required
+              class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-green-500 focus:border-green-500 block w-full pr-10 p-3 placeholder-slate-400 dark:placeholder-slate-500 transition-colors"
+              placeholder="••••••••">
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+          <label for="confirm_password" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">تأكيد
+            كلمة المرور</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
+              <i class="bi bi-shield-lock text-lg"></i>
+            </div>
+            <input type="password" id="confirm_password" name="confirm_password" required
+              class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-green-500 focus:border-green-500 block w-full pr-10 p-3 placeholder-slate-400 dark:placeholder-slate-500 transition-colors"
+              placeholder="••••••••">
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+          class="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg shadow-green-500/30 text-lg">
+          إنشاء الحساب
+        </button>
+      </form>
+
+      <div class="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
+        لديك حساب بالفعل؟
+        <a href="{{ url_for('login') }}"
+          class="text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300 font-medium transition-colors">
+          تسجيل الدخول
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
