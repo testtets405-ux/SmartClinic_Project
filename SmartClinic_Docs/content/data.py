@@ -650,71 +650,71 @@ def to_local(dt: datetime) -> datetime:
     # ==================== (9) DEPLOYMENT ====================
     "deployment": {
         "icon": "bi-rocket-takeoff-fill text-yellow-500",
-        "nav_title": "9. التشغيل والرفع (Render.com)",
+        "nav_title": "9. التشغيل والرفع",
         "title": "دليل الرفع التفصيلي على خوادم الاستضافة",
-        "description": "نظراً لكثرة مشاكل المواقع القديمة، تم الاعتماد على منصة Render.com الحديثة والموثوقة للرفع المجاني.",
+        "description": "تم تجهيز وتصميم العيادة الذكية للعمل بسلاسة على أحدث منصات الاستضافة المجانية مثل Railway و Replit.",
         "content": '''
             <div class="space-y-6">
+                <!-- Railway Section -->
                 <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
                     <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
-                        <i class="bi bi-cloud-arrow-up-fill text-sky-500"></i> دليل الرفع باستخدام منصة Render.com
+                        <i class="bi bi-train-front-fill text-indigo-500"></i> دليل الرفع باستخدام منصة Railway.app
                     </h3>
                     <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                        يعتبر موقع <b>Render</b> البديل الأقوى لـ Heroku حالياً وأفضل بكثير من المنصات القديمة مثل PythonAnywhere في التعامل مع مشاريع بايثون وتثبيت المكتبات الحديثة. لتجنب أخطاء WSGI المعقدة، اتبع هذه الخطوات البسيطة.
+                        تعتبر منصة <b>Railway</b> الرائدة حالياً لنشر تطبيقات الويب الحديثة. لقد جهزنا المشروع تماماً للعمل عليها بدون أي أخطاء (Zero-Config) بفضل توفر ملفي <code>Procfile</code> و <code>main.py</code>.
                     </p>
                     
                     <div class="space-y-4">
                         <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-slate-800 dark:border-slate-500">
-                            <h4 class="font-bold text-slate-800 dark:text-slate-300 mb-2">الخطوة 1: الرفع على GitHub أولاً</h4>
+                            <h4 class="font-bold text-slate-800 dark:text-slate-300 mb-2">الخطوة 1: الرفع على GitHub</h4>
                             <p class="text-sm text-slate-600 dark:text-slate-400">
-                                1. قم بإنشاء مستودع (Repository) جديد على حسابك في GitHub.<br>
-                                2. قم برفع مجلد المشروع بالكامل إلى هذا المستودع. تأكد من وجود ملف <code>requirements.txt</code> وملف <code>wsgi.py</code> في المجلد الرئيسي.<br>
-                                3. يجب أن يحتوي المستودع على جميع ملفات العيادة الذكية لكي يقرأها خادم Render بشكل صحيح.
+                                قم بإنشاء مستودع (Repository) جديد على حسابك في GitHub، وارفع كامل ملفات المشروع إليه.
                             </p>
                         </div>
 
                         <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-indigo-500">
-                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-2">الخطوة 2: الربط مع منصة Render</h4>
+                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-2">الخطوة 2: النشر على Railway</h4>
                             <p class="text-sm text-slate-600 dark:text-slate-400">
-                                1. اذهب لموقع <b>Render.com</b> وسجل دخولك باستخدام حساب GitHub الخاص بك.<br>
-                                2. في لوحة التحكم، اضغط على <b>New +</b> واختر <b>Web Service</b>.<br>
-                                3. ستظهر لك قائمة بمستودعاتك على GitHub، اختر المستودع الخاص بالعيادة الذكية واضغط <b>Connect</b>.
+                                1. اذهب لموقع <b>Railway.app</b> وسجل دخولك باستخدام حساب GitHub الخاص بك.<br>
+                                2. في لوحة التحكم، اضغط على <b>New +</b> ثم <b>GitHub Repo</b> واختر مستودع المشروع.<br>
+                                3. اضغط <b>Deploy Now</b> وسيبدأ السيرفر فوراً في سحب المشروع وتثبيت المكتبات، وسيرصد المنصة تلقائياً طريقة التشغيل (Gunicorn) ليعمل الموقع بنجاح.
                             </p>
-                        </div>
-
-                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-emerald-500">
-                            <h4 class="font-bold text-emerald-600 dark:text-emerald-400 mb-2">الخطوة 3: إعدادات التشغيل (Build & Start Commands)</h4>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                في صفحة الإعدادات الخاصة بالتطبيق، تأكد من صحة الحقول التالية لتفعيل التشغيل التلقائي عبر Gunicorn:<br>
-                                - <b>Name:</b> سمّه <code>smartclinic-project</code> أو ما تحب.<br>
-                                - <b>Language:</b> اختر <b>Python</b> إذا لم يقم باكتشافه تلقائياً.<br>
-                                - <b>Build Command:</b> الصق الأمر التالي:
-                            </p>
-                            <div class="mt-2 ml-4 mb-3 p-2 bg-slate-100 dark:bg-slate-900 rounded font-mono text-sm text-slate-800 dark:text-slate-200">
-                                pip install -r requirements.txt
-                            </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                - <b>Start Command:</b> الصق الأمر التالي وهو الأهم:
-                            </p>
-                            <div class="mt-2 ml-4 p-2 bg-slate-100 dark:bg-slate-900 rounded font-mono text-sm text-slate-800 dark:text-slate-200">
-                                gunicorn wsgi:app
-                            </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-3">ثم اختر الباقة المجانية (Free) واضغط أسفل الشاشة على <b>Create Web Service</b>.</p>
                         </div>
 
                         <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-amber-500">
-                            <h4 class="font-bold text-amber-600 dark:text-amber-400 mb-2">ملاحظة هامة (طبيعة الاستضافة المجانية)</h4>
+                            <h4 class="font-bold text-amber-600 dark:text-amber-400 mb-2">الخطوة 3: إضافة المتغيرات السرية (Environment Variables)</h4>
                             <p class="text-sm text-slate-600 dark:text-slate-400">
-                                - <b>عملية الرفع الأولى:</b> ستأخذ بعض الوقت (حوالي دقيقتين إلى 5 دقائق) لتثبيت مكتبات مثل Scikit-learn.<br>
-                                - <b>وضعية السبات (Sleep):</b> كما تفضلت بالملاحظة، الاستضافة المجانية في Render "تنام" إذا لم يزر الموقع أحد لمدة 15 دقيقة تقريباً للحفاظ على موارد الخادم.<br>
-                                - نتيجة لذلك، عند دخول أول مستخدم بعد فترة، سيستغرق الموقع مسافة (50 ثانية تقريباً) للرد. هذا طبيعي جداً ويعمل بشكل سليم كمنصة عرض مشاريع التخرج المجانية.
+                                بعد النشر بنجاح وظهور الدائرة الخضراء، انتقل إلى إعدادات المشروع واضغط على <b>Variables</b>:<br>
+                                أضف <code>SECRET_KEY</code> للحماية العامة.<br>
+                                أضف <code>ADMIN_SECRET_KEY</code> وهو كلمة السر المطلوبة عند التسجيل كصلاحية (مدير/Admin).
                             </p>
                         </div>
-                        
+                    </div>
+                </section>
+
+                <!-- Replit Section -->
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
+                        <i class="bi bi-box-fill text-orange-500"></i> دليل الرفع الاستعراضي السريع على Replit.com
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        إذا كنت ترغب فقط بعرض المشروع بشكل سريع (Demonstration) وإجراء تعديلات لحظية من المتصفح، فهذه بيئة <b>Replit</b> هي الخيار الأمثل.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-orange-500">
+                            <h4 class="font-bold text-orange-600 dark:text-orange-400 mb-2">النقل والتشغيل مباشرةً</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                1. سجل دخولك على <b>Replit.com</b> و قم بعمل Import (استيراد) للمشروع المرفوع على <b>GitHub</b>.<br>
+                                2. بعد ثوانٍ، سيتم فتح المشروع. يمكنك التغيير بكلمات السر للمتغيرات البيئية من خلال أداة <b>Secrets</b> الجانبية.<br>
+                                3. قم بالضغط على الزر الكبير في الشريط العلوي <b>Run</b>.<br>
+                                4. سيعمل الموقع على الفور ويمكنك فتحه كـ نافذة مستقلة ومشاركته كعرض مباشر ولحظي.
+                            </p>
+                        </div>
                     </div>
                     
-                    <p class="text-emerald-600 dark:text-emerald-400 font-bold mt-4 border-t border-slate-200 dark:border-slate-700 pt-4 text-center text-lg">
-                        🎉 مبروك! مشروعك المتكامل الآن على منصة حديثة وسيعمل بشكل مثالي ومستقر دون أخطاء بيئة عمل.
+                    <p class="text-emerald-600 dark:text-emerald-400 font-bold mt-6 border-t border-slate-200 dark:border-slate-700 pt-4 text-center text-lg">
+                        🎉 مبروك! باتباعك لتلك الأنظمة الحديثة، أصبح مشروع العيادة الذكية متاحاً للعملاء ومدراء النظام في أي وقت وأي مكان.
                     </p>
                 </section>
             </div>
