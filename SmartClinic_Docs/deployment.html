@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>دليل الرفع التفصيلي على خوادم الاستضافة - التوثيق الشامل للعيادة الذكية</title>
+  <title>دليل الرفع التفصيلي (بدون بطاقة ائتمان) - التوثيق الشامل للعيادة الذكية</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -143,7 +143,7 @@
             <i class="bi bi-window-sidebar text-sky-500"></i> 8. واجهات المستخدم (Templates)
         </a>
         <a href="deployment.html" class="nav-btn active">
-            <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع (Render.com)
+            <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع (مجاني بالكامل)
         </a>
         </nav>
         <div
@@ -158,73 +158,83 @@
     <!-- Main Content -->
     <main class="w-full lg:w-3/4 pb-32">
       <div class="mb-8">
-        <h2 class="text-4xl font-black text-slate-800 dark:text-white mb-3 tracking-tight">دليل الرفع التفصيلي على خوادم الاستضافة</h2>
-        <p class="text-lg text-slate-500 dark:text-slate-400">نظراً لكثرة مشاكل المواقع القديمة، تم الاعتماد على منصة Render.com الحديثة والموثوقة للرفع المجاني.</p>
+        <h2 class="text-4xl font-black text-slate-800 dark:text-white mb-3 tracking-tight">دليل الرفع التفصيلي (بدون بطاقة ائتمان)</h2>
+        <p class="text-lg text-slate-500 dark:text-slate-400">حلول برمجية لرفع مشروعك مجاناً وبأمان تام دون الحاجة لإدخال بيانات بنكية.</p>
       </div>
 
       <div class="content-card prose-custom">
         
-            <div class="space-y-6">
+            <div class="space-y-8">
+                <!-- الخيار الأول: Render -->
                 <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
-                        <i class="bi bi-cloud-arrow-up-fill text-sky-500"></i> دليل الرفع باستخدام منصة Render.com
-                    </h3>
-                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                        يعتبر موقع <b>Render</b> البديل الأقوى لـ Heroku حالياً وأفضل بكثير من المنصات القديمة مثل PythonAnywhere في التعامل مع مشاريع بايثون وتثبيت المكتبات الحديثة. لتجنب أخطاء WSGI المعقدة، اتبع هذه الخطوات البسيطة.
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="p-2 bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 rounded-lg font-bold">الخيار 1</span>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">منصة Render.com (الأحدث)</h3>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400 mb-4">
+                        خيار ممتاز وسريع جداً، لكنه قد يطلب "بطاقة لتأكيد الهوية" في بعض المناطق حتى لو كانت الباقة مجانية. إذا لم تكن تملك بطاقة، انتقل للخيار الثاني بالأسفل.
+                    </p>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <ul class="text-sm space-y-2 text-slate-600 dark:text-slate-400">
+                            <li>• ارفع الكود على GitHub.</li>
+                            <li>• اربطه بـ Render (Web Service).</li>
+                            <li>• Start Command: <code class="bg-slate-200 dark:bg-slate-800 px-1 rounded text-pink-500">gunicorn wsgi:app</code></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- الخيار الثاني: PythonAnywhere (Fix) -->
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-indigo-200 dark:border-indigo-900 ring-2 ring-indigo-500/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg font-bold">الخيار 2</span>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">PythonAnywhere (لا يطلب بطاقة مطلقاً)</h3>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400 mb-4">
+                        هذا الخيار هو الأكثر أماناً لمن لا يملك بطاقة بنكية. لقد قمنا بتجهيز ملف <code>wsgi.py</code> خصيصاً لحل المشكلة التي واجهتك سابقاً (Import Error).
                     </p>
                     
                     <div class="space-y-4">
-                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-slate-800 dark:border-slate-500">
-                            <h4 class="font-bold text-slate-800 dark:text-slate-300 mb-2">الخطوة 1: الرفع على GitHub أولاً</h4>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                1. قم بإنشاء مستودع (Repository) جديد على حسابك في GitHub.<br>
-                                2. قم برفع مجلد المشروع بالكامل إلى هذا المستودع. تأكد من وجود ملف <code>requirements.txt</code> وملف <code>wsgi.py</code> في المجلد الرئيسي.<br>
-                                3. يجب أن يحتوي المستودع على جميع ملفات العيادة الذكية لكي يقرأها خادم Render بشكل صحيح.
+                        <div class="step-card p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-indigo-500">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-2">1. المسار الصحيح للملفات</h4>
+                            <p class="text-xs text-slate-500">
+                                ارفع ملفات المشروع داخل مجلد باسم <code>SmartClinic_Project</code> داخل مجلد <code>mysite</code>.<br>
+                                المسار النهائي يجب أن يكون: <code>/home/testsmartproject/mysite/SmartClinic_Project/app.py</code>
                             </p>
                         </div>
 
-                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-indigo-500">
-                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-2">الخطوة 2: الربط مع منصة Render</h4>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                1. اذهب لموقع <b>Render.com</b> وسجل دخولك باستخدام حساب GitHub الخاص بك.<br>
-                                2. في لوحة التحكم، اضغط على <b>New +</b> واختر <b>Web Service</b>.<br>
-                                3. ستظهر لك قائمة بمستودعاتك على GitHub، اختر المستودع الخاص بالعيادة الذكية واضغط <b>Connect</b>.
+                        <div class="step-card p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-emerald-500">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-2">2. حل مشكلة (Import Name 'app')</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                                سبب الفشل السابق هو أن النظام كان يبحث عن متغير <code>app</code> داخل ملف <code>app.py</code> ولم يجده لأننا نستخدم تقنية (Factory Pattern). الحل هو تعديل ملف الـ <b>WSGI Configuration</b> في لوحة تحكم الموقع ليكون هكذا:
                             </p>
-                        </div>
+                            <div class="relative">
+                                <pre><code class="language-python">import sys
+import os
 
-                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-emerald-500">
-                            <h4 class="font-bold text-emerald-600 dark:text-emerald-400 mb-2">الخطوة 3: إعدادات التشغيل (Build & Start Commands)</h4>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                في صفحة الإعدادات الخاصة بالتطبيق، تأكد من صحة الحقول التالية لتفعيل التشغيل التلقائي عبر Gunicorn:<br>
-                                - <b>Name:</b> سمّه <code>smartclinic-project</code> أو ما تحب.<br>
-                                - <b>Language:</b> اختر <b>Python</b> إذا لم يقم باكتشافه تلقائياً.<br>
-                                - <b>Build Command:</b> الصق الأمر التالي:
-                            </p>
-                            <div class="mt-2 ml-4 mb-3 p-2 bg-slate-100 dark:bg-slate-900 rounded font-mono text-sm text-slate-800 dark:text-slate-200">
-                                pip install -r requirements.txt
+# المسار إلى مجلد المشروع
+path = '/home/testsmartproject/mysite/SmartClinic_Project'
+if path not in sys.path:
+    sys.path.insert(0, path)
+
+os.chdir(path)
+
+# استدعاء متغير app من ملف wsgi.py الذي أنشأناه لك
+from wsgi import app as application</code></pre>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                - <b>Start Command:</b> الصق الأمر التالي وهو الأهم:
-                            </p>
-                            <div class="mt-2 ml-4 p-2 bg-slate-100 dark:bg-slate-900 rounded font-mono text-sm text-slate-800 dark:text-slate-200">
-                                gunicorn wsgi:app
-                            </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-3">ثم اختر الباقة المجانية (Free) واضغط أسفل الشاشة على <b>Create Web Service</b>.</p>
                         </div>
 
-                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-amber-500">
-                            <h4 class="font-bold text-amber-600 dark:text-amber-400 mb-2">ملاحظة هامة (طبيعة الاستضافة المجانية)</h4>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                - <b>عملية الرفع الأولى:</b> ستأخذ بعض الوقت (حوالي دقيقتين إلى 5 دقائق) لتثبيت مكتبات مثل Scikit-learn.<br>
-                                - <b>وضعية السبات (Sleep):</b> كما تفضلت بالملاحظة، الاستضافة المجانية في Render "تنام" إذا لم يزر الموقع أحد لمدة 15 دقيقة تقريباً للحفاظ على موارد الخادم.<br>
-                                - نتيجة لذلك، عند دخول أول مستخدم بعد فترة، سيستغرق الموقع مسافة (50 ثانية تقريباً) للرد. هذا طبيعي جداً ويعمل بشكل سليم كمنصة عرض مشاريع التخرج المجانية.
-                            </p>
+                        <div class="step-card p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-amber-500">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-2">3. الأوامر النهائية (Bash Console)</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">بعد حفظ ملف WSGI، افتح الـ Bash واكتب:</p>
+                            <div class="mt-2 p-2 bg-slate-900 text-emerald-400 font-mono text-xs rounded">
+                                pip3 install -r requirements.txt --user<br>
+                                python seed_db.py
+                            </div>
                         </div>
-                        
                     </div>
-                    
-                    <p class="text-emerald-600 dark:text-emerald-400 font-bold mt-4 border-t border-slate-200 dark:border-slate-700 pt-4 text-center text-lg">
-                        🎉 مبروك! مشروعك المتكامل الآن على منصة حديثة وسيعمل بشكل مثالي ومستقر دون أخطاء بيئة عمل.
+
+                    <p class="mt-6 text-sm text-center text-slate-500 italic">
+                        بهذه الطريقة، سيعمل الموقع على رابطك <code>testsmartproject.pythonanywhere.com</code> مجاناً للأبد وبدون أي بطاقة!
                     </p>
                 </section>
             </div>
