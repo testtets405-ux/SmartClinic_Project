@@ -732,7 +732,7 @@ def register_routes(app: Flask):
         return redirect(url_for("login"))
 
     # ── مسار خاص لفتح صفحة التوثيق الأكاديمي مباشرة من السيرفر ──
-    @app.route('/docs')
+    @app.route('/docs/')
     @app.route('/docs/<path:filename>')
     def serve_docs(filename='index.html'):
         import os
