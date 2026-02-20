@@ -732,9 +732,18 @@ def register_routes(app: Flask):
         return redirect(url_for("login"))
 
     # ── مسار خاص لفتح صفحة التوثيق الأكاديمي مباشرة من السيرفر ──
+    @app.route('/docs')
     @app.route('/docs/')
+    def serve_docs_root():
+        """
+        إعادة توجيه المسار الرئيسي للتوثيق لفتح index.html كمسار ملف، 
+        مما يُجبر المتصفح على وضع شرطة مائلة وحل مشكلة الروابط الداخلية (404)
+        """
+        return redirect(url_for('serve_docs_file', filename='index.html'))
+
     @app.route('/docs/<path:filename>')
-    def serve_docs(filename='index.html'):
+    def serve_docs_file(filename):
+        """تقديم ملفات التوثيق الثابتة من مجلدها الأصلي"""
         import os
         # نحدد مسار مجلد التوثيق بالنسبة لملف app.py
         docs_path = os.path.join(app.root_path, 'SmartClinic_Docs')
