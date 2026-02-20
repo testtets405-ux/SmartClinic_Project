@@ -50,6 +50,7 @@ from flask import (
     flash,
     jsonify,
     make_response,
+    send_from_directory,
 )
 from flask_login import (
     LoginManager,
@@ -723,13 +724,21 @@ def register_routes(app: Flask):
                 return redirect(url_for("admin" if user.role == "admin" else "doctor"))
         return render_template("login.html")
 
-    # ── تسجيل الخروج ──
     @app.route("/logout")
     @login_required
     def logout():
         """إنهاء الجلسة وإعادة التوجيه لصفحة تسجيل الدخول."""
         logout_user()
         return redirect(url_for("login"))
+
+    # ── مسار خاص لفتح صفحة التوثيق الأكاديمي مباشرة من السيرفر ──
+    @app.route('/docs')
+    @app.route('/docs/<path:filename>')
+    def serve_docs(filename='index.html'):
+        import os
+        # نحدد مسار مجلد التوثيق بالنسبة لملف app.py
+        docs_path = os.path.join(app.root_path, 'SmartClinic_Docs')
+        return send_from_directory(docs_path, filename)
 
 if __name__ == "__main__":
     app = create_app()
