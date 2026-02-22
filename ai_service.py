@@ -86,7 +86,7 @@ class WaitTimePredictor:
         يُستدعى عند بدء التطبيق.
         """
         if not SKLEARN_AVAILABLE:
-            print("AI Engine: scikit-learn غير متوفر، يتم استخدام النموذج الاحتياطي.")
+            print("AI Engine: scikit-learn unavailable, using fallback model.")
             self._train_fallback()
             return
 
@@ -110,12 +110,12 @@ class WaitTimePredictor:
         if len(real_X) >= 10:
             X_train, y_train = real_X, real_y
             self.training_source = "database"
-            print(f"AI Engine: تدريب على {len(X_train)} سجل حقيقي من قاعدة البيانات.")
+            print(f"AI Engine: Training on {len(X_train)} real records from the database.")
         else:
             # بيانات DB غير كافية — استخدام بيانات اصطناعية
             X_train, y_train = self._generate_synthetic_samples(800)
             self.training_source = "synthetic"
-            print("AI Engine: تدريب على بيانات اصطناعية (قاعدة البيانات فارغة أو صغيرة).")
+            print("AI Engine: Training on synthetic data (database is empty or small).")
 
         self.model = RandomForestRegressor(
             n_estimators=100,
@@ -125,7 +125,7 @@ class WaitTimePredictor:
         )
         self.model.fit(np.array(X_train), np.array(y_train))
         self.is_trained = True
-        print(f"AI Engine: تم التدريب بنجاح | المصدر: {self.training_source}")
+        print(f"AI Engine: Training completed successfully | Source: {self.training_source}")
 
     def _train_fallback(self):
         """نموذج احتياطي خطي بدون scikit-learn."""
@@ -134,7 +134,7 @@ class WaitTimePredictor:
         self.weights["base_per_patient"] = sum(per_patient) / len(per_patient)
         self.is_trained = True
         self.training_source = "fallback"
-        print("AI Engine: تم ضبط النموذج الاحتياطي.")
+        print("AI Engine: Fallback model configured.")
 
     def predict(self, queue_len: int, appointment_type: str = "checkup") -> int:
         """
