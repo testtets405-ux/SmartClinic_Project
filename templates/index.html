@@ -147,14 +147,16 @@
       <span class="ms-auto text-xs text-blue-600 dark:text-blue-400 font-bold">يُطبَّق داخل نفس الطبقة فقط</span>
     </div>
     <div class="p-6">
-      <!-- Formula Box -->
-      <div class="bg-slate-900 dark:bg-slate-950 rounded-xl p-5 mb-6 text-center border border-slate-700" dir="ltr">
-        <code class="text-green-400 font-mono text-lg font-bold">
+      <!-- Formula Box (Responsive fix for horizontal scroll) -->
+      <div
+        class="bg-slate-900 dark:bg-slate-950 rounded-xl p-5 mb-6 text-center border border-slate-700 overflow-x-auto"
+        dir="ltr">
+        <code class="text-green-400 font-mono text-lg font-bold whitespace-nowrap">
           Priority Score = <span class="text-yellow-300">AgeBonusScore</span>
           + <span class="text-orange-300">WaitFactor</span>
         </code>
         <br />
-        <code class="text-slate-400 text-sm font-mono">
+        <code class="text-slate-400 text-sm font-mono whitespace-nowrap">
           WaitFactor = waiting_minutes × 1.0
           &nbsp;&nbsp;|&nbsp;&nbsp;
           AgeBonusScore = f(age)
