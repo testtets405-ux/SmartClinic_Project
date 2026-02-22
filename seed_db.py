@@ -214,5 +214,3 @@ def seed():
 
 if __name__ == "__main__":
     seed()
-#   '  *E  */BJB  H*H+JB  'DCH/  ( C o d e   D o c u m e n t e d )  
- 
