@@ -102,11 +102,15 @@ def update_queue_priorities():
 
 def role_required(*roles):
     """
-    ديكوريتور عام لاشتراط وجود دور (Role) معيّن للدخول على الراوت.
+    [ديكوريتور مخصص - Custom Decorator]:
+    هذه الدالة المتقدمة تسمح لنا بحماية الصفحات بناءً على الصلاحيات.
+    تأخذ هذه الدالة قائمة بالأدوار المسموحة (مثال: admin, doctor).
+    إذا حاول أي مستخدم الدخول، نتحقق: هل دورُهُ موجود في القائمة المسموحة؟
+    إذا لم يكن، نطرده للرئيسية مع رسالة تحذيرية!
     """
     def decorator(view_func):
         @wraps(view_func)
-        @login_required
+        @login_required # يجب أن يكون مسجلاً أصلاً قبل فحص دوره!
         def wrapped(*args, **kwargs):
             if current_user.role not in roles:
                 flash("ليست لديك صلاحية الوصول إلى هذه الصفحة.", "danger")
@@ -118,33 +122,51 @@ def role_required(*roles):
 def create_app() -> Flask:
     """
     دالة المصنع (Factory) لإنشاء وتهيئة تطبيق Flask.
+    [الهدف المنهجي]: لماذا نستخدم دالة بدلاً من تعريف التطبيق مباشرة في الخارج؟
+    هذا يسمى 'Application Factory Pattern' وهو نمط تصميم قوي يمنع المشاكل 
+    عندما يكون التطبيق كبيراً وتحتاج لتشغيل نسخ اختبارية (Testing) دون تداخل الإعدادات.
     """
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(Config) # جلب الإعدادات من ملف config.py
+    
+    # تهيئة الإضافات بربطها بالتطبيق
     db.init_app(app)
     login_manager.init_app(app)
+    # تحديد مسار صفحة التوجيه لمن يحاول الدخول لصفحة محمية بدون تسجيل
     login_manager.login_view = "login"
 
-    # تسجيل فلتر توقيت بغداد ليكون متاحاً في كل القوالب (clinic_time)
+    # ── تسجيل فلتر توقيت مخصص (Custom Filter) لاستخدامه في قوالب Jinja2 ──
     @app.template_filter("iraqtime")
     def iraq_time_filter(dt, fmt="%I:%M %p"):
+        """يحول التوقيت العالمي (UTC) القادم من الداتا بيز إلى توقيت العراق ليظهر في الشاشة"""
         return fmt_local(dt, fmt)
 
     with app.app_context():
+        # إنشاء الجداول إذا لم تكن موجودة
         db.create_all()
-        # Initial AI Engine training on real DB data
+        
+        # ── تدريب محرك الذكاء الاصطناعي عند الإقلاع ──
         try:
+            # استدعاء جميع المرضى السابقين كبيانات تاريخية
             patients = Patient.query.all()
+            # تغذية البيانات لنموذج تعلم الآلة ليتدرب على أوقات الانتظار الحقيقية
             ai_engine.train(patients=patients)
         except Exception as e:
-            print(f"AI Engine Init Failed: {e}")
-            ai_engine.train()  # fallback to synthetic
+            print(f"فشل تشغيل الذكاء الاصطناعي: {e}")
+            # في حال فشل الاتصال بقاعدة البيانات، يتم تدريبه على بيانات تخيلية (Synthetic)
+            ai_engine.train() 
 
+    # تمرير التطبيق لدالة المسارات لتسجيل الروابط
     register_routes(app)
     return app
 
 @login_manager.user_loader
 def load_user(user_id: str):
+    """
+    [دالة مساعدة لنظام تسجيل الدخول]:
+    تقوم هذه الدالة بجلب بيانات المستخدم من قاعدة البيانات باستخدام المعرف (ID) الخاص به.
+    تُستدعى تلقائياً في كل مرة يرسل فيها المتصفح (Cookie) صالحة لمعرفة "من هو هذا المستخدم؟"
+    """
     return User.query.get(int(user_id))
 
 def register_routes(app: Flask):
@@ -156,9 +178,14 @@ def register_routes(app: Flask):
     def home():
         return render_template("index.html")
 
-    # ---------- Kiosk (Patient Check-in, Public) ----------
+    # ---------- Kiosk (بوابة تسجيل المرضى الذاتية) ----------
     @app.route("/kiosk", methods=["GET", "POST"])
     def kiosk():
+        """
+        دالة التحكم في صفحة التسجيل الذاتي (Kiosk) أو ما يعرف بـ (Self Check-in).
+        - POST: عند ضغط المريض على زر "تسجيل" يرسل بياناته وتحسب أولويته.
+        - GET: تعرض الصفحة الفارغة ونموذج الإدخال للمريض القادم.
+        """
         if request.method == "POST":
             name = request.form.get("name", "").strip()
             age = request.form.get("age", type=int)
@@ -194,14 +221,24 @@ def register_routes(app: Flask):
 
         return render_template("kiosk.html", avg_wait_str=avg_wait_str)
 
-    # ---------- Queue Display (page, Public) ----------
+    # ---------- Queue Display (شاشة الانتظار العامة) ----------
     @app.route("/queue")
     def queue():
+        """
+        تعرض صفحة شاشة الانتظار (queue.html) الكبيرة التي تعلق في صالة الانتظار.
+        الصفحة نفسها لا تحتوي بيانات، بل تعتمد على الجافاسكريبت لجلب البيانات حياً من (api_queue).
+        """
         return render_template("queue.html")
 
-    # ---------- Queue API (JSON for auto-refresh, Public) ----------
+    # ---------- Queue API (حلب البيانات الحية لشاشة الانتظار) ----------
     @app.route("/api/queue")
     def api_queue():
+        """
+        [واجهة برمجية API للطابور]:
+        يعيد هذا المسار قائمة بجميع المرضى (JSON) مرتبين حسب الأولوية.
+        تتصل به شاشة الانتظار (queue.html) بخاصية (AJAX Fetch) كل 5 ثوانٍ
+        لتمكين التحديث الحي (Real-time updates) بدون إعادة تحميل الصفحة (Refresh).
+        """
         update_queue_priorities()
         from sqlalchemy import case as sa_case
         urgency_order = sa_case(
@@ -238,9 +275,14 @@ def register_routes(app: Flask):
                 item["wait_duration"] = wait_duration_str(patients[i].check_in_time)
         return jsonify(data)
 
-    # ---------- Admin stats API (for Chart.js) ----------
+    # ---------- Admin stats API (للإحصائيات والرسومات البيانية) ----------
     @app.route("/api/stats")
     def api_stats():
+        """
+        [واجهة برمجية API لإحصائيات الإدارة]:
+        هذه الدالة تعيد بيانات مجمّعة (Aggregated Data) بصيغة JSON.
+        تستخدمها مكتبة Chart.js في شاشة الإدارة لرسم المخططات البيانية (Graphs).
+        """
         emergency = Patient.query.filter_by(appointment_type="emergency").count()
         follow_up = Patient.query.filter_by(appointment_type="follow_up").count()
         checkup = Patient.query.filter_by(appointment_type="checkup").count()
@@ -270,13 +312,15 @@ def register_routes(app: Flask):
             "busy_counts": list(hours_map.values())
         })
 
-    # ---------- AI Smart Insights API ----------
+    # ---------- واجهة الذكاء الاصطناعي للاستنتاجات (AI Insights) ----------
     @app.route("/api/ai_insights")
     @role_required("admin")
     def api_ai_insights():
         """
-        نقطة نهاية الرؤى الذكية — تحلل النظام وتُنتج توصيات باللغة العربية.
-        تستخدم تحليل البيانات الحي (Statistical Analysis) على معطيات الطابور الفعلية.
+        [فرع الذكاء التوليدي والتحليل]:
+        تقوم هذه الدالة بمسح شامل لبيانات العيادة الحالية.
+        ثم تُصدر تحذيرات أو توجيهات نصية (Insights) لمدير المستشفى.
+        على سبيل المثال: إطلاق تحذير إذا كان الضغط عالياً، أو التنبيه لوجود مرضى طوارئ.
         """
         now = to_local(now_utc())
         insights = []
@@ -343,10 +387,15 @@ def register_routes(app: Flask):
         return jsonify({"insights": insights, "generated_at": now.strftime("%I:%M %p")})
 
 
-    # ---------- Dashboards & Management ----------
+    # ---------- صفحة الاستقبال (Reception Dashboard) ----------
     @app.route("/reception", methods=["GET", "POST"])
     @role_required("receptionist", "admin")
     def reception():
+        """
+        [لوحة تحكم موظف الاستقبال]:
+        تعرض قائمة بجميع المرضى لإدارتهم وإمكانية تسجيل مرضى جدد (Walk-ins).
+        محمية بصلاحيات (receptionist, admin).
+        """
         if request.method == "POST":
             name = request.form.get("name", "").strip()
             age = request.form.get("age", type=int)
@@ -389,6 +438,11 @@ def register_routes(app: Flask):
     @app.route("/reception/checkin/<int:patient_id>", methods=["POST"])
     @role_required("receptionist", "admin")
     def reception_checkin(patient_id):
+        """
+        [مسار إضافي للاستقبال]:
+        يستخدم لتأكيد حضور مريض كان قد حجز مسبقاً (Scheduled) وتحويل حالته إلى (Waiting).
+        لتفعيل دوره في الطابور الفعلي وحساب نقاطه.
+        """
         patient = Patient.query.get_or_404(patient_id)
         if patient.status == "scheduled":
             patient.status = "waiting"
@@ -397,11 +451,15 @@ def register_routes(app: Flask):
             flash(f"تم تسجيل حضور المريض {patient.name} وإضافته لقائمة الانتظار بنجاح.", "success")
         return redirect(url_for("reception"))
 
-    # ── لوحة الطبيب: المريض الحالي والتالي وسجل اليوم ──
+    # ---------- لوحة الطبيب (Doctor Dashboard) ----------
     @app.route("/doctor")
     @role_required("doctor", "admin")
     def doctor():
-        """عرض لوحة الطبيب مع المريض الحالي والتالي وسجل كشوف اليوم."""
+        """
+        [لوحة تحكم الطبيب]:
+        تعرض تفاصيل المريض الحالي (إن وُجد) لمعاينته.
+        كما تستعرض المريض التالي المنتظر لتجهيز الملف، وسجل الكشوفات المنتهية في نفس اليوم.
+        """
         update_queue_priorities()
         from sqlalchemy import case as sa_case
         urgency_order = sa_case(
@@ -448,11 +506,17 @@ def register_routes(app: Flask):
             latest_diagnoses=latest_diagnoses,
         )
 
-    # ── إنهاء الكشف الحالي وحفظ التشخيص ──
+    # ---------- إنهاء الكشف (Finish Appointment) ----------
     @app.route("/doctor/finish", methods=["POST"])
     @login_required
     def doctor_finish():
-        """ينهي الكشف الحالي ويحفظ التشخيص في جدول appointments."""
+        """
+        [دالة إنهاء الكشف]:
+        تُستدعى عندما يضغط الطبيب على زر 'إنهاء الكشف'.
+        تقوم بـ:
+        1. حفظ ملاحظات الطبيب وتكوين سجل طبي (Appointment) جديد.
+        2. تحويل حالة المريض الحالي إلى وضع الانتهاء (done) لإخراجه من الطابور.
+        """
         diagnosis = request.form.get("diagnosis", "").strip()
         current = Patient.query.filter_by(status="in_progress").first()
         if current:
@@ -470,9 +534,16 @@ def register_routes(app: Flask):
             flash("تم إنهاء الكشف بنجاح.", "success")
         return redirect(url_for("doctor"))
 
+    # ---------- نداء المريض التالي (Next Patient) ----------
     @app.route("/doctor/start", methods=["POST"])
     @login_required
     def doctor_start():
+        """
+        [دالة إدخال مريض للعيادة]:
+        - تتأكد أولاً أنه لا يوجد مريض بالفعل داخل العيادة لتجنب التكرار.
+        - تبحث عن صاحب 'أعلى أولوية' في قائمة الانتظار بناءً على معادلات الذكاء الاصطناعي والزمن.
+        - وتغير حالته من (waiting) إلى (in_progress).
+        """
         current = Patient.query.filter_by(status="in_progress").first()
         if current:
             flash("يوجد مريض قيد الكشف بالفعل. قم بإنهاء الكشف أولاً.", "danger")
@@ -497,11 +568,17 @@ def register_routes(app: Flask):
             flash("لا يوجد مرضى في قائمة الانتظار.", "warning")
         return redirect(url_for("doctor"))
 
-    # ── لوحة الإدارة الرئيسية ──
+    # ---------- لوحة الإدارة الرئيسية (Admin Dashboard) ----------
     @app.route("/admin")
     @role_required("admin")
     def admin():
-        """لوحة الإدارة: تعرض كل المرضى، المستخدمين، والإحصائيات وسجل التشخيصات."""
+        """
+        [لوحة تحكم الإدارة (المركزية)]:
+        تعرض بلمحة واحدة كل شيء في النظام:
+        - كل المرضى وحالاتهم (قيد الانتظار، في العيادة، منتهين).
+        - حسابات المستخدمين (الأطباء، الاستقبال، والمدراء الآخرين) مع إمكانية تعديلهم.
+        - آخر 50 تشخيصاً وسجلاً طبياً للأرشفة والمتابعة.
+        """
         update_queue_priorities()
         from sqlalchemy import case as sa_case
         urgency_order = sa_case(
@@ -546,11 +623,16 @@ def register_routes(app: Flask):
         )
 
 
-    # ── إنشاء مستخدم جديد (مع تحقق رمز المسؤول عند اختيار دور admin) ──
+    # ---------- تعيين الموظفين والأطباء (Create User) ----------
     @app.route("/admin/create_user", methods=["POST"])
     @role_required("admin")
     def admin_create_user():
-        """إنشاء حساب مستخدم جديد مع تحقق خاص عند إنشاء مسؤول."""
+        """
+        [دالة التوظيف وتوزيع الصلاحيات]:
+        يستخدمها المدير لإنشاء حسابات للكادر الطبي (receptionist, doctor, admin).
+        تحتوي حماية مزدوجة: إذا أراد إنشاء حساب بصلاحيات (admin) جديدة، يجب عليه إدخال 
+        مفتاح الإدارة السري (ADMIN_SECRET_KEY) الموجود في (config.py).
+        """
         from flask import current_app
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
@@ -580,11 +662,15 @@ def register_routes(app: Flask):
         flash(f"تم إضافة المستخدم '{username}' بنجاح", "success")
         return redirect(url_for("admin"))
 
-    # ── حذف مستخدم (لا يمكن حذف المسؤولين) ──
+    # ---------- حذف الكادر الوظيفي (Delete User) ----------
     @app.route("/admin/users/<int:user_id>/delete", methods=["POST"])
     @role_required("admin")
     def admin_delete_user(user_id: int):
-        """حذف مستخدم من النظام — المسؤولون محميون من الحذف."""
+        """
+        [دالة حذف مدير/طبيب]:
+        تقوم بإزالة سجل المستخدم تماماً من الداتا بيس.
+        تحتوي حماية منطقية: (لا يمكن لمسؤول أن يحذف حساباً ذا صلاحيات admin).
+        """
         user = User.query.get_or_404(user_id)
         if user.role == "admin":
             flash("لا يمكن حذف مستخدم مسؤول.", "danger")
@@ -594,11 +680,15 @@ def register_routes(app: Flask):
         flash(f"تم حذف المستخدم '{user.username}'.", "info")
         return redirect(url_for("admin"))
 
-    # ── تغيير كلمة مرور مستخدم ──
+    # ---------- تغيير كلمة السر (Change Password) ----------
     @app.route("/admin/users/<int:user_id>/password", methods=["POST"])
     @role_required("admin")
     def admin_change_password(user_id: int):
-        """تغيير كلمة مرور مستخدم من لوحة الإدارة."""
+        """
+        [دالة إعادة تعيين كلمة المرور]:
+        تُتيح للمدير العام مساعدة الأطباء أو الموظفين الذين فقدوا كلمة مرورهم.
+        وتقوم الدالة بتشفير الكلمة الجديدة قبل حفظها في الداتا بيس.
+        """
         user = User.query.get_or_404(user_id)
         new_password = request.form.get("new_password", "").strip()
         if not new_password:
@@ -612,10 +702,16 @@ def register_routes(app: Flask):
         flash(f"تم تغيير كلمة مرور '{user.username}' بنجاح.", "success")
         return redirect(url_for("admin"))
 
+    # ---------- تصدير التقرير الطبي (Export TSV/CSV) ----------
     @app.route("/admin/export_appointments")
     @role_required("admin")
     def export_appointments():
-        """تصدير جدول التشخيصات كملف CSV للأرشفة."""
+        """
+        [دالة التصدير إلى إكسل]:
+        - تنشئ ملف CSV وهمي في الذاكرة (StringIO).
+        - تجلب سجلات الكشوفات (Appointments) المحفوظة.
+        - تُرسلها كملف قابل للتحميل (Attachment) بدلاً من عرضها في المتصفح.
+        """
         output = StringIO()
         writer = csv.writer(output)
         writer.writerow(["id", "patient_name", "doctor_username", "visit_time", "diagnosis"])
@@ -631,14 +727,15 @@ def register_routes(app: Flask):
         response.headers["Content-Disposition"] = "attachment; filename=appointments.csv"
         return response
 
-    # ── عارض قاعدة البيانات — يتيح رؤية وتعديل الجداول مباشرة ──
+    # ---------- عارض قاعدة البيانات — أداة تصحيح للمطورين (DB Viewer) ----------
     @app.route("/admin/db")
     @role_required("admin")
     def db_viewer():
         """
-        صفحة عارض قاعدة البيانات.
-        تعرض جداول: patients, users, appointments مع إمكانية التعديل المباشر.
-        للاستخدام التطويري والتجريبي فقط.
+        [صفحة إدارة الداتا بيس الخام]:
+        هذه الصفحة بمثابة (phpMyAdmin) مصغر مدمج داخل النظام.
+        تعرض جميع الجداول بحالتها الأصلية دون حسابات، وتُستخدم بشكل أساسي من قِبل الطاقم 
+        التطويري لتصحيح الأخطاء (Debugging).
         """
         patients_all = Patient.query.order_by(Patient.id.desc()).all()
         users_all    = User.query.order_by(User.id.asc()).all()
@@ -712,16 +809,27 @@ def register_routes(app: Flask):
         flash("إنشاء الحسابات يتم من لوحة الإدارة.", "info")
         return redirect(url_for("login"))
 
-    # ── تسجيل الدخول ──
+    # ---------- تسجيل الدخول (Login) ----------
     @app.route("/login", methods=["GET", "POST"])
     def login():
-        """صفحة تسجيل الدخول — تتحقق من الاسم وكلمة المرور وتُعيد توجيه حسب الدور."""
+        """
+        [نظام المصادقة]:
+        تستقبل اسم المستخدم وكلمة المرور من الموظف/الطبيب.
+        - تبحث عن المستخدم بمطابقة الاسم: User.query.filter_by
+        - تقارن كلمة المرور المدخلة بالتشفير المحفوظ (Hash) عبر دالة check_password.
+        - تسجل الجلسة باستخدام Flask-Login (login_user).
+        """
         if request.method == "POST":
             user = User.query.filter_by(username=request.form.get("username")).first()
             if user and user.check_password(request.form.get("password")):
                 login_user(user)
-                # توجيه المسؤول إلى لوحة الإدارة والبقية إلى لوحة الطبيب
-                return redirect(url_for("admin" if user.role == "admin" else "doctor"))
+                # توجيه المسؤول إلى لوحة الإدارة والبقية إلى لوحة الطبيب (أو الاستقبال حسب دوره)
+                if user.role == "admin":
+                    return redirect(url_for("admin"))
+                elif user.role == "receptionist":
+                    return redirect(url_for("reception"))
+                else:
+                    return redirect(url_for("doctor"))
         return render_template("login.html")
 
     @app.route("/logout")

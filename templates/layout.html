@@ -49,13 +49,16 @@
         }
     </script>
     <script>
-        // Check for saved theme preference or use preference
+        // ── [الوضع الليلي الذكي - Dark Mode Logic] ──
+        // نفحص هل المستخدم اختار الوضع الليلي مسبقاً (محفوظ في localStorage)، 
+        // أو إذا كان نظام التشغيل الخاص به (ويندوز/ماك) على الوضع الليلي افتراضياً؟
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
 
+        // دالة التبديل اليدوي عند الضغط على زر (الشمس/القمر)
         function toggleTheme() {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
@@ -78,6 +81,11 @@
     </script>
 
     <style type="text/tailwindcss">
+        /* 
+         * ── [تخصيص Tailwind CSS - @layer overrides] ──
+         * بدلاً من كتابة 10 كلاسات (Classes) مكررة في كل زر، نقوم بإنشاء كلاس واحد (مثلاً .btn-primary)
+         * ونحقن داخله كل كلاسات Tailwind باستخدام الـ Directive (@apply) ليكون الكود منظماً ونظيفاً.
+         */
         @layer components {
             .page-header {
                 @apply text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-slate-800 dark:from-blue-400 dark:to-white mb-6;
