@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نظام Machine Learning لتوقع وقت الانتظار - التوثيق الشامل للعيادة الذكية</title>
+  <title>دليل الطالب: تشغيل وفهم مشروع العيادة الذكية - التوثيق الشامل للعيادة الذكية</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -133,7 +133,7 @@
         <a href="utils.html" class="nav-btn ">
             <i class="bi bi-calculator-fill text-red-500"></i> 5. خوارزميات الطابور (utils.py)
         </a>
-        <a href="ai_engine.html" class="nav-btn active">
+        <a href="ai_engine.html" class="nav-btn ">
             <i class="bi bi-robot text-indigo-500"></i> 6. الذكاء الاصطناعي (ai_service.py)
         </a>
         <a href="clock_config.html" class="nav-btn ">
@@ -145,7 +145,7 @@
         <a href="deployment.html" class="nav-btn ">
             <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع
         </a>
-        <a href="student_guide.html" class="nav-btn ">
+        <a href="student_guide.html" class="nav-btn active">
             <i class="bi bi-mortarboard-fill text-green-500"></i> 10. دليل الطالب والتشغيل
         </a>
         </nav>
@@ -161,64 +161,109 @@
     <!-- Main Content -->
     <main class="w-full lg:w-3/4 pb-32">
       <div class="mb-8">
-        <h2 class="text-4xl font-black text-slate-800 dark:text-white mb-3 tracking-tight">نظام Machine Learning لتوقع وقت الانتظار</h2>
-        <p class="text-lg text-slate-500 dark:text-slate-400">الاستغناء عن التخمين البشري البدائي باستخدام Scikit-Learn.</p>
+        <h2 class="text-4xl font-black text-slate-800 dark:text-white mb-3 tracking-tight">دليل الطالب: تشغيل وفهم مشروع العيادة الذكية</h2>
+        <p class="text-lg text-slate-500 dark:text-slate-400">دليل مخصص لك كطالب لتتمكن من تشغيل المشروع على حاسوبك الشخصي (Windows) بسهولة تامة.</p>
       </div>
 
       <div class="content-card prose-custom">
         
             <div class="space-y-6">
-                <p class="text-slate-600 dark:text-slate-300">
-                    الطريقة التقليدية والمستخدمة في بعض المستشفيات لحساب موعد المريض هي: (عدد المرضى أمامه × 10 دقائق). هذه معادلة عمياء فاشلة، فماذا لو كان هناك حالات طوارئ أخذت نصف ساعة لكل مريض؟ الطب غير متوقع.
-                    الطريقة الذكية: <b>تدريب الذكاء الاصطناعي (Machine Learning) على السلوك الزمني السابق للعيادة واستخراج الرقم الحقيقي الخفي.</b>
-                </p>
-                
-                <div class="p-4 bg-indigo-50 dark:bg-indigo-900/10 border-r-4 border-indigo-500 rounded mb-4 mt-4">
-                    <p class="text-sm font-bold text-indigo-700 dark:text-indigo-400">💡 الفائدة الجوهرية (أساس تقييم المشروع):</p>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">هذه النقطة تُعتبر (Point of sale) في مشروع التخرج. الذكاء الاصطناعي لا يخمن طول الطابور، بل "يتعلم" من تاريخ العيادة أن يوم السبت صباحاً يكون الطبيب بطيئاً بسبب الازدحام، فيُعطي وقت انتظار أطول. هذا هو الجوهر الذي يجعل العيادة اسمها "ذكية".</p>
-                </div>
+                <!-- التشغيل السريع -->
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
+                        <i class="bi bi-lightning-charge-fill text-amber-500"></i> أولاً: التشغيل السريع (بنقرة واحدة للمبتدئين)
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        لمساعدتك في تجاوز عقبات سطر الأوامر (Terminal)، صممنا لك ملف تشغيل آلي (Script) يقوم بكل شيء بالنيابة عنك!
+                    </p>
 
-                <h3 class="font-bold text-slate-800 dark:text-white text-lg">لماذا الغابة العشوائية (RandomForest) تحديداً؟</h3>
-                <p class="text-slate-600 dark:text-slate-300 mb-4">
-                    العيادة بيئة فوضوية، المواعيد تصعد وتهبط وتتأثر بالمواسم والساعات. خوارزميات الذكاء الخطي (Linear Regression) ستفشل هنا لتعقيد البيانات، بينما (RandomForest) تتغاضى عن الشذوذ في البيانات (Outliers)، وتستنتج نمطاً قوياً عن طريق تدريب مئات "أشجار القرارات (Decision Trees)".
-                </p>
+                    <ol class="list-decimal list-inside space-y-3 text-slate-700 dark:text-slate-300">
+                        <li>قم بفك الضغط عن مجلد المشروع <code>SmartClinic_Project</code> وضعه في مكان مناسب (القرص C أو D).</li>
+                        <li>تأكد من أن <strong>Python</strong> مُثبت على جهاز الويندوز الخاص بك (عند التثبيت، يجب التأكد من وضع علامة ✅ على خيار <code>Add Python to PATH</code>).</li>
+                        <li>ادخل لمجلد المشروع وابحث عن الملف المسمى: 👉 <strong class="text-blue-600 dark:text-blue-400"><code>تشغيل_العيادة_الذكية.bat</code></strong>.</li>
+                        <li><strong>انقر نقراً مزدوجاً</strong> على هذا الملف.</li>
+                        <li>ستفتح لك شاشة سوداء (موجه الأوامر). انتظر قليلاً، وسيقوم الملف تلقائياً بـ:
+                            <ul class="list-disc list-inside ml-6 mt-2 space-y-1 text-slate-600 dark:text-slate-400">
+                                <li>إنشاء بيئة افتراضية منعزلة (Virtual Environment).</li>
+                                <li>تثبيت جميع المكاتب اللازمة (Flask، SQLAlchemy، Scikit-Learn...).</li>
+                                <li>تجهيز قاعدة البيانات بصلاحياتها ومستخدميها.</li>
+                                <li>فتح المتصفح الخاص بك تلقائياً على رابط المشروع (<code>http://127.0.0.1:8080</code>).</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </section>
 
-                <div class="code-block-wrapper">
-                    <div class="code-header">
-                        <span><i class="bi bi-file-earmark-code"></i> ai_service.py (السطر 40) - فئة (WaitTimePredictor)</span>
-                        <button class="copy-btn" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> نسخ</button>
+                <!-- التشغيل اليدوي للويندوز -->
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
+                        <i class="bi bi-terminal-fill text-slate-700 dark:text-slate-300"></i> ثانياً: التشغيل اليدوي (للمحترفين عبر Windows CMD)
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        إذا كنت تفضل كتابة الأوامر بنفسك لفهم ما يجري خلف الكواليس، اتبع الخطوات التالية في موجه الأوامر (CMD) لمسار المشروع:
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                            <h4 class="font-bold text-sm text-slate-700 dark:text-slate-300 mb-2">1. إنشاء وتفعيل البيئة الافتراضية</h4>
+                            <pre><code class="language-bash">python -m venv venv
+venv\Scripts\activate</code></pre>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                            <h4 class="font-bold text-sm text-slate-700 dark:text-slate-300 mb-2">2. تثبيت المكاتب المطلوبة</h4>
+                            <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                            <h4 class="font-bold text-sm text-slate-700 dark:text-slate-300 mb-2">3. تشغيل خادم الويب (Flask Server)</h4>
+                            <pre><code class="language-bash">python app.py</code></pre>
+                            <p class="text-xs text-slate-500 mt-2">ثم افتح المتصفح على الرابط: <code>http://127.0.0.1:5000</code> أو <code>http://localhost:5000</code></p>
+                        </div>
                     </div>
-                    <pre><code class="language-python">class WaitTimePredictor:
-    def __init__(self):
-        # المودل يعتمد على 100 شجرة قرار 
-        self.model = RandomForestRegressor(n_estimators=100, random_state=42)
-        self.is_trained = False
-        
-    def _generate_synthetic_samples(self, n=800):
-        # [دالة هندسية]: في بداية فتح العيادة لا يوجد داتا (Cold Start Problem). 
-        # لذلك نقوم بتوليد داتا اصطناعية لتدريب الموديل حتى لا يتعطل.
-        for _ in range(n):
-            queue_len = random.randint(0, 20)
-            hour = random.randint(8, 22)
-            # الذكاء الاصطناعي يتعلم من الخصائص المتعددة المتداخلة..
-            # ... كود التوليد
-            
-    def predict_wait_time(self, current_queue_length: int, hour: int, day: int, appt_type: int) -> int:
-        if not self.is_trained:
-            return current_queue_length * 15 # fallback للأسوأ.
-            
-        # 4D Features: نقوم بتلقيم الموديل برباعية الأبعاد (طول الطابور، الساعة، يوم الأسبوع، نوع الكشف). 
-        # الموديل سيرى أن (يوم الخميس + الساعة 8 مساءً + الطابور فيه 5 = الانتظار سيكون أطول من المعتاد).
-        features = np.array([[current_queue_length, hour, day, appt_type]])
-        pred = self.model.predict(features)
-        
-        # التأكد من أنه حتى لو أخطأ الموديل لن يعطينا رقماً سالباً! أقصى شيء 5 دقائق
-        return max(5, int(pred[0]))</code></pre>
-                </div>
+                </section>
+
+                <!-- بيانات الدخول -->
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
+                        <i class="bi bi-key-fill text-yellow-500"></i> بيانات تسجيل الدخول (Accounts)
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 mb-4">
+                        التطبيق يحتوي مسبقاً على حسابات جاهزة لتجرّب النظام بكامل أدوراه. استخدمها في صفحة (<code>/login</code>):
+                    </p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-start">
+                            <thead class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300">
+                                <tr>
+                                    <th class="p-3 border-b dark:border-slate-600">الدور (الرتبة)</th>
+                                    <th class="p-3 border-b dark:border-slate-600">اسم المستخدم</th>
+                                    <th class="p-3 border-b dark:border-slate-600">كلمة المرور</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-700 dark:text-slate-300 divide-y divide-slate-200 dark:divide-slate-700">
+                                <tr>
+                                    <td class="p-3 font-bold text-fuchsia-600 dark:text-fuchsia-400">الإدارة العليا (Admin)</td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">admin</code></td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">123</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-red-600 dark:text-red-400">طبيب معالج</td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">doctor</code></td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">123</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-blue-600 dark:text-blue-400">موظف استقبال</td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">reception</code></td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">123</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
                 
-                <p class="text-sm text-slate-600 dark:text-slate-400 border-r-4 border-indigo-500 pr-3">
-                    في الـ Backend الحقيقي بالمشروع (في دالة مستقلة `get_wait_time_minutes`) الموديل ينظر لمتوسط السرعة <b>الحالية والوقتية</b> للطبيب (كم دقيقة أخذها لكل مريض قيد العلاج في الساعة الحالية) ويدمجها بقوة مع قرار الخوارزمي أعلاه لزيادة الدقة وجعلها لا تصدق!
-                </p>
+                <div class="p-4 bg-emerald-50 dark:bg-emerald-900/10 border-l-4 border-emerald-500 rounded text-slate-700 dark:text-slate-300 text-sm">
+                    <strong>نصيحة للمتميزين:</strong> جرب فتح صفحة <code>/admin/db</code> من حساب <code>admin</code> لرؤية نافذة التحرير المباشرة لقاعدة البيانات (Database Viewer).
+                </div>
             </div>
         
       </div>

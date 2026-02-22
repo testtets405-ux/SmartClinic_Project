@@ -145,6 +145,9 @@
         <a href="deployment.html" class="nav-btn ">
             <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع
         </a>
+        <a href="student_guide.html" class="nav-btn ">
+            <i class="bi bi-mortarboard-fill text-green-500"></i> 10. دليل الطالب والتشغيل
+        </a>
         </nav>
         <div
           class="mt-8 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-center">
@@ -170,14 +173,15 @@
                         <i class="bi bi-clock-history text-teal-500"></i> معضلة اختلاف المناطق الزمنية (clock.py)
                     </h3>
                     <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                        واحدة من أخطر المشاكل البرمجية التي يقع فيها الطلاب هي تسجيل الوقت حسب "لغة السيرفر". 
-                        فلو قمت برفع المشروع على سيرفر في أمريكا، وسجلت مريضاً الساعة 12 ظهراً بتوقيت بغداد، سيُسجل في قاعدة البيانات بأنه حضر الساعة 5 فجراً (أو بتوقيت سيرفر الاستضافة)! 
+                        واحدة من أخطر المشاكل البرمجية التي يقع فيها الطلاب هي تسجيل الوقت الراجع من "توقيت لغة السيرفر". 
+                        فلو قمت برفع المشروع على سيرفر في أمريكا، وسجلت مريضاً الساعة 12 ظهراً بتوقيت بغداد، سيُسجل في قاعدة البيانات بأنه حضر الساعة 5 فجراً (حسب موقع السيرفر المركزي)! 
                         النتيجة؟ المواعيد دُمرت، الحقول الإحصائية كاذبة، وحسابات الـ ML انهارت تماماً.
                     </p>
-                    <p class="font-bold text-slate-800 dark:text-white mb-2">القاعدة الذهبية المُنفذة للحماية من ذلك:</p>
-                    <p class="text-slate-600 dark:text-slate-300 font-mono text-sm bg-slate-100 dark:bg-slate-700 p-3 rounded mb-4">
-                        احفظ جميع التواريخ بـ Database كـ (UTC Standard) دائماً وأبداً. ثم حولها لـ (Baghdad Time) عند عرضها على الشاشة للمستخدم البشري فقط.
-                    </p>
+
+                    <div class="p-4 bg-teal-50 dark:bg-teal-900/10 border-r-4 border-teal-500 rounded mb-4">
+                        <p class="text-sm font-bold text-teal-700 dark:text-teal-400">💡 الحماية الهندسية المنفذة:</p>
+                        <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">استخدمنا معيار (UTC Standard) الدائم. النظام يحفظ جميع التواريخ بـ UTC (التوقيت العالمي الموحد بدون فوارق) في قاعدة البيانات لتثبيت المرجع، ثم يقوم بتحويلها إلى (Baghdad Time) <b>فقط</b> عند عرضها على الشاشة للبشر. هذا يجعل النظام دقيقاً جداً ولو نُقل السيرفر لأمريكا اللاتينية.</p>
+                    </div>
 
                     <div class="code-block-wrapper">
                         <div class="code-header">

@@ -145,6 +145,9 @@
         <a href="deployment.html" class="nav-btn ">
             <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع
         </a>
+        <a href="student_guide.html" class="nav-btn ">
+            <i class="bi bi-mortarboard-fill text-green-500"></i> 10. دليل الطالب والتشغيل
+        </a>
         </nav>
         <div
           class="mt-8 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-center">
@@ -166,12 +169,16 @@
         
             <div class="space-y-6">
                 <p class="text-slate-600 dark:text-slate-300">
-                    ملف <code>app.py</code> أطول ملف في المشروع. هو العقل المدبر الذي يربط بين جداول قاعدة البيانات (Models) وبين واجهات الاستخدام (Templates). ويقوم باستقبال وإرسال جميع الطلبات (Requests).
+                    ملف <code>app.py</code> أطول ملف في المشروع. ويعتبر (Controller) في نمط الـ MVC. هو العقل المدبر الذي يربط بين جداول قاعدة البيانات (Models) وبين واجهات الاستخدام (Templates). ويقوم باستقبال وإرسال جميع الطلبات (HTTP Requests).
                 </p>
+                <div class="p-4 bg-emerald-50 dark:bg-emerald-900/10 border-r-4 border-emerald-500 rounded mb-4">
+                    <p class="text-sm font-bold text-emerald-700 dark:text-emerald-400">💡 لماذا نضع كل الروابط (Routes) هنا؟</p>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">هندسة (مركزية التحكم - Centralized Control) تجعل إدارة أمان الموقع أسهل بكثير. فبدلاً من البحث في مئات الملفات، كل صفحة في المشروع لها دالة محددة هنا تتحكم بمَن يحق له الدخول وما هي البيانات التي ستسحب من الـ Database إلى الواجهة.</p>
+                </div>
 
                 <div class="bg-indigo-50/50 dark:bg-indigo-900/10 p-5 rounded-xl border border-indigo-100 dark:border-indigo-800">
-                    <h3 class="font-bold text-slate-800 dark:text-white mb-2">الدوال الجدارية وتحديث الطابور</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">يحتوي الكود على آليات حماية وتحديث آلية وتعتبر من الركائز التي بُني عليها المشروع:</p>
+                    <h3 class="font-bold text-slate-800 dark:text-white mb-2">الدوال الجدارية (Decorators) وتحديث الطابور</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">يحتوي الكود على آليات حماية متقدمة وتحديث حي للبيانات (Real-Time processing):</p>
                     
                     <div class="code-block-wrapper">
                         <div class="code-header">

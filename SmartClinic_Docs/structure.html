@@ -145,6 +145,9 @@
         <a href="deployment.html" class="nav-btn ">
             <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع
         </a>
+        <a href="student_guide.html" class="nav-btn ">
+            <i class="bi bi-mortarboard-fill text-green-500"></i> 10. دليل الطالب والتشغيل
+        </a>
         </nav>
         <div
           class="mt-8 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-center">
@@ -178,7 +181,10 @@
                             <div>
                                 <strong class="text-lg text-slate-800 dark:text-white">مجلد <code>templates/</code></strong>
                                 <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                    هذا المجلد يحتوي على 10 ملفات وهي كافة واجهات المستخدم المبنية بـ HTML. يتم دمج هذه الملفات باستخدام محرك القوالب (Jinja2) داخل بايثون لعرض المتغيرات ديناميكياً (مثل عرض اسم المريض أو صورته). يحتوي على واجهات الأطباء، الإدارة، شاشة الانتظار وإلخ.
+                                    هذا المجلد يحتوي على واجهات المستخدم المبنية بـ HTML. يتم دمج هذه الملفات باستخدام محرك القوالب (Jinja2) داخل بايثون لعرض المتغيرات ديناميكياً.
+                                </p>
+                                <p class="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-2 bg-blue-50 dark:bg-blue-900/30 p-2 rounded">
+                                    <i class="bi bi-lightbulb-fill"></i> الفائدة الهندسية: فصل تصاميم الواجهات (HTML) عن أوامر الخادم (Python) يحمي من تداخل الأكواد ويُطبّق مبدأ (Separation of Concerns)، مما يسهل عملية التعديل دون إطفاء الخادم للمستقبل.
                                 </p>
                             </div>
                         </li>
@@ -187,7 +193,10 @@
                             <div>
                                 <strong class="text-lg text-slate-800 dark:text-white">مجلد <code>static/</code></strong>
                                 <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                    المجلد الذي يحتفظ بالملفات الثابتة التي لا تتغير. وضعنا فيه داخلياً مجلد (css) ليحمل ملف <code>style.css</code> إذا أردنا التعديل على الخطوط (Fonts) أو الخصائص الثابتة التي لا تُلبيها Tailwind محلياً.
+                                    المجلد الذي يحتفظ بالملفات الثابتة التي لا تتغير (Static Assets) مثل ملفات الـ (CSS/JS) والصور.
+                                </p>
+                                <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-2 bg-emerald-50 dark:bg-emerald-900/30 p-2 rounded">
+                                    <i class="bi bi-question-circle-fill"></i> لماذا مجلد منفصل؟ يقوم متصفح المستخدم بطلب هذه الملفات مرة واحدة فقط ثم يخزنها في ذاكرته (Cache) لتسريع فتح الموقع في المرات القادمة وتقليل الضغط على السيرفر.
                                 </p>
                             </div>
                         </li>
@@ -206,42 +215,61 @@
                 <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
                     <h3 class="font-bold text-slate-800 dark:text-white mb-4 text-xl border-b border-slate-200 dark:border-slate-700 pb-2">📄 الملفات المركزية (Core Files)</h3>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-blue-500"></i> <code>app.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">الملف الرئيسي، المركز العصبي والموجه للـ Routes. وهو من يشغل النظام.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">الملف الرئيسي (الموجه - Router).</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-blue-500">الهدف:</span> يستلم طلبات المتصفح ويربط قاعدة البيانات بالواجهات ليتم عرضها للمستخدم بطريقة الـ MVT.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-fuchsia-500"></i> <code>models.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">الهيكل الهندسي لجداول قواعد البيانات الخاصة بك باستخدام (SQLAlchemy).</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">الهيكل الهندسي لقواعد البيانات (SQLAlchemy).</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-fuchsia-500">الهدف:</span> تحويل أكواد بايثون إلى جداول قواعد بيانات آمنة تماماً ومحمية من هجمات الحقن (SQL Injection).
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-red-500"></i> <code>utils.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">مكتبة الدوال الرياضية المعقدة وحاضنة خوارزمية ترتيب الطابور وفرز المرضى.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">مكتبة الدوال الرياضية والخوارزميات.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-red-500">الهدف:</span> حساب أولويات المرضى (Triage) بناءً على العمر والانتظار لتحديد من يدخل الطبيب أولاً، كاسرين نمط الطابور الأعمى.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-emerald-500"></i> <code>config.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">المخزن الآمن للمفاتيح وكلمات المرور المشفرة الخاصة بالمطور والإدارة.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">المخزن الآمن لمتغيرات البيئة.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-emerald-500">الهدف:</span> فصل الإعدادات الحساسة (Secret Keys) عن الكود العادي لمنع تسربها وحماية جلسات المستخدمين (Sessions).
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-pink-500"></i> <code>clock.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">منظم الوقت الموحد، يحفظ البيانات بتوقيت UTC ويعرضها بتوقيت بغداد.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">منظم توقيت الخادم الموحد.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-pink-500">الهدف:</span> تجنب فساد البيانات (Data Corruption) الذي يحصل عند اختلاف السيرفرات بحفظ الوقت بـ (UTC) وعرضه محلياً.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-indigo-500"></i> <code>ai_service.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">النموذج الذكي (ML Model) المسؤول عن حساب أوقات الانتظار المتوقعة.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">النموذج الذكي للتعلم الآلي (Machine Learning).</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-indigo-500">الهدف:</span> تطبيق خوارزمية (Random Forest) لتقدير وقت الانتظار بناءً على تاريخ العيادة، بدلاً من تخمين الموظفين اليدوي.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
-                            <strong><i class="bi bi-database text-amber-600"></i> <code>clinic.db</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">ملف قاعدة البيانات (SQLite File) الفعلي الذي يتم تخزين وحفظ الداتا به.</p>
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                            <strong><i class="bi bi-database text-amber-600"></i> <code>clinic.db</code> / <code>requirements.txt</code></strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">ملف قاعدة البيانات والمتطلبات التشغيلية.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                مقفل ومحصن. يحتوي الـ requirements على البكجات اللازمة لتسهيل تثبيت المشروع بضغطة زر للمناقش.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
-                            <strong><i class="bi bi-filetype-txt text-slate-500"></i> <code>requirements.txt</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">ملف يحتوي على أسماء إصدارات جميع المكاتب اللازمة لتشغيل النظام (Flask, Scikit-learn).</p>
-                        </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg md:col-span-2">
-                            <strong><i class="bi bi-robot text-teal-600"></i> <code>seed_db.py / seed_admin.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">سكربتات الدعم والاختبار. بمجرد النقر عليها، ستقوم ببناء عيادة وهمية كاملة (بمرضاها ومدرائها وأطبائها) بثواني لاختبار المشروع بشكل نهائي ومكثف.</p>
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                            <strong><i class="bi bi-robot text-teal-600"></i> <code>seed_db.py</code></strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">سكربت زرع وتوليد قاعدة البيانات الوهمية.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-teal-500">الهدف:</span> إمكانية مسح النظام وملئه بآلاف السجلات الوهمية لاختبار قوة تحمل الخوارزميات (Stress Testing) بثوانٍ.
+                            </p>
                         </div>
                     </div>
                 </div>

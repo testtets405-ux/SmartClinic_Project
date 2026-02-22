@@ -47,7 +47,7 @@ PAGES_DATA = {
                         <i class="bi bi-stack text-purple-500"></i> البنية التكنولوجية (Tech Stack Breakdown)
                     </h3>
                     <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                        لبناء هذا النظام المتكامل والمعقد، تم استخدام مجموعة من أحدث التقنيات وأكثرها استقراراً في سوق العمل هندسياً:
+                        لبناء هذا النظام المتكامل، تم استخدام مجموعة من أحدث التقنيات. <strong>الهدف من هذا القسم هو جعلك كطالب قادراً على الإجابة بكل ثقة على سؤال المناقش: "لماذا استخدمت هذه التقنية تحديداً؟ وما فائدتها؟"</strong>
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -56,29 +56,42 @@ PAGES_DATA = {
                                 <i class="bi bi-filetype-py text-2xl text-blue-500"></i>
                                 <span class="font-bold text-slate-800 dark:text-white text-lg">بايثون (Python 3.10+)</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                لغة البرمجة الأساسية في الخادم (Backend). استُخدمت لبرمجة الخوارزميات الرياضية المعقدة (Priority Calculation)، والتعامل مع المكتبات الإحصائية، وإدارة مناطق التوقيت (Timezones) الحساسة جداً لتسعير الوقت.
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                لغة البرمجة الأساسية في الخادم (Backend).
                             </p>
+                            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2 list-disc list-inside">
+                                <li><strong>لماذا بايثون؟</strong> لأنها اللغة رقم #1 عالمياً في الذكاء الاصطناعي، وتتميز بكود مقروء وبسيط جداً يسهل على الطالب استيعابه وشرحه.</li>
+                                <li><strong>كيف تعمل هنا؟</strong> تقوم بدور "العقل المفكر" للمشروع؛ تحسب أولويات المرضى وتدير النظام بأكمله.</li>
+                                <li><strong>الفائدة الهندسية:</strong> ربطت خوارزميات الطابور (Priority Triage) بنماذج تعلم الآلة (ML) بسلاسة في بيئة واحدة دون الحاجة للغات متعددة.</li>
+                            </ul>
                         </div>
                         
                         <div class="bg-emerald-50/50 dark:bg-emerald-900/10 p-5 rounded-xl border border-emerald-100 dark:border-emerald-800">
                             <div class="flex items-center gap-3 mb-2">
                                 <i class="bi bi-server text-2xl text-emerald-500"></i>
-                                <span class="font-bold text-slate-800 dark:text-white text-lg">استضافة فلاسك (Flask Web Framework)</span>
+                                <span class="font-bold text-slate-800 dark:text-white text-lg">إطار عمل فلاسك (Flask Web Framework)</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                هيكلة (MVT) سريعة وموثوقة لاستقبال طلبات (HTTP). معتمدة لميزاتها الأمنية وتوافقيتها السريعة في إنتاج الـ APIs وبناء نظام توجيه (Routing) محمي باستخدام المفاهيم المتقدمة (Decorators).
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                إطار عمل (Framework) لبناء المواقع باستخدام بايثون بهندسية (MVT).
                             </p>
+                            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2 list-disc list-inside">
+                                <li><strong>لماذا فلاسك وليس جانغو (Django)؟</strong> فلاسك خفيف جداً (Micro-framework) ولا يحتوي على تعقيدات ومجلدات كثيرة غير ضرورية، مما يجعله مثالياً لمشروع تخرج سريع الفهم للمناقشين، في حين أن Django قد يكون معقداً وصعب الشرح.</li>
+                                <li><strong>الفائدة للمشروع:</strong> استخدمناه لاستقبال طلبات المتصفح (HTTP) وبناء نظام توجيه (Routing) محمي، بحيث لا يُفتح قسم "الطبيب" إلا بحساب الطبيب.</li>
+                            </ul>
                         </div>
                         
                         <div class="bg-indigo-50/50 dark:bg-indigo-900/10 p-5 rounded-xl border border-indigo-100 dark:border-indigo-800">
                             <div class="flex items-center gap-3 mb-2">
                                 <i class="bi bi-database-fill text-2xl text-indigo-500"></i>
-                                <span class="font-bold text-slate-800 dark:text-white text-lg">بيانات أمنة (SQLite & SQLAlchemy)</span>
+                                <span class="font-bold text-slate-800 dark:text-white text-lg">قاعدة البيانات (SQLite & SQLAlchemy)</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                بدلاً من استخدام نصوص SQL معرضة للاختراق (SQL Injection)، تم استخدام (ORM) لتجريد قاعدة البيانات. حيث تُعامل الجداول ككائنات (Objects) يمكن استخراج بياناتها عبر علاقات قوية (Foreign Keys).
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                نظام إدارة قواعد البيانات لحفظ المرضى والمستخدمين بأمان.
                             </p>
+                            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2 list-disc list-inside">
+                                <li><strong>لماذا SQLite؟</strong> لأنها تُحفظ كملف <code>clinic.db</code> جاهز للعمل. لا حاجة لتثبيت خوادم معقدة مثل MySQL على حاسوب المناقش أو الجامعة.</li>
+                                <li><strong>ما هو SQLAlchemy ولماذا استخدمناه؟</strong> هو (ORM) يحول جداول البيانات إلى "كائنات بايثون" (Objects). الفائدة العظمى منه هي حماية النظام تماماً من الاختراق ثغرة (SQL Injection)، كما أنه يبسط الكود بدلاً من كتابة أوامر أجنبية داخل بايثون.</li>
+                            </ul>
                         </div>
                         
                         <div class="bg-pink-50/50 dark:bg-pink-900/10 p-5 rounded-xl border border-pink-100 dark:border-pink-800">
@@ -86,19 +99,62 @@ PAGES_DATA = {
                                 <i class="bi bi-robot text-2xl text-pink-500"></i>
                                 <span class="font-bold text-slate-800 dark:text-white text-lg">الذكاء الاصطناعي (Scikit-Learn ML)</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                توظيف نموذج الـ RandomForest المتقدم لحساب (ETA - Estimated Time of Arrival). الموديل لا يخمن، بل يتعلم من داتا العيادة التاريخية والساعات والأيام ليستنتج متى حان دور المريض بالضبط.
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                مكتبة التعلم الآلي القوية. استخدمنا بداخلها نموذج (Random Forest Regressor).
+                            </p>
+                            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2 list-disc list-inside">
+                                <li><strong>كيف يعمل ولماذا استُخدم؟</strong> بدلاً من التخمين العشوائي (إعطاء كل مريض 15 دقيقة انتظار ثابتة غبية)، يقوم نموذجنا بالتنبؤ بالوقت الفعلي من خلال التدرب على بيانات العيادة (ضغط العمل، وقت اليوم، والطابور الحالي).</li>
+                                <li><strong>الفائدة الجوهرية (الميزة التنافسية):</strong> هي ما يجعل العيادة (ذكية). بدون هذا الموديل سيكون النظام مجرد طابور إلكتروني عادي. الذكاء الاصطناعي هو نقطة القوة (Selling Point) الأساسية في مشروع التخرج.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i class="bi bi-palette-fill text-2xl text-cyan-500"></i>
+                                <span class="font-bold text-slate-800 dark:text-white text-lg">الواجهات المرئية (Tailwind CSS)</span>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-2 leading-relaxed">
+                                <strong>لماذا Tailwind؟</strong> تخلصنا من ملفات CSS الضخمة التي تصبح كابوساً عند التعديل، وبدأنا نكتب التصميم داخل ملف HTML ككلاسات جاهزة (Utility-First). وفر هذا 70% من وقت بناء الواجهات مع جعل الموقع متجاوباً (Responsive) للهواتف وبناء الوضع الليلي بكلمة <code>dark:</code> فقط.
                             </p>
                         </div>
                         
-                        <div class="bg-fuchsia-50/50 dark:bg-fuchsia-900/10 p-5 rounded-xl border border-fuchsia-100 dark:border-fuchsia-800 md:col-span-2">
-                            <div class="flex items-center gap-3 mb-2">
-                                <i class="bi bi-palette text-2xl text-fuchsia-500"></i>
-                                <span class="font-bold text-slate-800 dark:text-white text-lg">واجهات حديثة (Tailwind CSS + JS)</span>
+                        <div class="bg-yellow-50/50 dark:bg-yellow-900/10 p-5 rounded-xl border border-yellow-200 dark:border-yellow-800 md:col-span-2 shadow-inner">
+                            <div class="flex items-center gap-3 mb-4 border-b border-yellow-200 dark:border-yellow-800 pb-3">
+                                <i class="bi bi-filetype-jsx text-3xl text-yellow-600 dark:text-yellow-400"></i>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 dark:text-white text-lg">أين تم استخدام الجافاسكربت (JavaScript) بالضبط؟</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">خريطة مفصلة للـ 5% من الكود المكتوب بـ (Vanilla JS) الخالصة للفهم والمناقشة الأكاديمية.</p>
+                                </div>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                تم تجريد النظام من لغات الـ CSS القديمة، والاعتماد على مكتبة (Utility-first) وهي Tailwind CSS لبناء واجهات متجاوبة (Responsive) وتعمل بوضع (Dark/Light Mode) ديناميكي وتدعم التحديث الآني عبر الأجاكس (AJAX).
-                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-display"></i> 1. شاشة الطابور (queue.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">تُستخدم دالة <code>fetch()</code> لطلب بيانات المرضى من الخادم (API) كل 5 ثوانٍ وإعادة رسم الشاشة <b>بدون عمل Refresh</b> لتوفير تحديث حي (Real-time Feel).</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-graph-up-arrow"></i> 2. لوحة الإدارة المركزية (admin.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">تشغيل مكتبة (Chart.js) لرسم المنحنيات البيانية للإحصائيات بطريقة تفاعلية جذابة لقراءة البيانات والأرباح.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-moon-stars"></i> 3. القالب الرئيسي للجميع (layout.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">سكربت تفعيل (الوضع الليلي) وحفظه في الـ LocalStorage المدمج بالمتصفح. بالإضافة لبرمجة عداد تنازلي لإخفاء رسائل الخطأ (Toasts) بعد 3 ثوانٍ.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-database-check"></i> 4. عارض قاعدة البيانات الداخلية (db_viewer.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">برمجة أزرار الحفظ والحذف للتواصل العكسي مع قاعدة البيانات بصمت (Silently AJAX) وتحديث جداول الـ JSON.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors md:col-span-2">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-shield-check"></i> 5. شاشة التسجيل للطاقم الطبي (register.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">نافذة أمان صغيرة (Client-Side Validation) تقارن كلمتي المرور المدخلتين قبل إرسالهما للخادم لمنع إضاعة وقت السيرفر بردود الخطأ.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3 bg-blue-50 dark:bg-blue-900/30 rounded border-r-4 border-blue-500 text-sm text-slate-700 dark:text-slate-300">
+                                <p class="font-bold text-blue-700 dark:text-blue-400 mb-1"><i class="bi bi-magic"></i> جواب دفاعي ذكي للمناقشة (Defense Strategy):</p>
+                                <p class="text-xs leading-relaxed">إذا سألك الأستاذ المشرف: <b>"لماذا لم تستخدم React أو Angular كإطار عمل للواجهات؟"</b><br>
+                                الجواب האكاديمي الدقيق: "مشروعنا يرتكز قوامه على نموذج الذكاء الاصطناعي (Machine Learning) وخوارزمية الفرز (Triage) الموجودة في الخادم (Backend) المبرمج ببايثون. استخدام إطار عمل ضخم مثل React لعرض بيانات بسيطة يُعد تعقيداً هندسياً زائداً (Over-engineering) ويهدر موارد السيرفر دون حاجة. لقد اكتفينا بـ <b>Vanilla JS</b> للقيام بالربط اللحظي (AJAX) حصراً، لنحافظ على كود سريع، خفيف الوزن، ويركز على المنطق المعقد الداخلي للمشروع."</p>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -131,7 +187,10 @@ PAGES_DATA = {
                             <div>
                                 <strong class="text-lg text-slate-800 dark:text-white">مجلد <code>templates/</code></strong>
                                 <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                    هذا المجلد يحتوي على 10 ملفات وهي كافة واجهات المستخدم المبنية بـ HTML. يتم دمج هذه الملفات باستخدام محرك القوالب (Jinja2) داخل بايثون لعرض المتغيرات ديناميكياً (مثل عرض اسم المريض أو صورته). يحتوي على واجهات الأطباء، الإدارة، شاشة الانتظار وإلخ.
+                                    هذا المجلد يحتوي على واجهات المستخدم المبنية بـ HTML. يتم دمج هذه الملفات باستخدام محرك القوالب (Jinja2) داخل بايثون لعرض المتغيرات ديناميكياً.
+                                </p>
+                                <p class="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-2 bg-blue-50 dark:bg-blue-900/30 p-2 rounded">
+                                    <i class="bi bi-lightbulb-fill"></i> الفائدة الهندسية: فصل تصاميم الواجهات (HTML) عن أوامر الخادم (Python) يحمي من تداخل الأكواد ويُطبّق مبدأ (Separation of Concerns)، مما يسهل عملية التعديل دون إطفاء الخادم للمستقبل.
                                 </p>
                             </div>
                         </li>
@@ -140,7 +199,10 @@ PAGES_DATA = {
                             <div>
                                 <strong class="text-lg text-slate-800 dark:text-white">مجلد <code>static/</code></strong>
                                 <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                    المجلد الذي يحتفظ بالملفات الثابتة التي لا تتغير. وضعنا فيه داخلياً مجلد (css) ليحمل ملف <code>style.css</code> إذا أردنا التعديل على الخطوط (Fonts) أو الخصائص الثابتة التي لا تُلبيها Tailwind محلياً.
+                                    المجلد الذي يحتفظ بالملفات الثابتة التي لا تتغير (Static Assets) مثل ملفات الـ (CSS/JS) والصور.
+                                </p>
+                                <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-2 bg-emerald-50 dark:bg-emerald-900/30 p-2 rounded">
+                                    <i class="bi bi-question-circle-fill"></i> لماذا مجلد منفصل؟ يقوم متصفح المستخدم بطلب هذه الملفات مرة واحدة فقط ثم يخزنها في ذاكرته (Cache) لتسريع فتح الموقع في المرات القادمة وتقليل الضغط على السيرفر.
                                 </p>
                             </div>
                         </li>
@@ -159,42 +221,61 @@ PAGES_DATA = {
                 <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
                     <h3 class="font-bold text-slate-800 dark:text-white mb-4 text-xl border-b border-slate-200 dark:border-slate-700 pb-2">📄 الملفات المركزية (Core Files)</h3>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-blue-500"></i> <code>app.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">الملف الرئيسي، المركز العصبي والموجه للـ Routes. وهو من يشغل النظام.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">الملف الرئيسي (الموجه - Router).</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-blue-500">الهدف:</span> يستلم طلبات المتصفح ويربط قاعدة البيانات بالواجهات ليتم عرضها للمستخدم بطريقة الـ MVT.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-fuchsia-500"></i> <code>models.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">الهيكل الهندسي لجداول قواعد البيانات الخاصة بك باستخدام (SQLAlchemy).</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">الهيكل الهندسي لقواعد البيانات (SQLAlchemy).</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-fuchsia-500">الهدف:</span> تحويل أكواد بايثون إلى جداول قواعد بيانات آمنة تماماً ومحمية من هجمات الحقن (SQL Injection).
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-red-500"></i> <code>utils.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">مكتبة الدوال الرياضية المعقدة وحاضنة خوارزمية ترتيب الطابور وفرز المرضى.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">مكتبة الدوال الرياضية والخوارزميات.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-red-500">الهدف:</span> حساب أولويات المرضى (Triage) بناءً على العمر والانتظار لتحديد من يدخل الطبيب أولاً، كاسرين نمط الطابور الأعمى.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-emerald-500"></i> <code>config.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">المخزن الآمن للمفاتيح وكلمات المرور المشفرة الخاصة بالمطور والإدارة.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">المخزن الآمن لمتغيرات البيئة.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-emerald-500">الهدف:</span> فصل الإعدادات الحساسة (Secret Keys) عن الكود العادي لمنع تسربها وحماية جلسات المستخدمين (Sessions).
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-pink-500"></i> <code>clock.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">منظم الوقت الموحد، يحفظ البيانات بتوقيت UTC ويعرضها بتوقيت بغداد.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">منظم توقيت الخادم الموحد.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-pink-500">الهدف:</span> تجنب فساد البيانات (Data Corruption) الذي يحصل عند اختلاف السيرفرات بحفظ الوقت بـ (UTC) وعرضه محلياً.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
                             <strong><i class="bi bi-filetype-py text-indigo-500"></i> <code>ai_service.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">النموذج الذكي (ML Model) المسؤول عن حساب أوقات الانتظار المتوقعة.</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">النموذج الذكي للتعلم الآلي (Machine Learning).</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-indigo-500">الهدف:</span> تطبيق خوارزمية (Random Forest) لتقدير وقت الانتظار بناءً على تاريخ العيادة، بدلاً من تخمين الموظفين اليدوي.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
-                            <strong><i class="bi bi-database text-amber-600"></i> <code>clinic.db</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">ملف قاعدة البيانات (SQLite File) الفعلي الذي يتم تخزين وحفظ الداتا به.</p>
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                            <strong><i class="bi bi-database text-amber-600"></i> <code>clinic.db</code> / <code>requirements.txt</code></strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">ملف قاعدة البيانات والمتطلبات التشغيلية.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                مقفل ومحصن. يحتوي الـ requirements على البكجات اللازمة لتسهيل تثبيت المشروع بضغطة زر للمناقش.
+                            </p>
                         </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
-                            <strong><i class="bi bi-filetype-txt text-slate-500"></i> <code>requirements.txt</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">ملف يحتوي على أسماء إصدارات جميع المكاتب اللازمة لتشغيل النظام (Flask, Scikit-learn).</p>
-                        </div>
-                        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg md:col-span-2">
-                            <strong><i class="bi bi-robot text-teal-600"></i> <code>seed_db.py / seed_admin.py</code></strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">سكربتات الدعم والاختبار. بمجرد النقر عليها، ستقوم ببناء عيادة وهمية كاملة (بمرضاها ومدرائها وأطبائها) بثواني لاختبار المشروع بشكل نهائي ومكثف.</p>
+                        <div class="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                            <strong><i class="bi bi-robot text-teal-600"></i> <code>seed_db.py</code></strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">سكربت زرع وتوليد قاعدة البيانات الوهمية.</p>
+                            <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 p-2 rounded">
+                                <span class="text-teal-500">الهدف:</span> إمكانية مسح النظام وملئه بآلاف السجلات الوهمية لاختبار قوة تحمل الخوارزميات (Stress Testing) بثوانٍ.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -211,12 +292,16 @@ PAGES_DATA = {
         "content": '''
             <div class="space-y-6">
                 <p class="text-slate-600 dark:text-slate-300">
-                    ملف <code>app.py</code> أطول ملف في المشروع. هو العقل المدبر الذي يربط بين جداول قاعدة البيانات (Models) وبين واجهات الاستخدام (Templates). ويقوم باستقبال وإرسال جميع الطلبات (Requests).
+                    ملف <code>app.py</code> أطول ملف في المشروع. ويعتبر (Controller) في نمط الـ MVC. هو العقل المدبر الذي يربط بين جداول قاعدة البيانات (Models) وبين واجهات الاستخدام (Templates). ويقوم باستقبال وإرسال جميع الطلبات (HTTP Requests).
                 </p>
+                <div class="p-4 bg-emerald-50 dark:bg-emerald-900/10 border-r-4 border-emerald-500 rounded mb-4">
+                    <p class="text-sm font-bold text-emerald-700 dark:text-emerald-400">💡 لماذا نضع كل الروابط (Routes) هنا؟</p>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">هندسة (مركزية التحكم - Centralized Control) تجعل إدارة أمان الموقع أسهل بكثير. فبدلاً من البحث في مئات الملفات، كل صفحة في المشروع لها دالة محددة هنا تتحكم بمَن يحق له الدخول وما هي البيانات التي ستسحب من الـ Database إلى الواجهة.</p>
+                </div>
 
                 <div class="bg-indigo-50/50 dark:bg-indigo-900/10 p-5 rounded-xl border border-indigo-100 dark:border-indigo-800">
-                    <h3 class="font-bold text-slate-800 dark:text-white mb-2">الدوال الجدارية وتحديث الطابور</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">يحتوي الكود على آليات حماية وتحديث آلية وتعتبر من الركائز التي بُني عليها المشروع:</p>
+                    <h3 class="font-bold text-slate-800 dark:text-white mb-2">الدوال الجدارية (Decorators) وتحديث الطابور</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">يحتوي الكود على آليات حماية متقدمة وتحديث حي للبيانات (Real-Time processing):</p>
                     
                     <div class="code-block-wrapper">
                         <div class="code-header">
@@ -331,34 +416,38 @@ PAGES_DATA = {
         "content": '''
             <div class="space-y-6">
                 <p class="text-slate-600 dark:text-slate-300">
-                    الكود القديم أو السطحي يعتمد على كتابة نصوص SQL نقية، وهو أسلوب غير آمن (Vulnerable to SQL Injection). لذا استخدمنا طبقة تجريدية ضخمة تسمى الـ (SQLAlchemy ORM - Object Relational Mapping). نحن نتعامل مع الجداول وكأنها كائنات (Objects).
+                    البرمجة القديمة تعتمد على كتابة نصوص SQL نقية، وهو أسلوب غير آمن تماماً ويعرض النظام لاختراق حقن البيانات (SQL Injection). لذا استخدمنا طبقة تجريدية ضخمة تسمى الـ (SQLAlchemy ORM - Object Relational Mapping).
                 </p>
+                
+                <div class="p-4 bg-fuchsia-50 dark:bg-fuchsia-900/10 border-r-4 border-fuchsia-500 rounded mb-4">
+                    <p class="text-sm font-bold text-fuchsia-700 dark:text-fuchsia-400">💡 الفائدة الهندسية للـ ORM:</p>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">نحن نتعامل مع الجداول وكأنها "كائنات وفئات بايثون" (Classes & Objects). هذا التجريد يجعل الكود نظيفاً جداً، ويسمح مستقبلاً بتغيير نوع قاعدة البيانات بالكامل (مثلاً من SQLite محلي إلى السيرفر السحابي PostgreSQL) دون الحاجة لتغيير سطر كود واحد من النظام!</p>
+                </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="bg-blue-50/50 dark:bg-blue-900/10 p-5 rounded-xl border border-blue-100 dark:border-blue-800">
                         <h4 class="font-bold text-slate-800 dark:text-white mb-2">1. جدول المستخدمين (User Model)</h4>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                            يُخزن بيانات دخول الدكاترة وموظفي الاستقبال والمدراء بشكل مشفر بفضل مكتبة <code>werkzeug.security</code>.
-                            <strong>ملاحظة هامة:</strong> يحتوي على حقل مهندس بـ <code>lazy=True</code> لربطه مع المواعيد التشخيصية.
+                            يُخزن بيانات دخول أطقم العيادة بشكل مشفر (Hashed) بفضل مكتبة <code>werkzeug.security</code> لتأمين كلمات السر (Passwords) حتى لو سُربت قاعدة البيانات نفسها في عملية اختراق.
                         </p>
                         <ul class="text-xs space-y-1 text-slate-700 dark:text-slate-300 list-disc list-inside">
-                            <li><code class="text-blue-600 dark:text-blue-400">id</code>: مفتاح رئيسي (PK).</li>
+                            <li><code class="text-blue-600 dark:text-blue-400">id</code>: مفتاح رئيسي (Primary Key).</li>
                             <li><code class="text-blue-600 dark:text-blue-400">username, password_hash</code>: لتسجيل الدخول بأمان.</li>
-                            <li><code class="text-blue-600 dark:text-blue-400">role</code>: دور الحساب (admin, doctor, reception).</li>
-                            <li><code class="text-fuchsia-600 dark:text-fuchsia-400">diagnoses</code>: (Relationship) قائمة كشوفاته.</li>
+                            <li><code class="text-blue-600 dark:text-blue-400">role</code>: دور الحساب لفصل الصلاحيات (Authorization).</li>
+                            <li><code class="text-fuchsia-600 dark:text-fuchsia-400">diagnoses</code>: (Relationship) قائمة كشوفاته المرتبطة.</li>
                         </ul>
                     </div>
 
                     <div class="bg-emerald-50/50 dark:bg-emerald-900/10 p-5 rounded-xl border border-emerald-100 dark:border-emerald-800">
                         <h4 class="font-bold text-slate-800 dark:text-white mb-2">2. جدول المرضى (Patient Model)</h4>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                            الجزء النابض. يحفظ كل تفصيل عن حالة المريض وقت وصوله، نقاطه (Score) المحسوبة آلياً، وحالته الحالية بالعيادة.
+                            القلب النابض! يحفظ كل تفصيل عن حالة المريض وقت وصوله، ونقاط الطوارئ المحسوبة آلياً لفرزه.
                         </p>
                         <ul class="text-xs space-y-1 text-slate-700 dark:text-slate-300 list-disc list-inside">
                             <li><code class="text-emerald-600 dark:text-emerald-400">name, age, phone</code>: معلومات أساسية.</li>
-                            <li><code class="text-emerald-600 dark:text-emerald-400">appointment_type</code>: (عادي، طوارئ، متابعة).</li>
-                            <li><code class="text-emerald-600 dark:text-emerald-400">urgency_tier, priority_score</code>: الخوارزمية تملأ هذا!</li>
-                            <li><code class="text-emerald-600 dark:text-emerald-400">status</code>: وضع المريض ('waiting', 'in_progress', 'completed').</li>
+                            <li><code class="text-emerald-600 dark:text-emerald-400">appointment_type</code>: (عادي، طوارئ، إلخ).</li>
+                            <li><code class="text-emerald-600 dark:text-emerald-400">urgency_tier, priority_score</code>: الخوارزمية تملأ هذا ديناميكياً لتكسر مبدأ الطابور الأعمى!</li>
+                            <li><code class="text-emerald-600 dark:text-emerald-400">status</code>: وضع المريض لتفعيل تحديث الواجهات.</li>
                         </ul>
                     </div>
                 </div>
@@ -410,19 +499,25 @@ PAGES_DATA = {
             <div class="space-y-6">
                 <p class="text-slate-600 dark:text-slate-300">
                     ملف <code>utils.py</code> يحتوي على الخلاصة المنطقية للنظام. السؤال هو: إذا كان المريض (أ) يشكو من شيء بسيط وينتظر منذ 10 ساعات، وجاء مريض (ب) بحالة مصاب بجلطة دماغية (طوارئ)، فهل يدخل صاحب የ10 ساعات؟ قطعا لا. 
-                    <b>كيف برمجنا هذه القاعدة الأخلاقية الصارمة؟</b>
+                    <b>كيف برمجنا هذه القاعدة الأخلاقية الصارمة؟ (تجاوزنا الـ FIFO)</b>
                 </p>
+                
+                <div class="p-4 bg-red-50 dark:bg-red-900/10 border-r-4 border-red-500 rounded mb-4 mt-4">
+                    <p class="text-sm font-bold text-red-700 dark:text-red-400">💡 الفائدة الهندسية والأكاديمية:</p>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">المستشفيات الحقيقية لا تعمل بنظام (من يأتي أولا). برمجنا خوارزمية فرز (Triage Algorithm) تعطي أوزاناً معينة (Weights) للعمر، ولخطورة الحالة، ولوقت الانتظار الفعلي لمنع الظلم. هذا يثبت للمناقش أن المشروع يعالج مشكلة مجتمعية معقدة وليس مجرد موقع إلكتروني بسيط.</p>
+                </div>
+
                 <p class="text-slate-600 dark:text-slate-300">
                     من خلال نظام أولوية ثنائي المستوى (Two-Level System) حاسم كالتالي:
                 </p>
                 
-                <ol class="list-decimal list-inside bg-red-50/50 dark:bg-red-900/10 p-5 rounded-xl border border-red-100 dark:border-red-800 text-slate-700 dark:text-slate-300 font-medium space-y-2 mb-6">
+                <ol class="list-decimal list-inside bg-red-50/50 dark:bg-red-900/10 p-5 rounded-xl border border-red-100 dark:border-red-800 text-slate-700 dark:text-slate-300 font-medium space-y-2 mb-6 mt-4">
                     <li><strong>الطبقة 1 (الإلحاح - Urgency Tier):</strong> وهي التي تقسم الناس كجدران حديدية (1 للطارئ جداً المهدد للحياة، 2 للمتابعة الجراحية السريعة، 3 للكشف العادي).</li>
                     <li><strong>الطبقة 2 (النقاط - Priority Score):</strong> تحدد الترتيب لمن هم <b>داخل نفس الطبقة والجدار</b>!</li>
                 </ol>
                 
                 <p class="text-sm text-slate-500 mb-4 border-r-4 border-slate-500 pr-3">
-                    لدينا استعلام (SQL Database Inquiry) يرتبهم بذكاء: <code>ORDER BY urgency_tier ASC, priority_score DESC</code>. هذا يعني أنه سيتم جلب أصحاب الطوارئ أولاً مهما كانت نقاط الذين تحتهم، ثم سيتم ترتيب أصحاب كل طبقة بحسب نقاط الضعف الخاصة بهم.
+                    لدينا استعلام (SQL Database Inquiry) يُطبق هذه الخوارزمية بذكاء: <code>ORDER BY urgency_tier ASC, priority_score DESC</code>. هذا يعني أنه سيتم جلب أصحاب الطوارئ أولاً مهما كانت نقاط الذين تحتهم، ثم سيتم ترتيب أصحاب كل طبقة بحسب نقاط الضعف الخاصة بهم.
                 </p>
                 
                 <div class="code-block-wrapper">
@@ -475,13 +570,18 @@ PAGES_DATA = {
         "content": '''
             <div class="space-y-6">
                 <p class="text-slate-600 dark:text-slate-300">
-                    الطريقة التقليدية الفاشلة جداً لحساب موعد المريض هي: (عدد المرضى أمامه × 10 دقائق). هذه معادلة عمياء. ماذا لو كان هناك حالات طوارئ أخذت نصف ساعة؟ الطب غير متوقع.
-                    الطريقة الذكية: <b>تدريب الذكاء الاصطناعي على السلوك الزمني السابق للعيادة واستخراج الرقم الحقيقي الخفي.</b>
+                    الطريقة التقليدية والمستخدمة في بعض المستشفيات لحساب موعد المريض هي: (عدد المرضى أمامه × 10 دقائق). هذه معادلة عمياء فاشلة، فماذا لو كان هناك حالات طوارئ أخذت نصف ساعة لكل مريض؟ الطب غير متوقع.
+                    الطريقة الذكية: <b>تدريب الذكاء الاصطناعي (Machine Learning) على السلوك الزمني السابق للعيادة واستخراج الرقم الحقيقي الخفي.</b>
                 </p>
                 
+                <div class="p-4 bg-indigo-50 dark:bg-indigo-900/10 border-r-4 border-indigo-500 rounded mb-4 mt-4">
+                    <p class="text-sm font-bold text-indigo-700 dark:text-indigo-400">💡 الفائدة الجوهرية (أساس تقييم المشروع):</p>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">هذه النقطة تُعتبر (Point of sale) في مشروع التخرج. الذكاء الاصطناعي لا يخمن طول الطابور، بل "يتعلم" من تاريخ العيادة أن يوم السبت صباحاً يكون الطبيب بطيئاً بسبب الازدحام، فيُعطي وقت انتظار أطول. هذا هو الجوهر الذي يجعل العيادة اسمها "ذكية".</p>
+                </div>
+
                 <h3 class="font-bold text-slate-800 dark:text-white text-lg">لماذا الغابة العشوائية (RandomForest) تحديداً؟</h3>
                 <p class="text-slate-600 dark:text-slate-300 mb-4">
-                    العيادة بيئة فوضوية، المواعيد تصعد وتهبط وتتأثر بالمواسم والساعات. خوارزميات الذكاء الخطي (Linear Regression) ستفشل هنا، بينما (RandomForest) تتغاضى عن الأشواك البيانية (Outliers والمشاكل النادرة الحدوث)، وتستنتج نمطاً قوياً عن طريق تدريب مئات "أشجار القرارات (Decision Trees)".
+                    العيادة بيئة فوضوية، المواعيد تصعد وتهبط وتتأثر بالمواسم والساعات. خوارزميات الذكاء الخطي (Linear Regression) ستفشل هنا لتعقيد البيانات، بينما (RandomForest) تتغاضى عن الشذوذ في البيانات (Outliers)، وتستنتج نمطاً قوياً عن طريق تدريب مئات "أشجار القرارات (Decision Trees)".
                 </p>
 
                 <div class="code-block-wrapper">
@@ -537,14 +637,15 @@ PAGES_DATA = {
                         <i class="bi bi-clock-history text-teal-500"></i> معضلة اختلاف المناطق الزمنية (clock.py)
                     </h3>
                     <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                        واحدة من أخطر المشاكل البرمجية التي يقع فيها الطلاب هي تسجيل الوقت حسب "لغة السيرفر". 
-                        فلو قمت برفع المشروع على سيرفر في أمريكا، وسجلت مريضاً الساعة 12 ظهراً بتوقيت بغداد، سيُسجل في قاعدة البيانات بأنه حضر الساعة 5 فجراً (أو بتوقيت سيرفر الاستضافة)! 
+                        واحدة من أخطر المشاكل البرمجية التي يقع فيها الطلاب هي تسجيل الوقت الراجع من "توقيت لغة السيرفر". 
+                        فلو قمت برفع المشروع على سيرفر في أمريكا، وسجلت مريضاً الساعة 12 ظهراً بتوقيت بغداد، سيُسجل في قاعدة البيانات بأنه حضر الساعة 5 فجراً (حسب موقع السيرفر المركزي)! 
                         النتيجة؟ المواعيد دُمرت، الحقول الإحصائية كاذبة، وحسابات الـ ML انهارت تماماً.
                     </p>
-                    <p class="font-bold text-slate-800 dark:text-white mb-2">القاعدة الذهبية المُنفذة للحماية من ذلك:</p>
-                    <p class="text-slate-600 dark:text-slate-300 font-mono text-sm bg-slate-100 dark:bg-slate-700 p-3 rounded mb-4">
-                        احفظ جميع التواريخ بـ Database كـ (UTC Standard) دائماً وأبداً. ثم حولها لـ (Baghdad Time) عند عرضها على الشاشة للمستخدم البشري فقط.
-                    </p>
+
+                    <div class="p-4 bg-teal-50 dark:bg-teal-900/10 border-r-4 border-teal-500 rounded mb-4">
+                        <p class="text-sm font-bold text-teal-700 dark:text-teal-400">💡 الحماية الهندسية المنفذة:</p>
+                        <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">استخدمنا معيار (UTC Standard) الدائم. النظام يحفظ جميع التواريخ بـ UTC (التوقيت العالمي الموحد بدون فوارق) في قاعدة البيانات لتثبيت المرجع، ثم يقوم بتحويلها إلى (Baghdad Time) <b>فقط</b> عند عرضها على الشاشة للبشر. هذا يجعل النظام دقيقاً جداً ولو نُقل السيرفر لأمريكا اللاتينية.</p>
+                    </div>
 
                     <div class="code-block-wrapper">
                         <div class="code-header">
@@ -600,8 +701,16 @@ def to_local(dt: datetime) -> datetime:
         "content": '''
             <div class="space-y-6">
                 <p class="text-slate-600 dark:text-slate-300 mb-6">
-                    تم إنشاء واجهات المشروع باستخدام تقنية <b>Jinja2 Templates</b>. ولأن إعادة كتابة الأكواد وتكرارها خطأ فادح في هندسة البرمجيات (DRY Principle)، قمنا ببرمجة <b>واجهة القالب الأساسي (layout.html)</b> التي ترث منها جميع الصفحات الأخرى خصائصها كشريط التنقل وقوالب التنبيه ودعم الـ Tailwind السريع.
+                    تم إنشاء واجهات المشروع باستخدام تقنية <b>Jinja2 Templates</b>. ولأن إعادة كتابة الأكواد وتكرارها خطأ فادح في هندسة البرمجيات (مبدأ DRY - Don't Repeat Yourself)، قمنا ببرمجة <b>واجهة القالب الأساسي (layout.html)</b> التي ترث منها جميع الصفحات الأخرى خصائصها كشريط التنقل وقوالب التنبيه.
                 </p>
+
+                <div class="p-4 bg-sky-50 dark:bg-sky-900/10 border-r-4 border-sky-500 rounded mb-6">
+                    <p class="text-sm font-bold text-sky-700 dark:text-sky-400">💡 لماذا Tailwind CSS وأجاكس وليس CSS عادي وإطارات JS معقدة؟</p>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">
+                        تخلصنا من ملفات CSS الضخمة التي تصبح كابوساً عند التعديل، فـ Tailwind سمحت لنا بالتسريع وبناء الوضع الليلي بكلمة <code>dark:</code> فقط. 
+                        أما بالنسبة للجافاسكربت، فقد حصرنا استخدامها <b>في أضيق الحدود (Vanilla JS)</b> للقيام بمهام AJAX (Fetch API) لتحديث الشاشات (مثل شاشة الطابور ولوحة الطبيب) حياً (Real-time) دون انقطاع عمل المتصفح، متجنبين بذلك تعقيدات الـ Frontend Frameworks التي قد تشتت المناقش عن الفكرة الأساسية وهي الذكاء الاصطناعي وهندسة البايثون.
+                    </p>
+                </div>
 
                 <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
                     <h3 class="font-bold text-slate-800 dark:text-white mb-4 text-xl border-b border-slate-200 dark:border-slate-700 pb-2">تفصيل وظائف الشاشات الـ 10</h3>
@@ -717,6 +826,114 @@ def to_local(dt: datetime) -> datetime:
                         🎉 مبروك! باتباعك لتلك الأنظمة الحديثة، أصبح مشروع العيادة الذكية متاحاً للعملاء ومدراء النظام في أي وقت وأي مكان.
                     </p>
                 </section>
+            </div>
+        '''
+    },
+    
+    # ==================== (10) STUDENT GUIDE ====================
+    "student_guide": {
+        "icon": "bi-mortarboard-fill text-green-500",
+        "nav_title": "10. دليل الطالب والتشغيل",
+        "title": "دليل الطالب: تشغيل وفهم مشروع العيادة الذكية",
+        "description": "دليل مخصص لك كطالب لتتمكن من تشغيل المشروع على حاسوبك الشخصي (Windows) بسهولة تامة.",
+        "content": '''
+            <div class="space-y-6">
+                <!-- التشغيل السريع -->
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
+                        <i class="bi bi-lightning-charge-fill text-amber-500"></i> أولاً: التشغيل السريع (بنقرة واحدة للمبتدئين)
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        لمساعدتك في تجاوز عقبات سطر الأوامر (Terminal)، صممنا لك ملف تشغيل آلي (Script) يقوم بكل شيء بالنيابة عنك!
+                    </p>
+
+                    <ol class="list-decimal list-inside space-y-3 text-slate-700 dark:text-slate-300">
+                        <li>قم بفك الضغط عن مجلد المشروع <code>SmartClinic_Project</code> وضعه في مكان مناسب (القرص C أو D).</li>
+                        <li>تأكد من أن <strong>Python</strong> مُثبت على جهاز الويندوز الخاص بك (عند التثبيت، يجب التأكد من وضع علامة ✅ على خيار <code>Add Python to PATH</code>).</li>
+                        <li>ادخل لمجلد المشروع وابحث عن الملف المسمى: 👉 <strong class="text-blue-600 dark:text-blue-400"><code>تشغيل_العيادة_الذكية.bat</code></strong>.</li>
+                        <li><strong>انقر نقراً مزدوجاً</strong> على هذا الملف.</li>
+                        <li>ستفتح لك شاشة سوداء (موجه الأوامر). انتظر قليلاً، وسيقوم الملف تلقائياً بـ:
+                            <ul class="list-disc list-inside ml-6 mt-2 space-y-1 text-slate-600 dark:text-slate-400">
+                                <li>إنشاء بيئة افتراضية منعزلة (Virtual Environment).</li>
+                                <li>تثبيت جميع المكاتب اللازمة (Flask، SQLAlchemy، Scikit-Learn...).</li>
+                                <li>تجهيز قاعدة البيانات بصلاحياتها ومستخدميها.</li>
+                                <li>فتح المتصفح الخاص بك تلقائياً على رابط المشروع (<code>http://127.0.0.1:8080</code>).</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </section>
+
+                <!-- التشغيل اليدوي للويندوز -->
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
+                        <i class="bi bi-terminal-fill text-slate-700 dark:text-slate-300"></i> ثانياً: التشغيل اليدوي (للمحترفين عبر Windows CMD)
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        إذا كنت تفضل كتابة الأوامر بنفسك لفهم ما يجري خلف الكواليس، اتبع الخطوات التالية في موجه الأوامر (CMD) لمسار المشروع:
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                            <h4 class="font-bold text-sm text-slate-700 dark:text-slate-300 mb-2">1. إنشاء وتفعيل البيئة الافتراضية</h4>
+                            <pre><code class="language-bash">python -m venv venv
+venv\\Scripts\\activate</code></pre>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                            <h4 class="font-bold text-sm text-slate-700 dark:text-slate-300 mb-2">2. تثبيت المكاتب المطلوبة</h4>
+                            <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                            <h4 class="font-bold text-sm text-slate-700 dark:text-slate-300 mb-2">3. تشغيل خادم الويب (Flask Server)</h4>
+                            <pre><code class="language-bash">python app.py</code></pre>
+                            <p class="text-xs text-slate-500 mt-2">ثم افتح المتصفح على الرابط: <code>http://127.0.0.1:5000</code> أو <code>http://localhost:5000</code></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- بيانات الدخول -->
+                <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
+                        <i class="bi bi-key-fill text-yellow-500"></i> بيانات تسجيل الدخول (Accounts)
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 mb-4">
+                        التطبيق يحتوي مسبقاً على حسابات جاهزة لتجرّب النظام بكامل أدوراه. استخدمها في صفحة (<code>/login</code>):
+                    </p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-start">
+                            <thead class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300">
+                                <tr>
+                                    <th class="p-3 border-b dark:border-slate-600">الدور (الرتبة)</th>
+                                    <th class="p-3 border-b dark:border-slate-600">اسم المستخدم</th>
+                                    <th class="p-3 border-b dark:border-slate-600">كلمة المرور</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-700 dark:text-slate-300 divide-y divide-slate-200 dark:divide-slate-700">
+                                <tr>
+                                    <td class="p-3 font-bold text-fuchsia-600 dark:text-fuchsia-400">الإدارة العليا (Admin)</td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">admin</code></td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">123</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-red-600 dark:text-red-400">طبيب معالج</td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">doctor</code></td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">123</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-blue-600 dark:text-blue-400">موظف استقبال</td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">reception</code></td>
+                                    <td class="p-3"><code class="bg-slate-200 dark:bg-slate-700 px-2 rounded">123</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <div class="p-4 bg-emerald-50 dark:bg-emerald-900/10 border-l-4 border-emerald-500 rounded text-slate-700 dark:text-slate-300 text-sm">
+                    <strong>نصيحة للمتميزين:</strong> جرب فتح صفحة <code>/admin/db</code> من حساب <code>admin</code> لرؤية نافذة التحرير المباشرة لقاعدة البيانات (Database Viewer).
+                </div>
             </div>
         '''
     }

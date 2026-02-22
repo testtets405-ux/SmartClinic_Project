@@ -145,6 +145,9 @@
         <a href="deployment.html" class="nav-btn ">
             <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع
         </a>
+        <a href="student_guide.html" class="nav-btn ">
+            <i class="bi bi-mortarboard-fill text-green-500"></i> 10. دليل الطالب والتشغيل
+        </a>
         </nav>
         <div
           class="mt-8 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-center">
@@ -166,34 +169,38 @@
         
             <div class="space-y-6">
                 <p class="text-slate-600 dark:text-slate-300">
-                    الكود القديم أو السطحي يعتمد على كتابة نصوص SQL نقية، وهو أسلوب غير آمن (Vulnerable to SQL Injection). لذا استخدمنا طبقة تجريدية ضخمة تسمى الـ (SQLAlchemy ORM - Object Relational Mapping). نحن نتعامل مع الجداول وكأنها كائنات (Objects).
+                    البرمجة القديمة تعتمد على كتابة نصوص SQL نقية، وهو أسلوب غير آمن تماماً ويعرض النظام لاختراق حقن البيانات (SQL Injection). لذا استخدمنا طبقة تجريدية ضخمة تسمى الـ (SQLAlchemy ORM - Object Relational Mapping).
                 </p>
+                
+                <div class="p-4 bg-fuchsia-50 dark:bg-fuchsia-900/10 border-r-4 border-fuchsia-500 rounded mb-4">
+                    <p class="text-sm font-bold text-fuchsia-700 dark:text-fuchsia-400">💡 الفائدة الهندسية للـ ORM:</p>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">نحن نتعامل مع الجداول وكأنها "كائنات وفئات بايثون" (Classes & Objects). هذا التجريد يجعل الكود نظيفاً جداً، ويسمح مستقبلاً بتغيير نوع قاعدة البيانات بالكامل (مثلاً من SQLite محلي إلى السيرفر السحابي PostgreSQL) دون الحاجة لتغيير سطر كود واحد من النظام!</p>
+                </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="bg-blue-50/50 dark:bg-blue-900/10 p-5 rounded-xl border border-blue-100 dark:border-blue-800">
                         <h4 class="font-bold text-slate-800 dark:text-white mb-2">1. جدول المستخدمين (User Model)</h4>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                            يُخزن بيانات دخول الدكاترة وموظفي الاستقبال والمدراء بشكل مشفر بفضل مكتبة <code>werkzeug.security</code>.
-                            <strong>ملاحظة هامة:</strong> يحتوي على حقل مهندس بـ <code>lazy=True</code> لربطه مع المواعيد التشخيصية.
+                            يُخزن بيانات دخول أطقم العيادة بشكل مشفر (Hashed) بفضل مكتبة <code>werkzeug.security</code> لتأمين كلمات السر (Passwords) حتى لو سُربت قاعدة البيانات نفسها في عملية اختراق.
                         </p>
                         <ul class="text-xs space-y-1 text-slate-700 dark:text-slate-300 list-disc list-inside">
-                            <li><code class="text-blue-600 dark:text-blue-400">id</code>: مفتاح رئيسي (PK).</li>
+                            <li><code class="text-blue-600 dark:text-blue-400">id</code>: مفتاح رئيسي (Primary Key).</li>
                             <li><code class="text-blue-600 dark:text-blue-400">username, password_hash</code>: لتسجيل الدخول بأمان.</li>
-                            <li><code class="text-blue-600 dark:text-blue-400">role</code>: دور الحساب (admin, doctor, reception).</li>
-                            <li><code class="text-fuchsia-600 dark:text-fuchsia-400">diagnoses</code>: (Relationship) قائمة كشوفاته.</li>
+                            <li><code class="text-blue-600 dark:text-blue-400">role</code>: دور الحساب لفصل الصلاحيات (Authorization).</li>
+                            <li><code class="text-fuchsia-600 dark:text-fuchsia-400">diagnoses</code>: (Relationship) قائمة كشوفاته المرتبطة.</li>
                         </ul>
                     </div>
 
                     <div class="bg-emerald-50/50 dark:bg-emerald-900/10 p-5 rounded-xl border border-emerald-100 dark:border-emerald-800">
                         <h4 class="font-bold text-slate-800 dark:text-white mb-2">2. جدول المرضى (Patient Model)</h4>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                            الجزء النابض. يحفظ كل تفصيل عن حالة المريض وقت وصوله، نقاطه (Score) المحسوبة آلياً، وحالته الحالية بالعيادة.
+                            القلب النابض! يحفظ كل تفصيل عن حالة المريض وقت وصوله، ونقاط الطوارئ المحسوبة آلياً لفرزه.
                         </p>
                         <ul class="text-xs space-y-1 text-slate-700 dark:text-slate-300 list-disc list-inside">
                             <li><code class="text-emerald-600 dark:text-emerald-400">name, age, phone</code>: معلومات أساسية.</li>
-                            <li><code class="text-emerald-600 dark:text-emerald-400">appointment_type</code>: (عادي، طوارئ، متابعة).</li>
-                            <li><code class="text-emerald-600 dark:text-emerald-400">urgency_tier, priority_score</code>: الخوارزمية تملأ هذا!</li>
-                            <li><code class="text-emerald-600 dark:text-emerald-400">status</code>: وضع المريض ('waiting', 'in_progress', 'completed').</li>
+                            <li><code class="text-emerald-600 dark:text-emerald-400">appointment_type</code>: (عادي، طوارئ، إلخ).</li>
+                            <li><code class="text-emerald-600 dark:text-emerald-400">urgency_tier, priority_score</code>: الخوارزمية تملأ هذا ديناميكياً لتكسر مبدأ الطابور الأعمى!</li>
+                            <li><code class="text-emerald-600 dark:text-emerald-400">status</code>: وضع المريض لتفعيل تحديث الواجهات.</li>
                         </ul>
                     </div>
                 </div>

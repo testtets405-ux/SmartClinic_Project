@@ -145,6 +145,9 @@
         <a href="deployment.html" class="nav-btn ">
             <i class="bi bi-rocket-takeoff-fill text-yellow-500"></i> 9. التشغيل والرفع
         </a>
+        <a href="student_guide.html" class="nav-btn ">
+            <i class="bi bi-mortarboard-fill text-green-500"></i> 10. دليل الطالب والتشغيل
+        </a>
         </nav>
         <div
           class="mt-8 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-center">
@@ -200,7 +203,7 @@
                         <i class="bi bi-stack text-purple-500"></i> البنية التكنولوجية (Tech Stack Breakdown)
                     </h3>
                     <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                        لبناء هذا النظام المتكامل والمعقد، تم استخدام مجموعة من أحدث التقنيات وأكثرها استقراراً في سوق العمل هندسياً:
+                        لبناء هذا النظام المتكامل، تم استخدام مجموعة من أحدث التقنيات. <strong>الهدف من هذا القسم هو جعلك كطالب قادراً على الإجابة بكل ثقة على سؤال المناقش: "لماذا استخدمت هذه التقنية تحديداً؟ وما فائدتها؟"</strong>
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -209,29 +212,42 @@
                                 <i class="bi bi-filetype-py text-2xl text-blue-500"></i>
                                 <span class="font-bold text-slate-800 dark:text-white text-lg">بايثون (Python 3.10+)</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                لغة البرمجة الأساسية في الخادم (Backend). استُخدمت لبرمجة الخوارزميات الرياضية المعقدة (Priority Calculation)، والتعامل مع المكتبات الإحصائية، وإدارة مناطق التوقيت (Timezones) الحساسة جداً لتسعير الوقت.
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                لغة البرمجة الأساسية في الخادم (Backend).
                             </p>
+                            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2 list-disc list-inside">
+                                <li><strong>لماذا بايثون؟</strong> لأنها اللغة رقم #1 عالمياً في الذكاء الاصطناعي، وتتميز بكود مقروء وبسيط جداً يسهل على الطالب استيعابه وشرحه.</li>
+                                <li><strong>كيف تعمل هنا؟</strong> تقوم بدور "العقل المفكر" للمشروع؛ تحسب أولويات المرضى وتدير النظام بأكمله.</li>
+                                <li><strong>الفائدة الهندسية:</strong> ربطت خوارزميات الطابور (Priority Triage) بنماذج تعلم الآلة (ML) بسلاسة في بيئة واحدة دون الحاجة للغات متعددة.</li>
+                            </ul>
                         </div>
                         
                         <div class="bg-emerald-50/50 dark:bg-emerald-900/10 p-5 rounded-xl border border-emerald-100 dark:border-emerald-800">
                             <div class="flex items-center gap-3 mb-2">
                                 <i class="bi bi-server text-2xl text-emerald-500"></i>
-                                <span class="font-bold text-slate-800 dark:text-white text-lg">استضافة فلاسك (Flask Web Framework)</span>
+                                <span class="font-bold text-slate-800 dark:text-white text-lg">إطار عمل فلاسك (Flask Web Framework)</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                هيكلة (MVT) سريعة وموثوقة لاستقبال طلبات (HTTP). معتمدة لميزاتها الأمنية وتوافقيتها السريعة في إنتاج الـ APIs وبناء نظام توجيه (Routing) محمي باستخدام المفاهيم المتقدمة (Decorators).
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                إطار عمل (Framework) لبناء المواقع باستخدام بايثون بهندسية (MVT).
                             </p>
+                            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2 list-disc list-inside">
+                                <li><strong>لماذا فلاسك وليس جانغو (Django)؟</strong> فلاسك خفيف جداً (Micro-framework) ولا يحتوي على تعقيدات ومجلدات كثيرة غير ضرورية، مما يجعله مثالياً لمشروع تخرج سريع الفهم للمناقشين، في حين أن Django قد يكون معقداً وصعب الشرح.</li>
+                                <li><strong>الفائدة للمشروع:</strong> استخدمناه لاستقبال طلبات المتصفح (HTTP) وبناء نظام توجيه (Routing) محمي، بحيث لا يُفتح قسم "الطبيب" إلا بحساب الطبيب.</li>
+                            </ul>
                         </div>
                         
                         <div class="bg-indigo-50/50 dark:bg-indigo-900/10 p-5 rounded-xl border border-indigo-100 dark:border-indigo-800">
                             <div class="flex items-center gap-3 mb-2">
                                 <i class="bi bi-database-fill text-2xl text-indigo-500"></i>
-                                <span class="font-bold text-slate-800 dark:text-white text-lg">بيانات أمنة (SQLite & SQLAlchemy)</span>
+                                <span class="font-bold text-slate-800 dark:text-white text-lg">قاعدة البيانات (SQLite & SQLAlchemy)</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                بدلاً من استخدام نصوص SQL معرضة للاختراق (SQL Injection)، تم استخدام (ORM) لتجريد قاعدة البيانات. حيث تُعامل الجداول ككائنات (Objects) يمكن استخراج بياناتها عبر علاقات قوية (Foreign Keys).
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                نظام إدارة قواعد البيانات لحفظ المرضى والمستخدمين بأمان.
                             </p>
+                            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2 list-disc list-inside">
+                                <li><strong>لماذا SQLite؟</strong> لأنها تُحفظ كملف <code>clinic.db</code> جاهز للعمل. لا حاجة لتثبيت خوادم معقدة مثل MySQL على حاسوب المناقش أو الجامعة.</li>
+                                <li><strong>ما هو SQLAlchemy ولماذا استخدمناه؟</strong> هو (ORM) يحول جداول البيانات إلى "كائنات بايثون" (Objects). الفائدة العظمى منه هي حماية النظام تماماً من الاختراق ثغرة (SQL Injection)، كما أنه يبسط الكود بدلاً من كتابة أوامر أجنبية داخل بايثون.</li>
+                            </ul>
                         </div>
                         
                         <div class="bg-pink-50/50 dark:bg-pink-900/10 p-5 rounded-xl border border-pink-100 dark:border-pink-800">
@@ -239,19 +255,62 @@
                                 <i class="bi bi-robot text-2xl text-pink-500"></i>
                                 <span class="font-bold text-slate-800 dark:text-white text-lg">الذكاء الاصطناعي (Scikit-Learn ML)</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                توظيف نموذج الـ RandomForest المتقدم لحساب (ETA - Estimated Time of Arrival). الموديل لا يخمن، بل يتعلم من داتا العيادة التاريخية والساعات والأيام ليستنتج متى حان دور المريض بالضبط.
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                                مكتبة التعلم الآلي القوية. استخدمنا بداخلها نموذج (Random Forest Regressor).
+                            </p>
+                            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2 list-disc list-inside">
+                                <li><strong>كيف يعمل ولماذا استُخدم؟</strong> بدلاً من التخمين العشوائي (إعطاء كل مريض 15 دقيقة انتظار ثابتة غبية)، يقوم نموذجنا بالتنبؤ بالوقت الفعلي من خلال التدرب على بيانات العيادة (ضغط العمل، وقت اليوم، والطابور الحالي).</li>
+                                <li><strong>الفائدة الجوهرية (الميزة التنافسية):</strong> هي ما يجعل العيادة (ذكية). بدون هذا الموديل سيكون النظام مجرد طابور إلكتروني عادي. الذكاء الاصطناعي هو نقطة القوة (Selling Point) الأساسية في مشروع التخرج.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i class="bi bi-palette-fill text-2xl text-cyan-500"></i>
+                                <span class="font-bold text-slate-800 dark:text-white text-lg">الواجهات المرئية (Tailwind CSS)</span>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-2 leading-relaxed">
+                                <strong>لماذا Tailwind؟</strong> تخلصنا من ملفات CSS الضخمة التي تصبح كابوساً عند التعديل، وبدأنا نكتب التصميم داخل ملف HTML ككلاسات جاهزة (Utility-First). وفر هذا 70% من وقت بناء الواجهات مع جعل الموقع متجاوباً (Responsive) للهواتف وبناء الوضع الليلي بكلمة <code>dark:</code> فقط.
                             </p>
                         </div>
                         
-                        <div class="bg-fuchsia-50/50 dark:bg-fuchsia-900/10 p-5 rounded-xl border border-fuchsia-100 dark:border-fuchsia-800 md:col-span-2">
-                            <div class="flex items-center gap-3 mb-2">
-                                <i class="bi bi-palette text-2xl text-fuchsia-500"></i>
-                                <span class="font-bold text-slate-800 dark:text-white text-lg">واجهات حديثة (Tailwind CSS + JS)</span>
+                        <div class="bg-yellow-50/50 dark:bg-yellow-900/10 p-5 rounded-xl border border-yellow-200 dark:border-yellow-800 md:col-span-2 shadow-inner">
+                            <div class="flex items-center gap-3 mb-4 border-b border-yellow-200 dark:border-yellow-800 pb-3">
+                                <i class="bi bi-filetype-jsx text-3xl text-yellow-600 dark:text-yellow-400"></i>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 dark:text-white text-lg">أين تم استخدام الجافاسكربت (JavaScript) بالضبط؟</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">خريطة مفصلة للـ 5% من الكود المكتوب بـ (Vanilla JS) الخالصة للفهم والمناقشة الأكاديمية.</p>
+                                </div>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">
-                                تم تجريد النظام من لغات الـ CSS القديمة، والاعتماد على مكتبة (Utility-first) وهي Tailwind CSS لبناء واجهات متجاوبة (Responsive) وتعمل بوضع (Dark/Light Mode) ديناميكي وتدعم التحديث الآني عبر الأجاكس (AJAX).
-                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-display"></i> 1. شاشة الطابور (queue.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">تُستخدم دالة <code>fetch()</code> لطلب بيانات المرضى من الخادم (API) كل 5 ثوانٍ وإعادة رسم الشاشة <b>بدون عمل Refresh</b> لتوفير تحديث حي (Real-time Feel).</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-graph-up-arrow"></i> 2. لوحة الإدارة المركزية (admin.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">تشغيل مكتبة (Chart.js) لرسم المنحنيات البيانية للإحصائيات بطريقة تفاعلية جذابة لقراءة البيانات والأرباح.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-moon-stars"></i> 3. القالب الرئيسي للجميع (layout.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">سكربت تفعيل (الوضع الليلي) وحفظه في الـ LocalStorage المدمج بالمتصفح. بالإضافة لبرمجة عداد تنازلي لإخفاء رسائل الخطأ (Toasts) بعد 3 ثوانٍ.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-database-check"></i> 4. عارض قاعدة البيانات الداخلية (db_viewer.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">برمجة أزرار الحفظ والحذف للتواصل العكسي مع قاعدة البيانات بصمت (Silently AJAX) وتحديث جداول الـ JSON.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-yellow-400 transition-colors md:col-span-2">
+                                    <h5 class="font-bold text-yellow-600 dark:text-yellow-400 text-xs mb-1"><i class="bi bi-shield-check"></i> 5. شاشة التسجيل للطاقم الطبي (register.html)</h5>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">نافذة أمان صغيرة (Client-Side Validation) تقارن كلمتي المرور المدخلتين قبل إرسالهما للخادم لمنع إضاعة وقت السيرفر بردود الخطأ.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3 bg-blue-50 dark:bg-blue-900/30 rounded border-r-4 border-blue-500 text-sm text-slate-700 dark:text-slate-300">
+                                <p class="font-bold text-blue-700 dark:text-blue-400 mb-1"><i class="bi bi-magic"></i> جواب دفاعي ذكي للمناقشة (Defense Strategy):</p>
+                                <p class="text-xs leading-relaxed">إذا سألك الأستاذ المشرف: <b>"لماذا لم تستخدم React أو Angular كإطار عمل للواجهات؟"</b><br>
+                                الجواب האكاديمي الدقيق: "مشروعنا يرتكز قوامه على نموذج الذكاء الاصطناعي (Machine Learning) وخوارزمية الفرز (Triage) الموجودة في الخادم (Backend) المبرمج ببايثون. استخدام إطار عمل ضخم مثل React لعرض بيانات بسيطة يُعد تعقيداً هندسياً زائداً (Over-engineering) ويهدر موارد السيرفر دون حاجة. لقد اكتفينا بـ <b>Vanilla JS</b> للقيام بالربط اللحظي (AJAX) حصراً، لنحافظ على كود سريع، خفيف الوزن، ويركز على المنطق المعقد الداخلي للمشروع."</p>
+                            </div>
                         </div>
                     </div>
                 </section>
