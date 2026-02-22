@@ -32,7 +32,7 @@ class Config:
     # ── 2. الرمز السري للإدارة (Admin Secret Key) ──
     # [وظيفتها]: طبقة حماية ثانية (2nd Layer). حتى لو كان طبيب يمتلك حساباً في 
     # النظام، لن يستطيع إنشاء حِساب "مدير" بصلاحيات عليا إلا إذا كان يعلم هذا الرمز السري.
-    ADMIN_SECRET_KEY = os.environ.get("ADMIN_SECRET_KEY", "123456")
+    ADMIN_SECRET_KEY = os.environ.get("ADMIN_SECRET_KEY", "123")
 
     # ── 3. مسار قاعدة البيانات (Database URI) ──
     # [وظيفتها]: تخبر مكتبة SQLAlchemy عن نوع قاعدة البيانات ومكانها. 
