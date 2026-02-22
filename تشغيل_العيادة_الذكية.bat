@@ -1,149 +1,148 @@
 @echo off
-chcp 65001 >nul 2>&1
-title نظام العيادة الذكية - Smart Clinic
+REM Change working directory to the script's location
+cd /d "%~dp0"
 
+title Smart Clinic System - Auto Launcher
 cls
 echo.
-echo  ╔══════════════════════════════════════════════════════════╗
-echo  ║       نظام العيادة الذكية - Smart Clinic System         ║
-echo  ║              سكربت التشغيل التلقائي الشامل              ║
-echo  ╚══════════════════════════════════════════════════════════╝
+echo  ==========================================================
+echo            Smart Clinic System - Auto Launcher             
+echo  ==========================================================
 echo.
 
-REM ─────────────────────────────────────────────────────
-REM 1. التحقق من وجود Python على الجهاز
-REM ─────────────────────────────────────────────────────
-echo  [1/5] التحقق من بايثون (Python)...
+REM -----------------------------------------------------
+REM 1. Check Python
+REM -----------------------------------------------------
+echo  [1/5] Checking Python installation...
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
     python3 --version >nul 2>&1
     if %errorlevel% neq 0 (
         echo.
-        echo  [!] بايثون غير مثبت على هذا الجهاز!
-        echo      سيتم تحميله وتثبيته تلقائياً من الموقع الرسمي...
+        echo  [!] Python is not installed on this machine!
+        echo      Downloading and installing automatically...
         echo.
 
-        REM تحديد معمارية الجهاز
+        REM Detect Architecture
         if "%PROCESSOR_ARCHITECTURE%"=="AMD64" (
             set PY_URL=https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe
         ) else (
             set PY_URL=https://www.python.org/ftp/python/3.11.9/python-3.11.9.exe
         )
 
-        echo  [*] جاري تحميل Python 3.11.9 من:
+        echo  [*] Downloading Python 3.11.9 from:
         echo      %PY_URL%
         echo.
 
-        REM استخدام PowerShell للتحميل
-        powershell -Command "& {Invoke-WebRequest -Uri '%PY_URL%' -OutFile '%TEMP%\python_installer.exe' -UseBasicParsing; Write-Host 'تم التحميل بنجاح!'}"
+        powershell -Command "& {Invoke-WebRequest -Uri '%PY_URL%' -OutFile '%TEMP%\python_installer.exe' -UseBasicParsing; Write-Host 'Download complete!'}"
         
         if %errorlevel% neq 0 (
             echo.
-            echo  [خطأ] فشل تحميل بايثون. تحقق من اتصالك بالإنترنت.
-            echo  يمكنك تحميله يدوياً من: https://www.python.org/downloads/
-            echo  (تذكر: ضع علامة على "Add Python to PATH" عند التثبيت)
+            echo  [Error] Failed to download Python. Check your internet connection.
+            echo  Please download manually from: https://www.python.org/downloads/
+            echo  (Remember to check "Add Python to PATH" during installation)
             pause
             exit /b 1
         )
 
-        echo  [*] جاري تثبيت Python بشكل صامت مع إضافته لـ PATH...
+        echo  [*] Installing Python silently and adding to PATH...
         "%TEMP%\python_installer.exe" /quiet InstallAllUsers=0 PrependPath=1 Include_test=0
         
         if %errorlevel% neq 0 (
-            echo  [خطأ] فشل التثبيت التلقائي. يرجى تشغيل المثبت يدوياً.
+            echo  [Error] Auto-install failed. Please run the installer manually.
             start "" "%TEMP%\python_installer.exe"
-            echo  (لا تنسَ تفعيل "Add Python to PATH" في المثبت!)
+            echo  (Remember to check "Add Python to PATH" in the installer!)
             pause
             exit /b 1
         )
 
-        REM تحديث متغيرات البيئة في هذه الجلسة
+        REM Refresh environment variables for this session
         for /f "tokens=*" %%i in ('powershell -Command "[System.Environment]::GetEnvironmentVariable(\"PATH\",\"User\")"') do set "PATH=%%i;%PATH%"
         
-        echo  [✓] تم تثبيت Python بنجاح!
+        echo  [OK] Python installed successfully!
     )
 )
-echo  [✓] Python موجود على الجهاز.
+echo  [OK] Python is installed.
 
-REM ─────────────────────────────────────────────────────
-REM 2. التحقق أو إنشاء البيئة الافتراضية
-REM ─────────────────────────────────────────────────────
+REM -----------------------------------------------------
+REM 2. Check/Create Virtual Environment
+REM -----------------------------------------------------
 echo.
-echo  [2/5] التحقق من البيئة الافتراضية (venv)...
+echo  [2/5] Checking Virtual Environment (venv)...
 if not exist "venv\Scripts\activate.bat" (
-    echo  [*] إنشاء بيئة بايثون افتراضية منعزلة جديدة...
+    echo  [*] Creating a new isolated Python virtual environment...
     python -m venv venv
     if %errorlevel% neq 0 (
-        echo  [خطأ] فشل إنشاء البيئة الافتراضية.
+        echo  [Error] Failed to create virtual environment.
         pause
         exit /b 1
     )
-    echo  [✓] تم إنشاء البيئة الافتراضية بنجاح.
+    echo  [OK] Virtual environment created successfully.
 ) else (
-    echo  [✓] البيئة الافتراضية موجودة مسبقاً.
+    echo  [OK] Virtual environment already exists.
 )
 
-REM ─────────────────────────────────────────────────────
-REM 3. تفعيل البيئة وتثبيت المكتبات
-REM ─────────────────────────────────────────────────────
+REM -----------------------------------------------------
+REM 3. Activate venv ^& Install Libraries
+REM -----------------------------------------------------
 echo.
-echo  [3/5] تثبيت المكتبات المطلوبة (Flask, AI, والباقي)...
+echo  [3/5] Installing required libraries (Flask, AI, etc.)...
 call venv\Scripts\activate.bat
 python -m pip install --upgrade pip --quiet
 pip install -r requirements.txt --quiet
 if %errorlevel% neq 0 (
-    echo  [خطأ] فشل تثبيت المكتبات. تحقق من اتصالك بالإنترنت.
+    echo  [Error] Failed to install libraries. Check your internet connection.
     pause
     exit /b 1
 )
-echo  [✓] جميع المكتبات مثبتة بنجاح.
+echo  [OK] All libraries installed successfully.
 
-REM ─────────────────────────────────────────────────────
-REM 4. تجهيز قاعدة البيانات
-REM ─────────────────────────────────────────────────────
+REM -----------------------------------------------------
+REM 4. Setup Database
+REM -----------------------------------------------------
 echo.
-echo  [4/5] تجهيز قاعدة البيانات...
+echo  [4/5] Setting up the Virtual Clinic Database...
 if not exist clinic.db (
-    echo  [*] قاعدة البيانات غير موجودة.. يتم إنشاؤها بمرضى وحسابات تجريبية...
+    echo  [*] Database not found. Creating it with sample data...
     python seed_db.py
     if %errorlevel% neq 0 (
-        echo  [تحذير] لم يتم تشغيل سكربت البيانات التجريبية - ستبدأ العيادة فارغة تماماً.
+        echo  [Warning] Demo data script failed - the clinic will start empty.
     ) else (
-        echo  [✓] تم إنشاء قاعدة البيانات بنجاح مع البيانات التجريبية:
-        echo       - المدير:    admin    / 123
-        echo       - الطبيب:   doctor   / 123
-        echo       - الاستقبال: reception / 123
+        echo  [OK] Database created successfully with demo accounts:
+        echo       - Admin:     admin     / 123
+        echo       - Doctor:    doctor    / 123
+        echo       - Reception: reception / 123
     )
 ) else (
-    echo  [✓] قاعدة البيانات موجودة مسبقاً.
+    echo  [OK] Database already exists.
 )
 
-REM ─────────────────────────────────────────────────────
-REM 5. تشغيل الخادم وفتح المتصفح
-REM ─────────────────────────────────────────────────────
+REM -----------------------------------------------------
+REM 5. Start Server ^& Open Browser
+REM -----------------------------------------------------
 echo.
-echo  [5/5] تشغيل الخادم...
+echo  [5/5] Starting Web Server...
 echo.
-echo  ══════════════════════════════════════════════════════════
-echo   ✓ النظام جاهز! سيتم فتح المتصفح على:
+echo  ==========================================================
+echo   [OK] System is ready! Opening browser at:
 echo     http://127.0.0.1:8080
 echo.
-echo   بيانات الدخول:
-echo     المدير    →  admin      / 123
-echo     الطبيب   →  doctor     / 123
-echo     الاستقبال →  reception  / 123
+echo   Login Details:
+echo     Admin     -^> admin      / 123
+echo     Doctor    -^> doctor     / 123
+echo     Reception -^> reception  / 123
 echo.
-echo   لإيقاف النظام: اضغط Ctrl+C في هذه النافذة
-echo  ══════════════════════════════════════════════════════════
+echo   To stop the system: Press Ctrl+C in this window.
+echo  ==========================================================
 echo.
 
-REM فتح المتصفح بعد ثانيتين
+REM Open browser after 2 seconds
 timeout /t 2 /nobreak >nul
 start "" "http://127.0.0.1:8080"
 
-REM تشغيل السيرفر
+REM Run server
 python main.py
 
 echo.
-echo  [!] تم إيقاف الخادم. يمكنك إغلاق هذه النافذة.
+echo  [!] Server stopped. You can close this window.
 pause
