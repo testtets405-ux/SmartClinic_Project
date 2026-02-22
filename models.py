@@ -21,7 +21,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# ── كائن قاعدة البيانات — يُهيَّأ مع التطبيق في app.py ──
+# ── كائن قاعدة البيانات الأساسي (Database Object) — يُهيَّأ مع التطبيق في app.py ──
 db = SQLAlchemy()
 
 
@@ -160,4 +160,5 @@ class Appointment(db.Model):
     doctor = db.relationship("User", backref="appointments")
 
     def __repr__(self):
+        """التمثيل النصي لكائن الموعد (مفيد جداً وقت تصحيح الأخطاء Debugging)"""
         return f"<Appointment patient_id={self.patient_id}>"

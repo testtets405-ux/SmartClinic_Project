@@ -27,7 +27,7 @@ except ImportError:
 
 # ── منطقة توقيت بغداد (UTC+3، لا يوجد نظام صيفي/شتوي) ──
 # تخزين المنطقة الزمنية ككائن دائم لكي لا يتم إعادة معالجتها في كل استدعاء لتوفير الموارد.
-BAGHDAD = ZoneInfo("Asia/Baghdad")
+BAGHDAD = ZoneInfo("Asia/Baghdad") # تحديد العاصمة بغداد كمرجع زمني للمشروع
 
 
 def now_utc() -> datetime:
