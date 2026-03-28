@@ -37,7 +37,7 @@ PAGES_DATA = {
                     </p>
                     <ul class="list-disc list-inside mt-4 space-y-2 text-slate-600 dark:text-slate-300">
                         <li><b>عمر المريض:</b> إعطاء أولوية حاسوبية لكبار السن (فوق 70) والأطفال الرضع.</li>
-                        <li><b>حالة الطوارئ:</b> فصل الطابور لطبقات (Tiers) لضمان دخول الحالات الحرجة فوراً دون انتظار.</li>
+                        <li><b>حالة الطوارئ:</b> فصل الطابور لمستويات الأولوية (Priority Tiers) لضمان دخول الحالات الحرجة فوراً دون انتظار.</li>
                         <li><b>معدل الانتظار:</b> كل دقيقة انتظار تعطي المريض وزن إضافي لكي لا يُنسى في الطابور.</li>
                     </ul>
                 </section>
@@ -512,7 +512,7 @@ PAGES_DATA = {
                 </p>
                 
                 <ol class="list-decimal list-inside bg-red-50/50 dark:bg-red-900/10 p-5 rounded-xl border border-red-100 dark:border-red-800 text-slate-700 dark:text-slate-300 font-medium space-y-2 mb-6 mt-4">
-                    <li><strong>الطبقة 1 (الإلحاح - Urgency Tier):</strong> وهي التي تقسم الناس كجدران حديدية (1 للطارئ جداً المهدد للحياة، 2 للمتابعة الجراحية السريعة، 3 للكشف العادي).</li>
+                    <li><strong>المستوى 1 (الأولوية - Priority Tier):</strong> وهي التي تقسم الناس كجدران حديدية (1 للطارئ جداً المهدد للحياة، 2 للمتابعة الجراحية السريعة، 3 للكشف العادي).</li>
                     <li><strong>الطبقة 2 (النقاط - Priority Score):</strong> تحدد الترتيب لمن هم <b>داخل نفس الطبقة والجدار</b>!</li>
                 </ol>
                 
