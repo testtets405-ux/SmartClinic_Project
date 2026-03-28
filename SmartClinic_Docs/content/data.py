@@ -758,44 +758,40 @@ def to_local(dt: datetime) -> datetime:
 
     # ==================== (9) DEPLOYMENT ====================
     "deployment": {
-        "icon": "bi-rocket-takeoff-fill text-yellow-500",
+        "icon": "bi-cloud-arrow-up-fill text-blue-500",
         "nav_title": "9. التشغيل والرفع",
         "title": "دليل الرفع التفصيلي على خوادم الاستضافة",
-        "description": "تم تجهيز وتصميم العيادة الذكية للعمل بسلاسة على أحدث منصات الاستضافة المجانية مثل Railway و Replit.",
+        "description": "تم تجهيز وتصميم العيادة الذكية للعمل بسلاسة على أحدث منصات الاستضافة السحابية مثل Hugging Face Spaces باستخدام تقنية Docker.",
         "content": '''
             <div class="space-y-6">
-                <!-- Railway Section -->
+                <!-- Hugging Face Section -->
                 <section class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
                     <h3 class="flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white mb-4">
-                        <i class="bi bi-train-front-fill text-indigo-500"></i> دليل الرفع باستخدام منصة Railway.app
+                        <i class="bi bi-cloud-arrow-up-fill text-blue-500"></i> دليل الرفع باستخدام منصة Hugging Face Spaces
                     </h3>
                     <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                        تعتبر منصة <b>Railway</b> الرائدة حالياً لنشر تطبيقات الويب الحديثة. لقد جهزنا المشروع تماماً للعمل عليها بدون أي أخطاء (Zero-Config) بفضل توفر ملفي <code>Procfile</code> و <code>main.py</code>.
+                        تعتبر منصة <b>Hugging Face</b> الخيار الاحترافي الحالي لاستضافة العيادة الذكية. لقد قمنا بتجهيز ملف <code>Dockerfile</code> لضمان أن جميع المكتبات العلمية تعمل بدقة 100%.
                     </p>
                     
                     <div class="space-y-4">
                         <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-slate-800 dark:border-slate-500">
                             <h4 class="font-bold text-slate-800 dark:text-slate-300 mb-2">الخطوة 1: الرفع على GitHub</h4>
                             <p class="text-sm text-slate-600 dark:text-slate-400">
-                                قم بإنشاء مستودع (Repository) جديد على حسابك في GitHub، وارفع كامل ملفات المشروع إليه.
+                                ارفع كامل ملفات المشروع (مع الـ Dockerfile) على مستودع جديد في GitHub.
                             </p>
                         </div>
 
-                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-indigo-500">
-                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-2">الخطوة 2: النشر على Railway</h4>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-blue-500">
+                            <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-2">الخطوة 2: النشر التلقائي</h4>
                             <p class="text-sm text-slate-600 dark:text-slate-400">
-                                1. اذهب لموقع <b>Railway.app</b> وسجل دخولك باستخدام حساب GitHub الخاص بك.<br>
-                                2. في لوحة التحكم، اضغط على <b>New +</b> ثم <b>GitHub Repo</b> واختر مستودع المشروع.<br>
-                                3. اضغط <b>Deploy Now</b> وسيبدأ السيرفر فوراً في سحب المشروع وتثبيت المكتبات، وسيرصد المنصة تلقائياً طريقة التشغيل (Gunicorn) ليعمل الموقع بنجاح.
+                                عند ربط GitHub بـ Hugging Face واختيار SDK Docker، سيقوم النظام ببناء المشروع وتشغيله تلقائياً وتوفير رابط عام (Public URL) للمشرف والطلاب.
                             </p>
                         </div>
 
                         <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 border-l-4 border-amber-500">
-                            <h4 class="font-bold text-amber-600 dark:text-amber-400 mb-2">الخطوة 3: إضافة المتغيرات السرية (Environment Variables)</h4>
+                            <h4 class="font-bold text-amber-600 dark:text-amber-400 mb-2">ملاحظة حول الـ Cold Start</h4>
                             <p class="text-sm text-slate-600 dark:text-slate-400">
-                                بعد النشر بنجاح وظهور الدائرة الخضراء، انتقل إلى إعدادات المشروع واضغط على <b>Variables</b>:<br>
-                                أضف <code>SECRET_KEY</code> للحماية العامة.<br>
-                                أضف <code>ADMIN_SECRET_KEY</code> وهو كلمة السر المطلوبة عند التسجيل كصلاحية (مدير/Admin).
+                                المواقع المجانية تدخل في وضع السكون عند عدم الاستخدام. عند فتح الرابط من قبل المشرف، سيعيد الموقع تشغيل نفسه تلقائياً خلال ثوانٍ.
                             </p>
                         </div>
                     </div>
